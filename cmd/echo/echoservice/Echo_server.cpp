@@ -37,7 +37,7 @@ class EchoHandler : virtual public EchoIf {
 };
 
 int main(int argc, char **argv) {
-  int port = 9001;
+  int port = ECHO_POST;
   ::std::shared_ptr<EchoHandler> handler(new EchoHandler());
   ::std::shared_ptr<TProcessor> processor(new EchoProcessor(handler));
   ::std::shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
