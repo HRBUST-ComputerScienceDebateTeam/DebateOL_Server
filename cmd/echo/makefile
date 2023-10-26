@@ -1,9 +1,10 @@
 #编译运行
 Project_path = ./echoservice/
 Thrift_path = /usr/local/include/thrift
-CC    = g++
+Conf_path = ../web
+CC    =  g++
 CFlag = -g -Wall 
-LIB   = -I./$(Project_path) -I$(Thrift_path)
+LIB   = -I$(Project_path) -I$(Thrift_path) -I$(Conf_path)
 LIBS  = -std=c++11 -lthrift
 
 
