@@ -5,6 +5,7 @@
 #include <thrift/transport/TTransportUtils.h>
 
 #include "./echoservice/Echo.h"
+#include "../web/conf.hh"
 
 using namespace std;
 using namespace apache::thrift;

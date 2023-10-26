@@ -11,7 +11,6 @@
 #include <thrift/async/TConcurrentClientSyncInfo.h>
 #include <memory>
 #include "echo_types.h"
-#include "../../web/conf.h"
 
 
 

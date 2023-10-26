@@ -8,6 +8,7 @@
 
 #include <algorithm>
 #include <ostream>
+#include <iostream>
 
 #include <thrift/TToString.h>
 
@@ -149,7 +150,6 @@ std::ostream& operator<<(std::ostream& out, const Echo_RecvInfo& obj)
 
 
 uint32_t Echo_RecvInfo::read(::apache::thrift::protocol::TProtocol* iprot) {
-
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
   std::string fname;

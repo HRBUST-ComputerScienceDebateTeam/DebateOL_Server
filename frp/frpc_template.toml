@@ -10,3 +10,9 @@ type = "tcp"                     # 代理类型
 #localIP = "0.0.0.0"        # 代理地址, 要转发到哪个地址
 localPort = 6000                 # 代理端口, 要转发到哪个端口
 remotePort = 7001                # 远程端口(和远程 frps 哪个端口绑定在一起, 访问对应端口将使用该代理)
+
+[[proxies]]
+name = "web - html"                   # 代理名称(随便填)
+type = "http"                         # 代理类型
+localPort = 6000                      # 代理端口, 要转发到哪个端口
+customDomains = ["66.66.66.66"]   # 限制公网地址, 只有对应地址上 frps 转发了 html 才会走到这里
