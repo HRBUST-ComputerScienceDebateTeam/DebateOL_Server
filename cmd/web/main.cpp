@@ -30,6 +30,8 @@ std::string handleRequest(const std::string &method, const std::string &uri, con
                    "\r\n";
         std::cout<< body<<std::endl;
         if(uri == "/echo"){
+            //std::cout << body << std::endl;
+            if(body == "")return "";
             response += rpc::Del_echo(body);
         }
         else
@@ -49,15 +51,19 @@ std::string handleRequest(const std::string &method, const std::string &uri, con
 // 处理客户端连接
 void handleClient(int client_socket) {
     char buffer[BUFFER_SIZE];
+    ssize_t buffer_len = 0;
 
     while (true) {
         // 接收HTTP请求
         std::string request;
-        ssize_t n = recv(client_socket, buffer, BUFFER_SIZE, 0);
+        ssize_t n = recv(client_socket, buffer+buffer_len, BUFFER_SIZE - buffer_len , 0);
         if (n <= 0) {
             break;
         }
-        request.append(buffer, n);
+        std::cout << n <<std::endl;
+        buffer_len += n;
+        request.append(buffer, buffer_len);
+        std::cout << request << std::endl;
 
         // 解析HTTP请求
         size_t pos = request.find(' ');
@@ -83,10 +89,12 @@ void handleClient(int client_socket) {
 
         // 处理HTTP请求
         std::string response = handleRequest(method, uri, body);
+        if(response == "") continue;
 
         // 发送HTTP响应
         send(client_socket, response.c_str(), response.length(), 0);
 
+        buffer_len = 0;
         // 关闭连接
         close(client_socket);
         break;

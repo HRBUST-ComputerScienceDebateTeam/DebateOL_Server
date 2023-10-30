@@ -23,10 +23,15 @@ namespace rpc{
     std::string  Del_echo(const std::string &s ){
         echo_transport->open();
         //反序列化
+        // cout <<"-----0----"<< endl;
+        // cout << s <<endl;
         Echo_SendInfo sendinfo = Deserialization<Echo_SendInfo>(s);
-        
+        // cout <<"-----1---"<< endl;
+        // cout << sendinfo.info <<endl;
         Echo_RecvInfo recvinfo;
+        // cout <<"-----2---"<< endl;  
         echo_client.Echo_Send(recvinfo, sendinfo);
+        // cout << recvinfo.time <<endl;
         echo_transport->close();
         return Serialization(recvinfo);
     };
