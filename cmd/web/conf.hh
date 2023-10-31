@@ -14,3 +14,8 @@
 //echo微服务
 #define ECHO_IP "127.0.0.1"
 #define ECHO_POST 9001
+
+
+//VIDEO微服务
+#define VIDEO_IP "127.0.0.1"
+#define VIDEO_POST 9002
