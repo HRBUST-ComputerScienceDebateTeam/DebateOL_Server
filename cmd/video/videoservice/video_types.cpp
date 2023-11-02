@@ -862,3 +862,135 @@ void Video_Download_RecvInfo::printTo(std::ostream& out) const {
 }
 
 
+Video_Clean_SendInfo::~Video_Clean_SendInfo() noexcept {
+}
+
+
+void Video_Clean_SendInfo::__set_type(const int32_t val) {
+  this->type = val;
+}
+
+void Video_Clean_SendInfo::__set_userId(const int32_t val) {
+  this->userId = val;
+}
+
+void Video_Clean_SendInfo::__set_roomId(const int32_t val) {
+  this->roomId = val;
+}
+std::ostream& operator<<(std::ostream& out, const Video_Clean_SendInfo& obj)
+{
+  obj.printTo(out);
+  return out;
+}
+
+
+uint32_t Video_Clean_SendInfo::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->type);
+          this->__isset.type = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->userId);
+          this->__isset.userId = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->roomId);
+          this->__isset.roomId = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t Video_Clean_SendInfo::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("Video_Clean_SendInfo");
+
+  xfer += oprot->writeFieldBegin("type", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->type);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("userId", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32(this->userId);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("roomId", ::apache::thrift::protocol::T_I32, 3);
+  xfer += oprot->writeI32(this->roomId);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+void swap(Video_Clean_SendInfo &a, Video_Clean_SendInfo &b) {
+  using ::std::swap;
+  swap(a.type, b.type);
+  swap(a.userId, b.userId);
+  swap(a.roomId, b.roomId);
+  swap(a.__isset, b.__isset);
+}
+
+Video_Clean_SendInfo::Video_Clean_SendInfo(const Video_Clean_SendInfo& other8) noexcept {
+  type = other8.type;
+  userId = other8.userId;
+  roomId = other8.roomId;
+  __isset = other8.__isset;
+}
+Video_Clean_SendInfo& Video_Clean_SendInfo::operator=(const Video_Clean_SendInfo& other9) noexcept {
+  type = other9.type;
+  userId = other9.userId;
+  roomId = other9.roomId;
+  __isset = other9.__isset;
+  return *this;
+}
+void Video_Clean_SendInfo::printTo(std::ostream& out) const {
+  using ::apache::thrift::to_string;
+  out << "Video_Clean_SendInfo(";
+  out << "type=" << to_string(type);
+  out << ", " << "userId=" << to_string(userId);
+  out << ", " << "roomId=" << to_string(roomId);
+  out << ")";
+}
+
+

@@ -29,6 +29,8 @@ class Video_Download_SendInfo;
 
 class Video_Download_RecvInfo;
 
+class Video_Clean_SendInfo;
+
 typedef struct _Video_Upload_SendInfo__isset {
   _Video_Upload_SendInfo__isset() : type(false), userId(false), roomId(false), min(false), sec(false), msec(false), info(false) {}
   bool type :1;
@@ -368,6 +370,63 @@ class Video_Download_RecvInfo : public virtual ::apache::thrift::TBase {
 void swap(Video_Download_RecvInfo &a, Video_Download_RecvInfo &b);
 
 std::ostream& operator<<(std::ostream& out, const Video_Download_RecvInfo& obj);
+
+typedef struct _Video_Clean_SendInfo__isset {
+  _Video_Clean_SendInfo__isset() : type(false), userId(false), roomId(false) {}
+  bool type :1;
+  bool userId :1;
+  bool roomId :1;
+} _Video_Clean_SendInfo__isset;
+
+class Video_Clean_SendInfo : public virtual ::apache::thrift::TBase {
+ public:
+
+  Video_Clean_SendInfo(const Video_Clean_SendInfo&) noexcept;
+  Video_Clean_SendInfo& operator=(const Video_Clean_SendInfo&) noexcept;
+  Video_Clean_SendInfo() noexcept
+                       : type(0),
+                         userId(0),
+                         roomId(0) {
+  }
+
+  virtual ~Video_Clean_SendInfo() noexcept;
+  int32_t type;
+  int32_t userId;
+  int32_t roomId;
+
+  _Video_Clean_SendInfo__isset __isset;
+
+  void __set_type(const int32_t val);
+
+  void __set_userId(const int32_t val);
+
+  void __set_roomId(const int32_t val);
+
+  bool operator == (const Video_Clean_SendInfo & rhs) const
+  {
+    if (!(type == rhs.type))
+      return false;
+    if (!(userId == rhs.userId))
+      return false;
+    if (!(roomId == rhs.roomId))
+      return false;
+    return true;
+  }
+  bool operator != (const Video_Clean_SendInfo &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Video_Clean_SendInfo & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
+
+  virtual void printTo(std::ostream& out) const;
+};
+
+void swap(Video_Clean_SendInfo &a, Video_Clean_SendInfo &b);
+
+std::ostream& operator<<(std::ostream& out, const Video_Clean_SendInfo& obj);
 
 
 

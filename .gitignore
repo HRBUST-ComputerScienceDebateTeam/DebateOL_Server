@@ -1,2 +1,2 @@
 /frp/frpc.toml
-/logging/frp/frp_logging.txt
+/logging/frp/frp_logging*.txt

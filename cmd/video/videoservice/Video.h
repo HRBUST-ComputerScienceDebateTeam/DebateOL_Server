@@ -24,6 +24,7 @@ class VideoIf {
   virtual ~VideoIf() {}
   virtual void Video_Upload(Video_Upload_RecvInfo& _return, const Video_Upload_SendInfo& info) = 0;
   virtual void Video_Download(Video_Download_RecvInfo& _return, const Video_Download_SendInfo& info) = 0;
+  virtual void Video_Clean(const Video_Clean_SendInfo& info) = 0;
 };
 
 class VideoIfFactory {
@@ -57,6 +58,9 @@ class VideoNull : virtual public VideoIf {
     return;
   }
   void Video_Download(Video_Download_RecvInfo& /* _return */, const Video_Download_SendInfo& /* info */) override {
+    return;
+  }
+  void Video_Clean(const Video_Clean_SendInfo& /* info */) override {
     return;
   }
 };
@@ -269,6 +273,92 @@ class Video_Video_Download_presult {
 
 };
 
+typedef struct _Video_Video_Clean_args__isset {
+  _Video_Video_Clean_args__isset() : info(false) {}
+  bool info :1;
+} _Video_Video_Clean_args__isset;
+
+class Video_Video_Clean_args {
+ public:
+
+  Video_Video_Clean_args(const Video_Video_Clean_args&) noexcept;
+  Video_Video_Clean_args& operator=(const Video_Video_Clean_args&) noexcept;
+  Video_Video_Clean_args() noexcept {
+  }
+
+  virtual ~Video_Video_Clean_args() noexcept;
+  Video_Clean_SendInfo info;
+
+  _Video_Video_Clean_args__isset __isset;
+
+  void __set_info(const Video_Clean_SendInfo& val);
+
+  bool operator == (const Video_Video_Clean_args & rhs) const
+  {
+    if (!(info == rhs.info))
+      return false;
+    return true;
+  }
+  bool operator != (const Video_Video_Clean_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Video_Video_Clean_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Video_Video_Clean_pargs {
+ public:
+
+
+  virtual ~Video_Video_Clean_pargs() noexcept;
+  const Video_Clean_SendInfo* info;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Video_Video_Clean_result {
+ public:
+
+  Video_Video_Clean_result(const Video_Video_Clean_result&) noexcept;
+  Video_Video_Clean_result& operator=(const Video_Video_Clean_result&) noexcept;
+  Video_Video_Clean_result() noexcept {
+  }
+
+  virtual ~Video_Video_Clean_result() noexcept;
+
+  bool operator == (const Video_Video_Clean_result & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const Video_Video_Clean_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Video_Video_Clean_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class Video_Video_Clean_presult {
+ public:
+
+
+  virtual ~Video_Video_Clean_presult() noexcept;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
 class VideoClient : virtual public VideoIf {
  public:
   VideoClient(std::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
@@ -300,6 +390,9 @@ class VideoClient : virtual public VideoIf {
   void Video_Download(Video_Download_RecvInfo& _return, const Video_Download_SendInfo& info) override;
   void send_Video_Download(const Video_Download_SendInfo& info);
   void recv_Video_Download(Video_Download_RecvInfo& _return);
+  void Video_Clean(const Video_Clean_SendInfo& info) override;
+  void send_Video_Clean(const Video_Clean_SendInfo& info);
+  void recv_Video_Clean();
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -317,11 +410,13 @@ class VideoProcessor : public ::apache::thrift::TDispatchProcessor {
   ProcessMap processMap_;
   void process_Video_Upload(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_Video_Download(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_Video_Clean(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   VideoProcessor(::std::shared_ptr<VideoIf> iface) :
     iface_(iface) {
     processMap_["Video_Upload"] = &VideoProcessor::process_Video_Upload;
     processMap_["Video_Download"] = &VideoProcessor::process_Video_Download;
+    processMap_["Video_Clean"] = &VideoProcessor::process_Video_Clean;
   }
 
   virtual ~VideoProcessor() {}
@@ -370,6 +465,15 @@ class VideoMultiface : virtual public VideoIf {
     return;
   }
 
+  void Video_Clean(const Video_Clean_SendInfo& info) override {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->Video_Clean(info);
+    }
+    ifaces_[i]->Video_Clean(info);
+  }
+
 };
 
 // The 'concurrent' client is a thread safe client that correctly handles
@@ -408,6 +512,9 @@ class VideoConcurrentClient : virtual public VideoIf {
   void Video_Download(Video_Download_RecvInfo& _return, const Video_Download_SendInfo& info) override;
   int32_t send_Video_Download(const Video_Download_SendInfo& info);
   void recv_Video_Download(Video_Download_RecvInfo& _return, const int32_t seqid);
+  void Video_Clean(const Video_Clean_SendInfo& info) override;
+  int32_t send_Video_Clean(const Video_Clean_SendInfo& info);
+  void recv_Video_Clean(const int32_t seqid);
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
