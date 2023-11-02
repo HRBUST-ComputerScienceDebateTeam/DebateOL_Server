@@ -21,7 +21,7 @@ using namespace ::apache::thrift::server;
 
 class VideoHandler : virtual public VideoIf {
  private:
-  std::map<std::int32_t , std::string>videomp[MAX_ROOM];
+  std::map<std::int32_t , std::string>videomp[MAX_ROOM*(MAX_USER+1)];
  public:
   VideoHandler() :videomp(){
     // Your initialization goes here
@@ -59,6 +59,11 @@ class VideoHandler : virtual public VideoIf {
     //下载距离当前时间最近的
     int32_t timeinfo = info.msec + info.sec*1000+ info.min*60000;
     int32_t userinfo = info.roomId*MAX_USER + info.userId;
+    // std::cout << "大小" <<   videomp[userinfo].size() <<std::endl;
+    // using namespace std;
+    // for(const auto& it: videomp[userinfo]){
+    //   cout << it.first <<endl;
+    // }
     if(videomp[userinfo].size() == 0){//没有元素      
       _return.status = VIDEO_NO_PNG;
       _return.min = info.min;
@@ -75,13 +80,14 @@ class VideoHandler : virtual public VideoIf {
       it = videomp[userinfo].end();
     }
     it--;
+    std::cout << it->first <<std::endl;
     _return.status = VIDEO_OK;
-    _return.min = info.min;
-    _return.sec = info.sec;
-    _return.msec = info.msec;
+    _return.min = (it->first)/1000/60;
+    _return.sec = (it->first)/1000%60;
+    _return.msec = (it->first)%1000;
     _return.roomId = info.roomId;
     _return.userId = info.userId;
-    _return.type = info.type;
+    _return.type = info.type; 
     _return.info = it->second;
     //printf("Video_Download\n");
     return;

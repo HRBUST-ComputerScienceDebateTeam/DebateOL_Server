@@ -5,3 +5,4 @@
 
 #define VIDEO_OK 200
 #define VIDEO_NO_PNG 300
+#define VIDEO_WRONG_DOWNLOAD_TYPE 400

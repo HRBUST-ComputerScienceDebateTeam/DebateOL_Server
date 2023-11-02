@@ -21,8 +21,15 @@ std::string handleRequest(const std::string &method, const std::string &uri, con
         // 处理GET请求
         response = "HTTP/1.1 200 OK\r\n"
                    "Content-Type: text/html; charset=utf-8\r\n"
-                   "\r\n"
-                   "<html><head><title>Get Request</title></head><body><h1>Get Request Received!</h1></body></html>";
+                   "\r\n";
+
+        if(uri.substr(0 , strlen("/videodownload")) == "/videodownload" ){
+            std::string info = uri.substr( strlen("/videodownload/"));
+            response += rpc::VideoDownload(info);
+        }else{
+            response +="<html><head><title>Get Request</title></head><body><h1>Get Request Received!</h1></body></html>";
+        }
+                   
     } else if (method == "POST") {
         // 处理POST请求
         response = "HTTP/1.1 200 OK\r\n"
@@ -34,8 +41,15 @@ std::string handleRequest(const std::string &method, const std::string &uri, con
             if(body == "")return "";
             response += rpc::Del_echo(body);
         }
-        else
+        else if(uri == "/videoupload"){
+            if(body == "")return "";
+            response += rpc::VideoUpload(body);
+        }else if(uri == "/videoclean"){
+            if(body == "")return "";
+            rpc::VideoClean(body);
+        }else{
             response +="<html><head><title>Post Request</title></head><body><h1>Post Request Received!</h1><p>" + body + "</p></body></html>";
+        }
 
     } else {
         // 处理其他请求
@@ -60,10 +74,10 @@ void handleClient(int client_socket) {
         if (n <= 0) {
             break;
         }
-        std::cout << n <<std::endl;
+        //std::cout << n <<std::endl;
         buffer_len += n;
         request.append(buffer, buffer_len);
-        std::cout << request << std::endl;
+        //std::cout << request << std::endl;
 
         // 解析HTTP请求
         size_t pos = request.find(' ');

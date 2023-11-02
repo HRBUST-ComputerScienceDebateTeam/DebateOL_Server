@@ -24,7 +24,7 @@ struct Video_Download_SendInfo {
   3:i32 roomId,
   4:i32 min,
   5:i32 sec,
-  6:i32 msec,
+  6:i32 msec
 }
 
 struct Video_Download_RecvInfo {
