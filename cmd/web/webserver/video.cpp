@@ -18,12 +18,12 @@ using namespace apache::thrift::transport;
 
 
 namespace rpc{
-    std::shared_ptr<TTransport> video_socket(new TSocket(VIDEO_IP, VIDEO_POST));
-    std::shared_ptr<TTransport> video_transport(new TBufferedTransport(video_socket));
-    std::shared_ptr<TProtocol> video_protocol(new TBinaryProtocol(video_transport));
-    VideoClient video_client(video_protocol);
     //video upload
     std::string  VideoUpload(const std::string &s ){
+        std::shared_ptr<TTransport> video_socket(new TSocket(VIDEO_IP, VIDEO_POST));
+        std::shared_ptr<TTransport> video_transport(new TBufferedTransport(video_socket));
+        std::shared_ptr<TProtocol> video_protocol(new TBinaryProtocol(video_transport));
+        VideoClient video_client(video_protocol);
         video_transport->open();
         //反序列化
         // cout <<"-----0----"<< endl;
@@ -43,6 +43,10 @@ namespace rpc{
     //video download
     //type - room - user - min - sec - msec;
     std::string  VideoDownload(const std::string &s ){
+        std::shared_ptr<TTransport> video_socket(new TSocket(VIDEO_IP, VIDEO_POST));
+        std::shared_ptr<TTransport> video_transport(new TBufferedTransport(video_socket));
+        std::shared_ptr<TProtocol> video_protocol(new TBinaryProtocol(video_transport));
+        VideoClient video_client(video_protocol);
         video_transport->open();
         //get请求无需反序列化
         Video_Download_SendInfo sendinfo ;
@@ -81,6 +85,10 @@ namespace rpc{
     };
 
     void  VideoClean(const std::string &s ){
+        std::shared_ptr<TTransport> video_socket(new TSocket(VIDEO_IP, VIDEO_POST));
+        std::shared_ptr<TTransport> video_transport(new TBufferedTransport(video_socket));
+        std::shared_ptr<TProtocol> video_protocol(new TBinaryProtocol(video_transport));
+        VideoClient video_client(video_protocol);
         video_transport->open();
         //反序列化
         // cout <<"-----0----"<< endl;
