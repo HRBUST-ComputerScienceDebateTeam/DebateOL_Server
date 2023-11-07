@@ -37,7 +37,7 @@ std::string handleRequest(const std::string &method, const std::string &uri, con
                    "\r\n";
         std::cout<< body<<std::endl;
         if(uri == "/echo"){
-            //std::cout << body << std::endl;
+            std::cout << body << std::endl;
             if(body == "")return "";
             response += rpc::Del_echo(body);
         }
@@ -142,6 +142,8 @@ int main() {
 
     std::cout << "Server started. Listening on port " << PORT << "..." << std::endl;
 
+    //线程池优化
+    //EPOLL IO复用优化
     while (true) {
         // 接收连接请求
         struct sockaddr_in client_address{};

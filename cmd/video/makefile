@@ -14,11 +14,11 @@ client_cpp = Video_client.cpp $(Project_path)video_types.cpp $(Project_path)Vide
 
 
 #行为
-server: $(server_cpp)
-	$(CC) $(CFlag) $(LIB) $(server_cpp) $(LIBS) -o ./server
+video_server: $(server_cpp)
+	$(CC) $(CFlag) $(LIB) $(server_cpp) $(LIBS) -o ./video_server
 
-client: $(client_cpp)
-	$(CC) $(CFlag) $(LIB) $(client_cpp) $(LIBS) -o ./client
+video_client: $(client_cpp)
+	$(CC) $(CFlag) $(LIB) $(client_cpp) $(LIBS) -o ./video_client
 
 clean: 
-	-rm ./server ./client
+	-rm ./video_server ./video_client

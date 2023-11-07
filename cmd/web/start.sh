@@ -1,6 +1,6 @@
 #!/bin/bash
 
-tarfile=http
+tarfile=web_server
 
 if [ ! -f $tarfile ]
 then

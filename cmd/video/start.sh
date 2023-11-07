@@ -1,6 +1,6 @@
 #!/bin/bash
 
-tarfile=server
+tarfile=video_server
 
 if [ ! -f $tarfile ]
 then

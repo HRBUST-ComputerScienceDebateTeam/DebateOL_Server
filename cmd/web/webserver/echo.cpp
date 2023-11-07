@@ -16,11 +16,11 @@ using namespace apache::thrift::transport;
 
 
 namespace rpc{
-    std::shared_ptr<TTransport> echo_socket(new TSocket(ECHO_IP, ECHO_POST));
-    std::shared_ptr<TTransport> echo_transport(new TBufferedTransport(echo_socket));
-    std::shared_ptr<TProtocol> echo_protocol(new TBinaryProtocol(echo_transport));
-    EchoClient echo_client(echo_protocol);
     std::string  Del_echo(const std::string &s ){
+        std::shared_ptr<TTransport> echo_socket(new TSocket(ECHO_IP, ECHO_POST));
+        std::shared_ptr<TTransport> echo_transport(new TBufferedTransport(echo_socket));
+        std::shared_ptr<TProtocol> echo_protocol(new TBinaryProtocol(echo_transport));
+        EchoClient echo_client(echo_protocol);
         echo_transport->open();
         //反序列化
         // cout <<"-----0----"<< endl;
