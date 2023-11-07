@@ -14,11 +14,11 @@ client_cpp = Echo_client.cpp $(Project_path)echo_types.cpp $(Project_path)Echo.c
 
 
 #行为
-server: $(server_cpp)
-	$(CC) $(CFlag) $(LIB) $(server_cpp) $(LIBS) -o ./server
+echo_server: $(server_cpp)
+	$(CC) $(CFlag) $(LIB) $(server_cpp) $(LIBS) -o ./echo_server
 
-client: $(client_cpp)
-	$(CC) $(CFlag) $(LIB) $(client_cpp) $(LIBS) -o ./client
+echo_client: $(client_cpp)
+	$(CC) $(CFlag) $(LIB) $(client_cpp) $(LIBS) -o ./echo_client
 
 clean: 
-	-rm ./server ./client
+	-rm ./echo_server ./echo_client

@@ -15,8 +15,8 @@ echo_cpp = $(echo_path)/echo_types.cpp $(echo_path)/Echo.cpp
 video_cpp = $(video_path)/video_types.cpp $(video_path)/Video.cpp
 
 #行为
-http: $(http_cpp)
-	$(CC) $(CFlag) $(LIB) $(json_cpp) $(echo_cpp) $(video_cpp) $(http_cpp)  $(LIBS) -o ./http
+web_server: $(http_cpp)
+	$(CC) $(CFlag) $(LIB) $(json_cpp) $(echo_cpp) $(video_cpp) $(http_cpp)  $(LIBS) -o ./web_server
 
 clean: 
-	-rm ./http
+	-rm ./web_server
