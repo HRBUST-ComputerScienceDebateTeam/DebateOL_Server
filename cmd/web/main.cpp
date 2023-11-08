@@ -24,6 +24,7 @@ std::string handleRequest(const std::string &method, const std::string &uri, con
                    "\r\n";
 
         if(uri.substr(0 , strlen("/videodownload")) == "/videodownload" ){
+            std::cout << "videodownload" << std::endl;
             std::string info = uri.substr( strlen("/videodownload/"));
             response += rpc::VideoDownload(info);
         }else{
@@ -35,16 +36,17 @@ std::string handleRequest(const std::string &method, const std::string &uri, con
         response = "HTTP/1.1 200 OK\r\n"
                    "Content-Type: text/html; charset=utf-8\r\n"
                    "\r\n";
-        std::cout<< body<<std::endl;
         if(uri == "/echo"){
-            std::cout << body << std::endl;
+            std::cout << "echo post" << std::endl;
             if(body == "")return "";
             response += rpc::Del_echo(body);
         }
         else if(uri == "/videoupload"){
+            std::cout << "videoupload" << std::endl;
             if(body == "")return "";
             response += rpc::VideoUpload(body);
         }else if(uri == "/videoclean"){
+            std::cout << "videoclean" << std::endl;
             if(body == "")return "";
             rpc::VideoClean(body);
         }else{
@@ -64,19 +66,23 @@ std::string handleRequest(const std::string &method, const std::string &uri, con
 
 // 处理客户端连接
 void handleClient(int client_socket) {
-    char buffer[BUFFER_SIZE];
+    char buffer[BUFFER_SIZE]={};
     ssize_t buffer_len = 0;
 
     while (true) {
+        
+
         // 接收HTTP请求
         std::string request;
         ssize_t n = recv(client_socket, buffer+buffer_len, BUFFER_SIZE - buffer_len , 0);
         if (n <= 0) {
             break;
         }
-        //std::cout << n <<std::endl;
+        
         buffer_len += n;
         request.append(buffer, buffer_len);
+        //打印包信息
+        //std::cout << n <<std::endl;
         //std::cout << request << std::endl;
 
         // 解析HTTP请求
@@ -84,6 +90,7 @@ void handleClient(int client_socket) {
         if (pos == std::string::npos) {
             continue;
         }
+
         std::string method = request.substr(0, pos);
 
         pos = request.find(' ', pos + 1);
@@ -102,6 +109,9 @@ void handleClient(int client_socket) {
         std::string body = request.substr(pos + 4);
 
         // 处理HTTP请求
+        if(method ==  "POST" && (!((request[buffer_len-1]=='}') && (request[buffer_len-2]=='}')))){
+            continue;
+        }
         std::string response = handleRequest(method, uri, body);
         if(response == "") continue;
 
@@ -166,3 +176,4 @@ int main() {
 
     return 0;
 }
+

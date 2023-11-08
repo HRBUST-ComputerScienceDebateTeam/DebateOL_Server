@@ -6,7 +6,7 @@ web_server_path="./cmd/web"
 
 
 #frp
-konsole --hold --workdir $frp_path -e fish -c "./start.sh" &
+konsole --hold  --workdir $frp_path -e fish -c "./start.sh" &
 if [ $? -eq 0 ]; then
     echo "open frpc success"
 else
