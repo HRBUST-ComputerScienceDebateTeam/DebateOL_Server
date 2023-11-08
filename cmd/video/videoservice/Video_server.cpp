@@ -34,14 +34,18 @@ class VideoHandler : virtual public VideoIf {
     int32_t timeinfo = info.msec + info.sec*1000+ info.min*60000;
     int32_t userinfo = info.roomId*MAX_USER + info.userId;
     videomp[userinfo][timeinfo] = info.info;
+    std::cout << "video 上传成功：" << "\n\t房间号:"<<  info.roomId << "\n\t用户号:" << info.userId << "\n\t时间:" << timeinfo <<std::endl;
 
     //删除
     if(videomp[userinfo].size() > 10000){
       auto it = videomp[userinfo].upper_bound(timeinfo);
-      if(it != videomp[userinfo].end())
+      if(it != videomp[userinfo].end()){
+        std::cout << "video 删除成功：" << "\n\t房间号:"<<  info.roomId << "\n\t用户号:" << info.userId << "\n\t时间:" << it->first <<std::endl;
         videomp[userinfo].erase(it);
-      else
+      }else{
+        std::cout << "video 删除成功：" << "\n\t房间号:"<<  info.roomId << "\n\t用户号:" << info.userId << "\n\t时间:" << it->first <<std::endl;
         videomp[userinfo].erase(videomp[userinfo].begin());
+      }
     }
     
     //返回
@@ -72,6 +76,7 @@ class VideoHandler : virtual public VideoIf {
       _return.roomId = info.roomId;
       _return.userId = info.userId;
       _return.type = info.type;
+      std::cout << "video 下载失败-没有元素：" << "\n房间号:"<<  info.roomId << "\n用户号:" << info.userId << "\n时间:" << timeinfo <<std::endl;
       return;
     }
 
@@ -80,7 +85,7 @@ class VideoHandler : virtual public VideoIf {
       it = videomp[userinfo].end();
     }
     it--;
-    std::cout << it->first <<std::endl;
+    std::cout << "video 下载成功：" << "\n房间号:"<<  info.roomId << "\n用户号:" << info.userId << "\n时间:" << it->first <<std::endl;
     _return.status = VIDEO_OK;
     _return.min = (it->first)/1000/60;
     _return.sec = (it->first)/1000%60;

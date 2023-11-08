@@ -29,13 +29,13 @@ namespace rpc{
         // cout <<"-----0----"<< endl;
         // cout << s <<endl;
         Video_Upload_SendInfo sendinfo = Deserialization<Video_Upload_SendInfo>(s);
-        // cout <<"-----1---"<< endl;
-        // cout << sendinfo.info <<endl;
+        //  cout <<"-----1---"<< endl;
+        //  cout << sendinfo.info <<endl;
         Video_Upload_RecvInfo recvinfo;
-        // cout <<"-----2---"<< endl;  
+        //  cout <<"-----2---"<< endl;  
         //调用微服务
         video_client.Video_Upload(recvinfo, sendinfo);
-        // cout << recvinfo.time <<endl;
+        // cout <<"-----3----"<<endl;
         video_transport->close();
         return Serialization(recvinfo);
     };
@@ -79,7 +79,7 @@ namespace rpc{
 
         //调用微服务
         video_client.Video_Download(recvinfo, sendinfo);
-        cout << recvinfo.msec <<endl;
+        //cout << recvinfo.msec <<endl;
         video_transport->close();
         return Serialization(recvinfo);
     };
