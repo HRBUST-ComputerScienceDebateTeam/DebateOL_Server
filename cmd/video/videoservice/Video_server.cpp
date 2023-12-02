@@ -9,7 +9,6 @@
 #include <thrift/server/TSimpleServer.h>
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TBufferTransports.h>
-#include "../../web/conf.hh"
 #include "../../conf.hh"
 #include <bits/stdc++.h>
 #include <utility>

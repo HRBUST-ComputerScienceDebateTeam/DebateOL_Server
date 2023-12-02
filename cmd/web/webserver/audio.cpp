@@ -6,7 +6,6 @@
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/transport/TSocket.h>
 #include <thrift/transport/TTransportUtils.h>
-#include "../../conf.hh"
 #include "../rpc.hh"
 #include "../json.hh"
 #include "../../conf.hh"
@@ -18,38 +17,38 @@ using namespace apache::thrift::transport;
 
 
 namespace rpc{
-    //video upload
-    std::string  VideoUpload(const std::string &s ){
-        std::shared_ptr<TTransport> video_socket(new TSocket(VIDEO_IP, VIDEO_POST));
-        std::shared_ptr<TTransport> video_transport(new TBufferedTransport(video_socket));
-        std::shared_ptr<TProtocol> video_protocol(new TBinaryProtocol(video_transport));
-        VideoClient video_client(video_protocol);
-        video_transport->open();
+    //audio upload
+    std::string  AudioUpload(const std::string &s ){
+        std::shared_ptr<TTransport> audio_socket(new TSocket(AUDIO_IP, AUDIO_POST));
+        std::shared_ptr<TTransport> audio_transport(new TBufferedTransport(audio_socket));
+        std::shared_ptr<TProtocol> audio_protocol(new TBinaryProtocol(audio_transport));
+        AudioClient audio_client(audio_protocol);
+        audio_transport->open();
         //反序列化
         // cout <<"-----0----"<< endl;
         // cout << s <<endl;
-        Video_Upload_SendInfo sendinfo = Deserialization<Video_Upload_SendInfo>(s);
+        Audio_Upload_SendInfo sendinfo = Deserialization<Audio_Upload_SendInfo>(s);
         //  cout <<"-----1---"<< endl;
         //  cout << sendinfo.info <<endl;
-        Video_Upload_RecvInfo recvinfo;
+        Audio_Upload_RecvInfo recvinfo;
         //  cout <<"-----2---"<< endl;  
         //调用微服务
-        video_client.Video_Upload(recvinfo, sendinfo);
+        audio_client.Audio_Upload(recvinfo, sendinfo);
         // cout <<"-----3----"<<endl;
-        video_transport->close();
+        audio_transport->close();
         return Serialization(recvinfo);
     };
 
-    //video download
+    //audio download
     //type - room - user - min - sec - msec;
-    std::string  VideoDownload(const std::string &s ){
-        std::shared_ptr<TTransport> video_socket(new TSocket(VIDEO_IP, VIDEO_POST));
-        std::shared_ptr<TTransport> video_transport(new TBufferedTransport(video_socket));
-        std::shared_ptr<TProtocol> video_protocol(new TBinaryProtocol(video_transport));
-        VideoClient video_client(video_protocol);
-        video_transport->open();
+    std::string  AudioDownload(const std::string &s ){
+        std::shared_ptr<TTransport> audio_socket(new TSocket(AUDIO_IP, AUDIO_POST));
+        std::shared_ptr<TTransport> audio_transport(new TBufferedTransport(audio_socket));
+        std::shared_ptr<TProtocol> audio_protocol(new TBinaryProtocol(audio_transport));
+        AudioClient audio_client(audio_protocol);
+        audio_transport->open();
         //get请求无需反序列化
-        Video_Download_SendInfo sendinfo ;
+        Audio_Download_SendInfo sendinfo ;
         //cout << s <<endl;
 
         //拆解请求 - 正则优化
@@ -69,35 +68,35 @@ namespace rpc{
         if(sendinfo.userId > MAX_USER || sendinfo.userId < 0) Ok_flag = 0;
 
         
-        Video_Download_RecvInfo recvinfo;
+        Audio_Download_RecvInfo recvinfo;
         if(Ok_flag == 0){
-            recvinfo.status = VIDEO_WRONG_DOWNLOAD_TYPE;
+            recvinfo.status = AUDIO_WRONG_DOWNLOAD_TYPE;
             return Serialization(recvinfo);    
         }
         
 
 
         //调用微服务
-        video_client.Video_Download(recvinfo, sendinfo);
+        audio_client.Audio_Download(recvinfo, sendinfo);
         //cout << recvinfo.msec <<endl;
-        video_transport->close();
+        audio_transport->close();
         return Serialization(recvinfo);
     };
 
-    void  VideoClean(const std::string &s ){
-        std::shared_ptr<TTransport> video_socket(new TSocket(VIDEO_IP, VIDEO_POST));
-        std::shared_ptr<TTransport> video_transport(new TBufferedTransport(video_socket));
-        std::shared_ptr<TProtocol> video_protocol(new TBinaryProtocol(video_transport));
-        VideoClient video_client(video_protocol);
-        video_transport->open();
+    void  AudioClean(const std::string &s ){
+        std::shared_ptr<TTransport> audio_socket(new TSocket(AUDIO_IP, AUDIO_POST));
+        std::shared_ptr<TTransport> audio_transport(new TBufferedTransport(audio_socket));
+        std::shared_ptr<TProtocol> audio_protocol(new TBinaryProtocol(audio_transport));
+        AudioClient audio_client(audio_protocol);
+        audio_transport->open();
         //反序列化
         // cout <<"-----0----"<< endl;
         // cout << s <<endl;
-        Video_Clean_SendInfo sendinfo = Deserialization<Video_Clean_SendInfo>(s);
+        Audio_Clean_SendInfo sendinfo = Deserialization<Audio_Clean_SendInfo>(s);
         //调用微服务
-        video_client.Video_Clean(sendinfo);
+        audio_client.Audio_Clean(sendinfo);
         // cout << recvinfo.time <<endl;
-        video_transport->close();
+        audio_transport->close();
     };
 
 }
