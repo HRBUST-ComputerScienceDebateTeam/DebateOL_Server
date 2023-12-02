@@ -4,7 +4,7 @@
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/transport/TSocket.h>
 #include <thrift/transport/TTransportUtils.h>
-#include "../conf.hh"
+#include "../../conf.hh"
 #include "../rpc.hh"
 #include "../json.hh"
 

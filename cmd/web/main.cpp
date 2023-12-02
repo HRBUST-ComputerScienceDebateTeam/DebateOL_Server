@@ -7,7 +7,7 @@
 #include <netinet/in.h>
 #include <unistd.h>
 #include <thread>
-#include "./conf.hh"
+#include "../conf.hh"
 #include "./rpc.hh"
 
 const int PORT = HTTP_POST;
@@ -24,9 +24,13 @@ std::string handleRequest(const std::string &method, const std::string &uri, con
                    "\r\n";
 
         if(uri.substr(0 , strlen("/videodownload")) == "/videodownload" ){
-            std::cout << "videodownload" << std::endl;
+            std::cout << "\tvideodownload" << std::endl;
             std::string info = uri.substr( strlen("/videodownload/"));
             response += rpc::VideoDownload(info);
+        }else if(uri.substr(0 , strlen("/audiodownload")) == "/audiodownload" ){
+            std::cout << "\taudiodownload" << std::endl;
+            std::string info = uri.substr( strlen("/audiodownload/"));
+            response += rpc::AudioDownload(info);
         }else{
             response +="<html><head><title>Get Request</title></head><body><h1>Get Request Received!</h1></body></html>";
         }
@@ -37,18 +41,26 @@ std::string handleRequest(const std::string &method, const std::string &uri, con
                    "Content-Type: text/html; charset=utf-8\r\n"
                    "\r\n";
         if(uri == "/echo"){
-            std::cout << "echo post" << std::endl;
+            std::cout << "\techo post" << std::endl;
             if(body == "")return "";
             response += rpc::Del_echo(body);
         }
         else if(uri == "/videoupload"){
-            std::cout << "videoupload" << std::endl;
+            std::cout << "\tvideoupload" << std::endl;
             if(body == "")return "";
             response += rpc::VideoUpload(body);
         }else if(uri == "/videoclean"){
-            std::cout << "videoclean" << std::endl;
+            std::cout << "\tvideoclean" << std::endl;
             if(body == "")return "";
             rpc::VideoClean(body);
+        }else if(uri == "/audioupload"){
+            std::cout << "\taudioupload" << std::endl;
+            if(body == "")return "";
+            response += rpc::VideoUpload(body);
+        }else if(uri == "/audioclean"){
+            std::cout << "\taudioclean" << std::endl;
+            if(body == "")return "";
+            rpc::AudioClean(body);
         }else{
             response +="<html><head><title>Post Request</title></head><body><h1>Post Request Received!</h1><p>" + body + "</p></body></html>";
         }
