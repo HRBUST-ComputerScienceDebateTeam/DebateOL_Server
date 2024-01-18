@@ -26,9 +26,10 @@ class Echo_SendInfo;
 class Echo_RecvInfo;
 
 typedef struct _Echo_SendInfo__isset {
-  _Echo_SendInfo__isset() : id(false), info(false) {}
+  _Echo_SendInfo__isset() : id(false), info(false), sendtime(false) {}
   bool id :1;
   bool info :1;
+  bool sendtime :1;
 } _Echo_SendInfo__isset;
 
 class Echo_SendInfo : public virtual ::apache::thrift::TBase {
@@ -38,12 +39,14 @@ class Echo_SendInfo : public virtual ::apache::thrift::TBase {
   Echo_SendInfo& operator=(const Echo_SendInfo&);
   Echo_SendInfo() noexcept
                 : id(0),
-                  info() {
+                  info(),
+                  sendtime(0) {
   }
 
   virtual ~Echo_SendInfo() noexcept;
   int32_t id;
   std::string info;
+  int32_t sendtime;
 
   _Echo_SendInfo__isset __isset;
 
@@ -51,11 +54,15 @@ class Echo_SendInfo : public virtual ::apache::thrift::TBase {
 
   void __set_info(const std::string& val);
 
+  void __set_sendtime(const int32_t val);
+
   bool operator == (const Echo_SendInfo & rhs) const
   {
     if (!(id == rhs.id))
       return false;
     if (!(info == rhs.info))
+      return false;
+    if (!(sendtime == rhs.sendtime))
       return false;
     return true;
   }
@@ -76,10 +83,11 @@ void swap(Echo_SendInfo &a, Echo_SendInfo &b);
 std::ostream& operator<<(std::ostream& out, const Echo_SendInfo& obj);
 
 typedef struct _Echo_RecvInfo__isset {
-  _Echo_RecvInfo__isset() : id(false), info(false), time(false) {}
+  _Echo_RecvInfo__isset() : id(false), info(false), time(false), sendtime(false) {}
   bool id :1;
   bool info :1;
   bool time :1;
+  bool sendtime :1;
 } _Echo_RecvInfo__isset;
 
 class Echo_RecvInfo : public virtual ::apache::thrift::TBase {
@@ -90,13 +98,15 @@ class Echo_RecvInfo : public virtual ::apache::thrift::TBase {
   Echo_RecvInfo() noexcept
                 : id(0),
                   info(),
-                  time() {
+                  time(),
+                  sendtime(0) {
   }
 
   virtual ~Echo_RecvInfo() noexcept;
   int32_t id;
   std::string info;
   std::string time;
+  int32_t sendtime;
 
   _Echo_RecvInfo__isset __isset;
 
@@ -106,6 +116,8 @@ class Echo_RecvInfo : public virtual ::apache::thrift::TBase {
 
   void __set_time(const std::string& val);
 
+  void __set_sendtime(const int32_t val);
+
   bool operator == (const Echo_RecvInfo & rhs) const
   {
     if (!(id == rhs.id))
@@ -113,6 +125,8 @@ class Echo_RecvInfo : public virtual ::apache::thrift::TBase {
     if (!(info == rhs.info))
       return false;
     if (!(time == rhs.time))
+      return false;
+    if (!(sendtime == rhs.sendtime))
       return false;
     return true;
   }

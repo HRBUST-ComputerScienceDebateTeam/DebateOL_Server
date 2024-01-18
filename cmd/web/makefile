@@ -4,9 +4,10 @@ echo_path = ../echo/echoservice
 video_path = ../video/videoservice
 audio_path = ../audio/audioservice
 Thrift_path = /usr/local/include/thrift
-CC    = g++
+THREAD_POOL_PATH = ../../pkg/pool
+CPP    = g++
 CFlag = -g -Wall 
-LIB   = -I$(Project_path) -I$(Thrift_path) -I$(echo_path)  -I$(video_path)  -I$(audio_path) -I./
+LIB   = -I$(Project_path) -I$(Thrift_path) -I$(echo_path)  -I$(video_path)  -I$(audio_path) -I$(THREAD_POOL_PATH) -I./
 FLAGS  = -std=c++11 -lthrift -lpthread
 
 
@@ -18,10 +19,11 @@ http_cpp = $(Project_path)/echo.cpp\
 echo_cpp = $(echo_path)/echo_types.cpp $(echo_path)/Echo.cpp
 video_cpp = $(video_path)/video_types.cpp $(video_path)/Video.cpp
 audio_cpp = $(audio_path)/audio_types.cpp $(audio_path)/Audio.cpp
+threadpool_cpp = $(THREAD_POOL_PATH)/threadpool.cpp
 
 #行为
-web_server: $(echo_cpp) $(video_cpp) $(audio_cpp) $(http_cpp)
-	$(CC) $(CFlag) $(LIB) $(json_cpp) $(echo_cpp) $(video_cpp) $(audio_cpp) $(http_cpp)  $(FLAGS) -o ./web_server
+web_server: $(echo_cpp) $(video_cpp) $(audio_cpp) $(http_cpp) $(threadpool_cpp)
+	$(CPP) $(CFlag) $(LIB) $^ $(FLAGS) -o ./web_server
 
 clean: 
 	-rm ./web_server

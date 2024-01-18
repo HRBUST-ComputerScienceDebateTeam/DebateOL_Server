@@ -51,7 +51,8 @@ class AudioHandler : virtual public AudioIf {
     _return.msec = info.msec;
     _return.roomId = info.roomId;
     _return.userId = info.userId;
-    _return.type = info.type;
+    _return.type = Audio_Upload_RecvInfo_TypeId;
+    _return.sendtime = timeinfo;
     return;
   }
 
@@ -71,7 +72,8 @@ class AudioHandler : virtual public AudioIf {
       _return.msec = info.msec;
       _return.roomId = info.roomId;
       _return.userId = info.userId;
-      _return.type = info.type;
+      _return.type = Audio_Download_RecvInfo_TypeId;
+      _return.sendtime = timeinfo;
       std::cout << "audio 下载失败-没有元素：" << "\n房间号:"<<  info.roomId << "\n用户号:" << info.userId << "\n时间:" << timeinfo <<std::endl;
       return;
     }
@@ -88,8 +90,9 @@ class AudioHandler : virtual public AudioIf {
     _return.msec = (it->first)%1000;
     _return.roomId = info.roomId;
     _return.userId = info.userId;
-    _return.type = info.type; 
+    _return.type = Audio_Download_RecvInfo_TypeId; 
     _return.info = it->second;
+    _return.sendtime = timeinfo;
     //printf("Audio_Download\n");
     return;
   }

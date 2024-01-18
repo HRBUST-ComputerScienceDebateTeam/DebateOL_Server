@@ -5,7 +5,8 @@ struct Audio_Upload_SendInfo {
   4:i32 min,
   5:i32 sec,
   6:i32 msec,
-  7:string info
+  7:string info,
+  8:i32 sendtime
 }
 
 struct Audio_Upload_RecvInfo {
@@ -15,7 +16,8 @@ struct Audio_Upload_RecvInfo {
   4:i32 min,
   5:i32 sec,
   6:i32 msec,
-  7:i32 status
+  7:i32 status,
+  8:i32 sendtime
 }
 
 struct Audio_Download_SendInfo {
@@ -24,7 +26,8 @@ struct Audio_Download_SendInfo {
   3:i32 roomId,
   4:i32 min,
   5:i32 sec,
-  6:i32 msec
+  6:i32 msec,
+  7:i32 sendtime
 }
 
 struct Audio_Download_RecvInfo {
@@ -35,13 +38,15 @@ struct Audio_Download_RecvInfo {
   5:i32 sec,
   6:i32 msec,
   7:i32 status,
-  8:string info  
+  8:string info,
+  9:i32 sendtime 
 }
 
 struct Audio_Clean_SendInfo {
   1:i32 type,
   2:i32 userId,
-  3:i32 roomId
+  3:i32 roomId,
+  4:i32 sendtime
 }
 
 service Audio{
