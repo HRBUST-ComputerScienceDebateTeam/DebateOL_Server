@@ -1,4 +1,4 @@
-struct Video_Upload_SendInfo {
+struct Room_Get_SendInfo {
   1:i32 type,
   2:i32 userId,
   3:i32 roomId,
@@ -9,7 +9,7 @@ struct Video_Upload_SendInfo {
   8:i32 sendtime
 }
 
-struct Video_Upload_RecvInfo {
+struct Room_GetRecvInfo {
   1:i32 type,
   2:i32 userId,
   3:i32 roomId,
@@ -20,7 +20,7 @@ struct Video_Upload_RecvInfo {
   8:i32 sendtime
 }
 
-struct Video_Download_SendInfo {
+struct Audio_Download_SendInfo {
   1:i32 type,
   2:i32 userId,
   3:i32 roomId,
@@ -30,7 +30,7 @@ struct Video_Download_SendInfo {
   7:i32 sendtime
 }
 
-struct Video_Download_RecvInfo {
+struct Audio_Download_RecvInfo {
   1:i32 type,
   2:i32 userId,
   3:i32 roomId,
@@ -42,15 +42,15 @@ struct Video_Download_RecvInfo {
   9:i32 sendtime 
 }
 
-struct Video_Clean_SendInfo {
+struct Audio_Clean_SendInfo {
   1:i32 type,
   2:i32 userId,
   3:i32 roomId,
   4:i32 sendtime
 }
 
-service Video{
-  Video_Upload_RecvInfo Video_Upload(1: Video_Upload_SendInfo info),
-  Video_Download_RecvInfo Video_Download(1: Video_Download_SendInfo info),
-  void Video_Clean(1: Video_Clean_SendInfo info)
+service Audio{
+  Audio_Upload_RecvInfo Audio_Upload(1: Audio_Upload_SendInfo info),
+  Audio_Download_RecvInfo Audio_Download(1: Audio_Download_SendInfo info),
+  void Audio_Clean(1: Audio_Clean_SendInfo info)
 }

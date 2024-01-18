@@ -32,7 +32,7 @@ class Video_Download_RecvInfo;
 class Video_Clean_SendInfo;
 
 typedef struct _Video_Upload_SendInfo__isset {
-  _Video_Upload_SendInfo__isset() : type(false), userId(false), roomId(false), min(false), sec(false), msec(false), info(false) {}
+  _Video_Upload_SendInfo__isset() : type(false), userId(false), roomId(false), min(false), sec(false), msec(false), info(false), sendtime(false) {}
   bool type :1;
   bool userId :1;
   bool roomId :1;
@@ -40,6 +40,7 @@ typedef struct _Video_Upload_SendInfo__isset {
   bool sec :1;
   bool msec :1;
   bool info :1;
+  bool sendtime :1;
 } _Video_Upload_SendInfo__isset;
 
 class Video_Upload_SendInfo : public virtual ::apache::thrift::TBase {
@@ -54,7 +55,8 @@ class Video_Upload_SendInfo : public virtual ::apache::thrift::TBase {
                           min(0),
                           sec(0),
                           msec(0),
-                          info() {
+                          info(),
+                          sendtime(0) {
   }
 
   virtual ~Video_Upload_SendInfo() noexcept;
@@ -65,6 +67,7 @@ class Video_Upload_SendInfo : public virtual ::apache::thrift::TBase {
   int32_t sec;
   int32_t msec;
   std::string info;
+  int32_t sendtime;
 
   _Video_Upload_SendInfo__isset __isset;
 
@@ -82,6 +85,8 @@ class Video_Upload_SendInfo : public virtual ::apache::thrift::TBase {
 
   void __set_info(const std::string& val);
 
+  void __set_sendtime(const int32_t val);
+
   bool operator == (const Video_Upload_SendInfo & rhs) const
   {
     if (!(type == rhs.type))
@@ -97,6 +102,8 @@ class Video_Upload_SendInfo : public virtual ::apache::thrift::TBase {
     if (!(msec == rhs.msec))
       return false;
     if (!(info == rhs.info))
+      return false;
+    if (!(sendtime == rhs.sendtime))
       return false;
     return true;
   }
@@ -117,7 +124,7 @@ void swap(Video_Upload_SendInfo &a, Video_Upload_SendInfo &b);
 std::ostream& operator<<(std::ostream& out, const Video_Upload_SendInfo& obj);
 
 typedef struct _Video_Upload_RecvInfo__isset {
-  _Video_Upload_RecvInfo__isset() : type(false), userId(false), roomId(false), min(false), sec(false), msec(false), status(false) {}
+  _Video_Upload_RecvInfo__isset() : type(false), userId(false), roomId(false), min(false), sec(false), msec(false), status(false), sendtime(false) {}
   bool type :1;
   bool userId :1;
   bool roomId :1;
@@ -125,6 +132,7 @@ typedef struct _Video_Upload_RecvInfo__isset {
   bool sec :1;
   bool msec :1;
   bool status :1;
+  bool sendtime :1;
 } _Video_Upload_RecvInfo__isset;
 
 class Video_Upload_RecvInfo : public virtual ::apache::thrift::TBase {
@@ -139,7 +147,8 @@ class Video_Upload_RecvInfo : public virtual ::apache::thrift::TBase {
                           min(0),
                           sec(0),
                           msec(0),
-                          status(0) {
+                          status(0),
+                          sendtime(0) {
   }
 
   virtual ~Video_Upload_RecvInfo() noexcept;
@@ -150,6 +159,7 @@ class Video_Upload_RecvInfo : public virtual ::apache::thrift::TBase {
   int32_t sec;
   int32_t msec;
   int32_t status;
+  int32_t sendtime;
 
   _Video_Upload_RecvInfo__isset __isset;
 
@@ -167,6 +177,8 @@ class Video_Upload_RecvInfo : public virtual ::apache::thrift::TBase {
 
   void __set_status(const int32_t val);
 
+  void __set_sendtime(const int32_t val);
+
   bool operator == (const Video_Upload_RecvInfo & rhs) const
   {
     if (!(type == rhs.type))
@@ -182,6 +194,8 @@ class Video_Upload_RecvInfo : public virtual ::apache::thrift::TBase {
     if (!(msec == rhs.msec))
       return false;
     if (!(status == rhs.status))
+      return false;
+    if (!(sendtime == rhs.sendtime))
       return false;
     return true;
   }
@@ -202,13 +216,14 @@ void swap(Video_Upload_RecvInfo &a, Video_Upload_RecvInfo &b);
 std::ostream& operator<<(std::ostream& out, const Video_Upload_RecvInfo& obj);
 
 typedef struct _Video_Download_SendInfo__isset {
-  _Video_Download_SendInfo__isset() : type(false), userId(false), roomId(false), min(false), sec(false), msec(false) {}
+  _Video_Download_SendInfo__isset() : type(false), userId(false), roomId(false), min(false), sec(false), msec(false), sendtime(false) {}
   bool type :1;
   bool userId :1;
   bool roomId :1;
   bool min :1;
   bool sec :1;
   bool msec :1;
+  bool sendtime :1;
 } _Video_Download_SendInfo__isset;
 
 class Video_Download_SendInfo : public virtual ::apache::thrift::TBase {
@@ -222,7 +237,8 @@ class Video_Download_SendInfo : public virtual ::apache::thrift::TBase {
                             roomId(0),
                             min(0),
                             sec(0),
-                            msec(0) {
+                            msec(0),
+                            sendtime(0) {
   }
 
   virtual ~Video_Download_SendInfo() noexcept;
@@ -232,6 +248,7 @@ class Video_Download_SendInfo : public virtual ::apache::thrift::TBase {
   int32_t min;
   int32_t sec;
   int32_t msec;
+  int32_t sendtime;
 
   _Video_Download_SendInfo__isset __isset;
 
@@ -247,6 +264,8 @@ class Video_Download_SendInfo : public virtual ::apache::thrift::TBase {
 
   void __set_msec(const int32_t val);
 
+  void __set_sendtime(const int32_t val);
+
   bool operator == (const Video_Download_SendInfo & rhs) const
   {
     if (!(type == rhs.type))
@@ -260,6 +279,8 @@ class Video_Download_SendInfo : public virtual ::apache::thrift::TBase {
     if (!(sec == rhs.sec))
       return false;
     if (!(msec == rhs.msec))
+      return false;
+    if (!(sendtime == rhs.sendtime))
       return false;
     return true;
   }
@@ -280,7 +301,7 @@ void swap(Video_Download_SendInfo &a, Video_Download_SendInfo &b);
 std::ostream& operator<<(std::ostream& out, const Video_Download_SendInfo& obj);
 
 typedef struct _Video_Download_RecvInfo__isset {
-  _Video_Download_RecvInfo__isset() : type(false), userId(false), roomId(false), min(false), sec(false), msec(false), status(false), info(false) {}
+  _Video_Download_RecvInfo__isset() : type(false), userId(false), roomId(false), min(false), sec(false), msec(false), status(false), info(false), sendtime(false) {}
   bool type :1;
   bool userId :1;
   bool roomId :1;
@@ -289,6 +310,7 @@ typedef struct _Video_Download_RecvInfo__isset {
   bool msec :1;
   bool status :1;
   bool info :1;
+  bool sendtime :1;
 } _Video_Download_RecvInfo__isset;
 
 class Video_Download_RecvInfo : public virtual ::apache::thrift::TBase {
@@ -304,7 +326,8 @@ class Video_Download_RecvInfo : public virtual ::apache::thrift::TBase {
                             sec(0),
                             msec(0),
                             status(0),
-                            info() {
+                            info(),
+                            sendtime(0) {
   }
 
   virtual ~Video_Download_RecvInfo() noexcept;
@@ -316,6 +339,7 @@ class Video_Download_RecvInfo : public virtual ::apache::thrift::TBase {
   int32_t msec;
   int32_t status;
   std::string info;
+  int32_t sendtime;
 
   _Video_Download_RecvInfo__isset __isset;
 
@@ -335,6 +359,8 @@ class Video_Download_RecvInfo : public virtual ::apache::thrift::TBase {
 
   void __set_info(const std::string& val);
 
+  void __set_sendtime(const int32_t val);
+
   bool operator == (const Video_Download_RecvInfo & rhs) const
   {
     if (!(type == rhs.type))
@@ -352,6 +378,8 @@ class Video_Download_RecvInfo : public virtual ::apache::thrift::TBase {
     if (!(status == rhs.status))
       return false;
     if (!(info == rhs.info))
+      return false;
+    if (!(sendtime == rhs.sendtime))
       return false;
     return true;
   }
@@ -372,10 +400,11 @@ void swap(Video_Download_RecvInfo &a, Video_Download_RecvInfo &b);
 std::ostream& operator<<(std::ostream& out, const Video_Download_RecvInfo& obj);
 
 typedef struct _Video_Clean_SendInfo__isset {
-  _Video_Clean_SendInfo__isset() : type(false), userId(false), roomId(false) {}
+  _Video_Clean_SendInfo__isset() : type(false), userId(false), roomId(false), sendtime(false) {}
   bool type :1;
   bool userId :1;
   bool roomId :1;
+  bool sendtime :1;
 } _Video_Clean_SendInfo__isset;
 
 class Video_Clean_SendInfo : public virtual ::apache::thrift::TBase {
@@ -386,13 +415,15 @@ class Video_Clean_SendInfo : public virtual ::apache::thrift::TBase {
   Video_Clean_SendInfo() noexcept
                        : type(0),
                          userId(0),
-                         roomId(0) {
+                         roomId(0),
+                         sendtime(0) {
   }
 
   virtual ~Video_Clean_SendInfo() noexcept;
   int32_t type;
   int32_t userId;
   int32_t roomId;
+  int32_t sendtime;
 
   _Video_Clean_SendInfo__isset __isset;
 
@@ -402,6 +433,8 @@ class Video_Clean_SendInfo : public virtual ::apache::thrift::TBase {
 
   void __set_roomId(const int32_t val);
 
+  void __set_sendtime(const int32_t val);
+
   bool operator == (const Video_Clean_SendInfo & rhs) const
   {
     if (!(type == rhs.type))
@@ -409,6 +442,8 @@ class Video_Clean_SendInfo : public virtual ::apache::thrift::TBase {
     if (!(userId == rhs.userId))
       return false;
     if (!(roomId == rhs.roomId))
+      return false;
+    if (!(sendtime == rhs.sendtime))
       return false;
     return true;
   }

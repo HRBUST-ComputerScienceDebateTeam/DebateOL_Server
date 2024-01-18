@@ -45,6 +45,10 @@ void Video_Upload_SendInfo::__set_msec(const int32_t val) {
 void Video_Upload_SendInfo::__set_info(const std::string& val) {
   this->info = val;
 }
+
+void Video_Upload_SendInfo::__set_sendtime(const int32_t val) {
+  this->sendtime = val;
+}
 std::ostream& operator<<(std::ostream& out, const Video_Upload_SendInfo& obj)
 {
   obj.printTo(out);
@@ -129,6 +133,14 @@ uint32_t Video_Upload_SendInfo::read(::apache::thrift::protocol::TProtocol* ipro
           xfer += iprot->skip(ftype);
         }
         break;
+      case 8:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->sendtime);
+          this->__isset.sendtime = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -174,6 +186,10 @@ uint32_t Video_Upload_SendInfo::write(::apache::thrift::protocol::TProtocol* opr
   xfer += oprot->writeString(this->info);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("sendtime", ::apache::thrift::protocol::T_I32, 8);
+  xfer += oprot->writeI32(this->sendtime);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -188,6 +204,7 @@ void swap(Video_Upload_SendInfo &a, Video_Upload_SendInfo &b) {
   swap(a.sec, b.sec);
   swap(a.msec, b.msec);
   swap(a.info, b.info);
+  swap(a.sendtime, b.sendtime);
   swap(a.__isset, b.__isset);
 }
 
@@ -199,6 +216,7 @@ Video_Upload_SendInfo::Video_Upload_SendInfo(const Video_Upload_SendInfo& other0
   sec = other0.sec;
   msec = other0.msec;
   info = other0.info;
+  sendtime = other0.sendtime;
   __isset = other0.__isset;
 }
 Video_Upload_SendInfo& Video_Upload_SendInfo::operator=(const Video_Upload_SendInfo& other1) {
@@ -209,6 +227,7 @@ Video_Upload_SendInfo& Video_Upload_SendInfo::operator=(const Video_Upload_SendI
   sec = other1.sec;
   msec = other1.msec;
   info = other1.info;
+  sendtime = other1.sendtime;
   __isset = other1.__isset;
   return *this;
 }
@@ -222,6 +241,7 @@ void Video_Upload_SendInfo::printTo(std::ostream& out) const {
   out << ", " << "sec=" << to_string(sec);
   out << ", " << "msec=" << to_string(msec);
   out << ", " << "info=" << to_string(info);
+  out << ", " << "sendtime=" << to_string(sendtime);
   out << ")";
 }
 
@@ -256,6 +276,10 @@ void Video_Upload_RecvInfo::__set_msec(const int32_t val) {
 
 void Video_Upload_RecvInfo::__set_status(const int32_t val) {
   this->status = val;
+}
+
+void Video_Upload_RecvInfo::__set_sendtime(const int32_t val) {
+  this->sendtime = val;
 }
 std::ostream& operator<<(std::ostream& out, const Video_Upload_RecvInfo& obj)
 {
@@ -341,6 +365,14 @@ uint32_t Video_Upload_RecvInfo::read(::apache::thrift::protocol::TProtocol* ipro
           xfer += iprot->skip(ftype);
         }
         break;
+      case 8:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->sendtime);
+          this->__isset.sendtime = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -386,6 +418,10 @@ uint32_t Video_Upload_RecvInfo::write(::apache::thrift::protocol::TProtocol* opr
   xfer += oprot->writeI32(this->status);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("sendtime", ::apache::thrift::protocol::T_I32, 8);
+  xfer += oprot->writeI32(this->sendtime);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -400,6 +436,7 @@ void swap(Video_Upload_RecvInfo &a, Video_Upload_RecvInfo &b) {
   swap(a.sec, b.sec);
   swap(a.msec, b.msec);
   swap(a.status, b.status);
+  swap(a.sendtime, b.sendtime);
   swap(a.__isset, b.__isset);
 }
 
@@ -411,6 +448,7 @@ Video_Upload_RecvInfo::Video_Upload_RecvInfo(const Video_Upload_RecvInfo& other2
   sec = other2.sec;
   msec = other2.msec;
   status = other2.status;
+  sendtime = other2.sendtime;
   __isset = other2.__isset;
 }
 Video_Upload_RecvInfo& Video_Upload_RecvInfo::operator=(const Video_Upload_RecvInfo& other3) noexcept {
@@ -421,6 +459,7 @@ Video_Upload_RecvInfo& Video_Upload_RecvInfo::operator=(const Video_Upload_RecvI
   sec = other3.sec;
   msec = other3.msec;
   status = other3.status;
+  sendtime = other3.sendtime;
   __isset = other3.__isset;
   return *this;
 }
@@ -434,6 +473,7 @@ void Video_Upload_RecvInfo::printTo(std::ostream& out) const {
   out << ", " << "sec=" << to_string(sec);
   out << ", " << "msec=" << to_string(msec);
   out << ", " << "status=" << to_string(status);
+  out << ", " << "sendtime=" << to_string(sendtime);
   out << ")";
 }
 
@@ -464,6 +504,10 @@ void Video_Download_SendInfo::__set_sec(const int32_t val) {
 
 void Video_Download_SendInfo::__set_msec(const int32_t val) {
   this->msec = val;
+}
+
+void Video_Download_SendInfo::__set_sendtime(const int32_t val) {
+  this->sendtime = val;
 }
 std::ostream& operator<<(std::ostream& out, const Video_Download_SendInfo& obj)
 {
@@ -541,6 +585,14 @@ uint32_t Video_Download_SendInfo::read(::apache::thrift::protocol::TProtocol* ip
           xfer += iprot->skip(ftype);
         }
         break;
+      case 7:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->sendtime);
+          this->__isset.sendtime = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -582,6 +634,10 @@ uint32_t Video_Download_SendInfo::write(::apache::thrift::protocol::TProtocol* o
   xfer += oprot->writeI32(this->msec);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("sendtime", ::apache::thrift::protocol::T_I32, 7);
+  xfer += oprot->writeI32(this->sendtime);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -595,6 +651,7 @@ void swap(Video_Download_SendInfo &a, Video_Download_SendInfo &b) {
   swap(a.min, b.min);
   swap(a.sec, b.sec);
   swap(a.msec, b.msec);
+  swap(a.sendtime, b.sendtime);
   swap(a.__isset, b.__isset);
 }
 
@@ -605,6 +662,7 @@ Video_Download_SendInfo::Video_Download_SendInfo(const Video_Download_SendInfo& 
   min = other4.min;
   sec = other4.sec;
   msec = other4.msec;
+  sendtime = other4.sendtime;
   __isset = other4.__isset;
 }
 Video_Download_SendInfo& Video_Download_SendInfo::operator=(const Video_Download_SendInfo& other5) noexcept {
@@ -614,6 +672,7 @@ Video_Download_SendInfo& Video_Download_SendInfo::operator=(const Video_Download
   min = other5.min;
   sec = other5.sec;
   msec = other5.msec;
+  sendtime = other5.sendtime;
   __isset = other5.__isset;
   return *this;
 }
@@ -626,6 +685,7 @@ void Video_Download_SendInfo::printTo(std::ostream& out) const {
   out << ", " << "min=" << to_string(min);
   out << ", " << "sec=" << to_string(sec);
   out << ", " << "msec=" << to_string(msec);
+  out << ", " << "sendtime=" << to_string(sendtime);
   out << ")";
 }
 
@@ -664,6 +724,10 @@ void Video_Download_RecvInfo::__set_status(const int32_t val) {
 
 void Video_Download_RecvInfo::__set_info(const std::string& val) {
   this->info = val;
+}
+
+void Video_Download_RecvInfo::__set_sendtime(const int32_t val) {
+  this->sendtime = val;
 }
 std::ostream& operator<<(std::ostream& out, const Video_Download_RecvInfo& obj)
 {
@@ -757,6 +821,14 @@ uint32_t Video_Download_RecvInfo::read(::apache::thrift::protocol::TProtocol* ip
           xfer += iprot->skip(ftype);
         }
         break;
+      case 9:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->sendtime);
+          this->__isset.sendtime = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -806,6 +878,10 @@ uint32_t Video_Download_RecvInfo::write(::apache::thrift::protocol::TProtocol* o
   xfer += oprot->writeString(this->info);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("sendtime", ::apache::thrift::protocol::T_I32, 9);
+  xfer += oprot->writeI32(this->sendtime);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -821,6 +897,7 @@ void swap(Video_Download_RecvInfo &a, Video_Download_RecvInfo &b) {
   swap(a.msec, b.msec);
   swap(a.status, b.status);
   swap(a.info, b.info);
+  swap(a.sendtime, b.sendtime);
   swap(a.__isset, b.__isset);
 }
 
@@ -833,6 +910,7 @@ Video_Download_RecvInfo::Video_Download_RecvInfo(const Video_Download_RecvInfo& 
   msec = other6.msec;
   status = other6.status;
   info = other6.info;
+  sendtime = other6.sendtime;
   __isset = other6.__isset;
 }
 Video_Download_RecvInfo& Video_Download_RecvInfo::operator=(const Video_Download_RecvInfo& other7) {
@@ -844,6 +922,7 @@ Video_Download_RecvInfo& Video_Download_RecvInfo::operator=(const Video_Download
   msec = other7.msec;
   status = other7.status;
   info = other7.info;
+  sendtime = other7.sendtime;
   __isset = other7.__isset;
   return *this;
 }
@@ -858,6 +937,7 @@ void Video_Download_RecvInfo::printTo(std::ostream& out) const {
   out << ", " << "msec=" << to_string(msec);
   out << ", " << "status=" << to_string(status);
   out << ", " << "info=" << to_string(info);
+  out << ", " << "sendtime=" << to_string(sendtime);
   out << ")";
 }
 
@@ -876,6 +956,10 @@ void Video_Clean_SendInfo::__set_userId(const int32_t val) {
 
 void Video_Clean_SendInfo::__set_roomId(const int32_t val) {
   this->roomId = val;
+}
+
+void Video_Clean_SendInfo::__set_sendtime(const int32_t val) {
+  this->sendtime = val;
 }
 std::ostream& operator<<(std::ostream& out, const Video_Clean_SendInfo& obj)
 {
@@ -929,6 +1013,14 @@ uint32_t Video_Clean_SendInfo::read(::apache::thrift::protocol::TProtocol* iprot
           xfer += iprot->skip(ftype);
         }
         break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->sendtime);
+          this->__isset.sendtime = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -958,6 +1050,10 @@ uint32_t Video_Clean_SendInfo::write(::apache::thrift::protocol::TProtocol* opro
   xfer += oprot->writeI32(this->roomId);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("sendtime", ::apache::thrift::protocol::T_I32, 4);
+  xfer += oprot->writeI32(this->sendtime);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -968,6 +1064,7 @@ void swap(Video_Clean_SendInfo &a, Video_Clean_SendInfo &b) {
   swap(a.type, b.type);
   swap(a.userId, b.userId);
   swap(a.roomId, b.roomId);
+  swap(a.sendtime, b.sendtime);
   swap(a.__isset, b.__isset);
 }
 
@@ -975,12 +1072,14 @@ Video_Clean_SendInfo::Video_Clean_SendInfo(const Video_Clean_SendInfo& other8) n
   type = other8.type;
   userId = other8.userId;
   roomId = other8.roomId;
+  sendtime = other8.sendtime;
   __isset = other8.__isset;
 }
 Video_Clean_SendInfo& Video_Clean_SendInfo::operator=(const Video_Clean_SendInfo& other9) noexcept {
   type = other9.type;
   userId = other9.userId;
   roomId = other9.roomId;
+  sendtime = other9.sendtime;
   __isset = other9.__isset;
   return *this;
 }
@@ -990,6 +1089,7 @@ void Video_Clean_SendInfo::printTo(std::ostream& out) const {
   out << "type=" << to_string(type);
   out << ", " << "userId=" << to_string(userId);
   out << ", " << "roomId=" << to_string(roomId);
+  out << ", " << "sendtime=" << to_string(sendtime);
   out << ")";
 }
 

@@ -8,7 +8,6 @@
 
 #include <algorithm>
 #include <ostream>
-#include <iostream>
 
 #include <thrift/TToString.h>
 
@@ -25,6 +24,10 @@ void Echo_SendInfo::__set_id(const int32_t val) {
 
 void Echo_SendInfo::__set_info(const std::string& val) {
   this->info = val;
+}
+
+void Echo_SendInfo::__set_sendtime(const int32_t val) {
+  this->sendtime = val;
 }
 std::ostream& operator<<(std::ostream& out, const Echo_SendInfo& obj)
 {
@@ -70,6 +73,14 @@ uint32_t Echo_SendInfo::read(::apache::thrift::protocol::TProtocol* iprot) {
           xfer += iprot->skip(ftype);
         }
         break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->sendtime);
+          this->__isset.sendtime = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -95,6 +106,10 @@ uint32_t Echo_SendInfo::write(::apache::thrift::protocol::TProtocol* oprot) cons
   xfer += oprot->writeString(this->info);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("sendtime", ::apache::thrift::protocol::T_I32, 3);
+  xfer += oprot->writeI32(this->sendtime);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -104,17 +119,20 @@ void swap(Echo_SendInfo &a, Echo_SendInfo &b) {
   using ::std::swap;
   swap(a.id, b.id);
   swap(a.info, b.info);
+  swap(a.sendtime, b.sendtime);
   swap(a.__isset, b.__isset);
 }
 
 Echo_SendInfo::Echo_SendInfo(const Echo_SendInfo& other0) {
   id = other0.id;
   info = other0.info;
+  sendtime = other0.sendtime;
   __isset = other0.__isset;
 }
 Echo_SendInfo& Echo_SendInfo::operator=(const Echo_SendInfo& other1) {
   id = other1.id;
   info = other1.info;
+  sendtime = other1.sendtime;
   __isset = other1.__isset;
   return *this;
 }
@@ -123,6 +141,7 @@ void Echo_SendInfo::printTo(std::ostream& out) const {
   out << "Echo_SendInfo(";
   out << "id=" << to_string(id);
   out << ", " << "info=" << to_string(info);
+  out << ", " << "sendtime=" << to_string(sendtime);
   out << ")";
 }
 
@@ -142,6 +161,10 @@ void Echo_RecvInfo::__set_info(const std::string& val) {
 void Echo_RecvInfo::__set_time(const std::string& val) {
   this->time = val;
 }
+
+void Echo_RecvInfo::__set_sendtime(const int32_t val) {
+  this->sendtime = val;
+}
 std::ostream& operator<<(std::ostream& out, const Echo_RecvInfo& obj)
 {
   obj.printTo(out);
@@ -150,6 +173,7 @@ std::ostream& operator<<(std::ostream& out, const Echo_RecvInfo& obj)
 
 
 uint32_t Echo_RecvInfo::read(::apache::thrift::protocol::TProtocol* iprot) {
+
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
   std::string fname;
@@ -193,6 +217,14 @@ uint32_t Echo_RecvInfo::read(::apache::thrift::protocol::TProtocol* iprot) {
           xfer += iprot->skip(ftype);
         }
         break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->sendtime);
+          this->__isset.sendtime = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -222,6 +254,10 @@ uint32_t Echo_RecvInfo::write(::apache::thrift::protocol::TProtocol* oprot) cons
   xfer += oprot->writeString(this->time);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("sendtime", ::apache::thrift::protocol::T_I32, 4);
+  xfer += oprot->writeI32(this->sendtime);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -232,6 +268,7 @@ void swap(Echo_RecvInfo &a, Echo_RecvInfo &b) {
   swap(a.id, b.id);
   swap(a.info, b.info);
   swap(a.time, b.time);
+  swap(a.sendtime, b.sendtime);
   swap(a.__isset, b.__isset);
 }
 
@@ -239,12 +276,14 @@ Echo_RecvInfo::Echo_RecvInfo(const Echo_RecvInfo& other2) {
   id = other2.id;
   info = other2.info;
   time = other2.time;
+  sendtime = other2.sendtime;
   __isset = other2.__isset;
 }
 Echo_RecvInfo& Echo_RecvInfo::operator=(const Echo_RecvInfo& other3) {
   id = other3.id;
   info = other3.info;
   time = other3.time;
+  sendtime = other3.sendtime;
   __isset = other3.__isset;
   return *this;
 }
@@ -254,6 +293,7 @@ void Echo_RecvInfo::printTo(std::ostream& out) const {
   out << "id=" << to_string(id);
   out << ", " << "info=" << to_string(info);
   out << ", " << "time=" << to_string(time);
+  out << ", " << "sendtime=" << to_string(sendtime);
   out << ")";
 }
 
