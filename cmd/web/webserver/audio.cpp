@@ -19,7 +19,7 @@ using namespace apache::thrift::transport;
 namespace rpc{
     //audio upload
     std::string  AudioUpload(const std::string &s ){
-        std::shared_ptr<TTransport> audio_socket(new TSocket(AUDIO_IP, AUDIO_POST));
+        std::shared_ptr<TTransport> audio_socket(new TSocket(AUDIO_IP, AUDIO_PORT));
         std::shared_ptr<TTransport> audio_transport(new TBufferedTransport(audio_socket));
         std::shared_ptr<TProtocol> audio_protocol(new TBinaryProtocol(audio_transport));
         AudioClient audio_client(audio_protocol);
@@ -42,7 +42,7 @@ namespace rpc{
     //audio download
     //type - room - user - min - sec - msec - sendtime;
     std::string  AudioDownload(const std::string &s ){
-        std::shared_ptr<TTransport> audio_socket(new TSocket(AUDIO_IP, AUDIO_POST));
+        std::shared_ptr<TTransport> audio_socket(new TSocket(AUDIO_IP, AUDIO_PORT));
         std::shared_ptr<TTransport> audio_transport(new TBufferedTransport(audio_socket));
         std::shared_ptr<TProtocol> audio_protocol(new TBinaryProtocol(audio_transport));
         AudioClient audio_client(audio_protocol);
@@ -86,7 +86,7 @@ namespace rpc{
     };
 
     void  AudioClean(const std::string &s ){
-        std::shared_ptr<TTransport> audio_socket(new TSocket(AUDIO_IP, AUDIO_POST));
+        std::shared_ptr<TTransport> audio_socket(new TSocket(AUDIO_IP, AUDIO_PORT));
         std::shared_ptr<TTransport> audio_transport(new TBufferedTransport(audio_socket));
         std::shared_ptr<TProtocol> audio_protocol(new TBinaryProtocol(audio_transport));
         AudioClient audio_client(audio_protocol);

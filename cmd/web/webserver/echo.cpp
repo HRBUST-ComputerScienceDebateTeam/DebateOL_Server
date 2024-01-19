@@ -17,7 +17,7 @@ using namespace apache::thrift::transport;
 
 namespace rpc{
     std::string  Del_echo(const std::string &s ){
-        std::shared_ptr<TTransport> echo_socket(new TSocket(ECHO_IP, ECHO_POST));
+        std::shared_ptr<TTransport> echo_socket(new TSocket(ECHO_IP, ECHO_PORT));
         std::shared_ptr<TTransport> echo_transport(new TBufferedTransport(echo_socket));
         std::shared_ptr<TProtocol> echo_protocol(new TBinaryProtocol(echo_transport));
         EchoClient echo_client(echo_protocol);

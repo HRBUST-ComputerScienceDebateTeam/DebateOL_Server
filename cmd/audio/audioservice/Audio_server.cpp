@@ -108,7 +108,7 @@ class AudioHandler : virtual public AudioIf {
 int main(int argc, char **argv) {
   ::std::shared_ptr<AudioHandler> handler(new AudioHandler());
   ::std::shared_ptr<TProcessor> processor(new AudioProcessor(handler));
-  ::std::shared_ptr<TServerTransport> serverTransport(new TServerSocket(AUDIO_POST));
+  ::std::shared_ptr<TServerTransport> serverTransport(new TServerSocket(AUDIO_PORT));
   ::std::shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
   ::std::shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
 
