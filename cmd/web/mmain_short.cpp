@@ -22,7 +22,7 @@
 #include "../../pkg/pool/threadpool.h"
 
 
-const int PORT = HTTP_POST;
+const int PORT = HTTP_PORT;
 const int BUFFER_SIZE = HTTP_REQ_BUFFER_SIZE ;
 
 char buffer[THREAD_POOL_MAXTHREADNUM][BUFFER_SIZE];//最多100个线程 所以安全

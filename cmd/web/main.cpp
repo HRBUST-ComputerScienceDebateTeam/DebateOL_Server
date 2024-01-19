@@ -28,7 +28,7 @@
 std::map<int , int > mp1;//fd - port ,cnt
 std::map<int , int > mp2;//fd - port ,cnt
 // 网络的设置
-const int PORT = HTTP_POST;
+const int PORT = HTTP_PORT;
 // 缓冲区设置
 const int BUFFER_SIZE = HTTP_REQ_BUFFER_SIZE ;
 // 锁

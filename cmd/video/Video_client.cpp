@@ -5,7 +5,7 @@
 #include <thrift/transport/TTransportUtils.h>
 
 #include "./videoservice/Video.h"
-#include "../web/conf.hh"
+#include "../conf.hh"
 #include "./videoservice/video_types.h"
 
 using namespace std;
@@ -15,7 +15,7 @@ using namespace apache::thrift::transport;
 
 
 int main() {
-  std::shared_ptr<TTransport> socket(new TSocket(VIDEO_IP, VIDEO_POST));
+  std::shared_ptr<TTransport> socket(new TSocket(VIDEO_IP, VIDEO_PORT));
   std::shared_ptr<TTransport> transport(new TBufferedTransport(socket));
   std::shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
   VideoClient client(protocol);

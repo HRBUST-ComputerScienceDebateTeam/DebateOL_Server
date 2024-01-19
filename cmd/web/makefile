@@ -1,29 +1,88 @@
-#编译运行
-Project_path = ./webserver
-echo_path = ../echo/echoservice
-video_path = ../video/videoservice
-audio_path = ../audio/audioservice
-Thrift_path = /usr/local/include/thrift
-THREAD_POOL_PATH = ../../pkg/pool
-CPP    = g++
-CFlag = -g -Wall 
-LIB   = -I$(Project_path) -I$(Thrift_path) -I$(echo_path)  -I$(video_path)  -I$(audio_path) -I$(THREAD_POOL_PATH) -I./
-FLAGS  = -std=c++11 -lthrift -lpthread
+#指定所有的服务
+ALL_Server   = audio echo user video 
+
+#路径
+Top_path        = ../../
+CMD_path        = $(Top_path)cmd/
+RPC_path        = $(CMD_path)web/
+Ser_path        = $(RPC_path)webserver/
+ALL_Server_path   = $(foreach sername, $(ALL_Server),$(shell echo -I$(CMD_path)$(sername)/$(sername)service/ ) )
+
+#库路径
+Thrift_path  = /usr/local/include/thrift
+Conf_path    = $(CMD_path)
+
+#编译相关
+CC           = CC
+CPP          = g++
+CFlag        = -g -Wall -std=c++11
+Libflag      = -lssl -lpthread -lcrypto -lthrift
+
+#pkg
+Top_path  = ../../
+PKG_rootpath  = $(Top_path)pkg/
+PKG_LIB   = $(shell find $(PKG_rootpath) -maxdepth 3 -type d)
+
+PKG_FILE  = $(foreach dir, $(PKG_LIB), $(wildcard $(dir)/*.cpp))
+PKG_path  = $(foreach lib, $(PKG_LIB),  $(patsubst %, -I%, $(lib)))
 
 
-#文件
-http_cpp = $(Project_path)/echo.cpp\
-		 $(Project_path)/video.cpp \
-		 $(Project_path)/audio.cpp \
-		 ./main.cpp 
-echo_cpp = $(echo_path)/echo_types.cpp $(echo_path)/Echo.cpp
-video_cpp = $(video_path)/video_types.cpp $(video_path)/Video.cpp
-audio_cpp = $(audio_path)/audio_types.cpp $(audio_path)/Audio.cpp
-threadpool_cpp = $(THREAD_POOL_PATH)/threadpool.cpp
+
+#每个微服务的两个文件 通用 
+TypeCpp1 = $(foreach sername, $(ALL_Server),  $(shell echo $(CMD_path)$(sername)/$(sername)service/$(sername)_types.cpp ))
+TypeCpp2 = $(foreach sername, $(ALL_Server),  $(shell echo $(CMD_path)$(sername)/$(sername)service/$(shell echo $(sername) | sed 's/\b\(.\)/\u\1/g').cpp ))
+#微服务客户端
+Rpcclientfile  = $(wildcard $(Ser_path)*.cpp)
+
+
+#汇总
+ALLLIB   = 	-I$(Ser_path)\
+		  	-I$(Thrift_path)\
+			-I$(Conf_path)\
+			-I$(PKG_path)\
+			-I$(ALL_Server_path)\
+			-I./
+
+ALLFILE  =  $(TypeCpp1) $(TypeCpp2)\
+			$(Rpcclientfile)\
+ 			$(PKG_FILE)
 
 #行为
-web_server: $(echo_cpp) $(video_cpp) $(audio_cpp) $(http_cpp) $(threadpool_cpp)
-	$(CPP) $(CFlag) $(LIB) $^ $(FLAGS) -o ./web_server
+web_server:$(ALLFILE) main.cpp
+	$(CPP) $(CFlag) $(ALLLIB) $^  -o ./web_server $(Libflag)
 
 clean: 
 	-rm ./web_server
+
+# g++ -g -Wall -std=c++11 
+# -I../../cmd/web/webserver/ 
+# -I/usr/local/include/thrift 
+# -I../../cmd/ 
+# -I   
+# -I../../pkg/    
+# -I../../pkg/JsonChange    
+# -I../../pkg/Openssl    
+# -I../../pkg/pool    
+# -I../../pkg/JWT 
+# -I
+# -I../../cmd/audio/audioservice/  
+# -I../../cmd/echo/echoservice/  
+# -I../../cmd/user/userservice/  
+# -I../../cmd/video/videoservice/  
+# -I./ 
+# ../../cmd/audio/audioservice/audio_types.cpp 
+# ../../cmd/echo/echoservice/echo_types.cpp 
+# ../../cmd/user/userservice/user_types.cpp 
+# ../../cmd/video/videoservice/video_types.cpp 
+# ../../cmd/audio/audioservice/Audio.cpp 
+# ../../cmd/echo/echoservice/Echo.cpp 
+# ../../cmd/user/userservice/User.cpp 
+# ../../cmd/video/videoservice/Video.cpp 
+# webserver/audio.cpp 
+# webserver/echo.cpp 
+# webserver/video.cpp 
+# ../../pkg/JsonChange/jsonchange.cpp 
+# ../../pkg/Openssl/openssl.cpp 
+# ../../pkg/pool/threadpool.cpp 
+# ../../pkg/JWT/jwt.cpp main.cpp  
+# -o ./web_server -lssl -lpthread -lcrypto -lthrift

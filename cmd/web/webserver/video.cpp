@@ -20,7 +20,7 @@ using namespace apache::thrift::transport;
 namespace rpc{
     //video upload
     std::string  VideoUpload(const std::string &s ){
-        std::shared_ptr<TTransport> video_socket(new TSocket(VIDEO_IP, VIDEO_POST));
+        std::shared_ptr<TTransport> video_socket(new TSocket(VIDEO_IP, VIDEO_PORT));
         std::shared_ptr<TTransport> video_transport(new TBufferedTransport(video_socket));
         std::shared_ptr<TProtocol> video_protocol(new TBinaryProtocol(video_transport));
         VideoClient video_client(video_protocol);
@@ -43,7 +43,7 @@ namespace rpc{
     //video download
     //type - room - user - min - sec - msec - sendtime;
     std::string  VideoDownload(const std::string &s ){
-        std::shared_ptr<TTransport> video_socket(new TSocket(VIDEO_IP, VIDEO_POST));
+        std::shared_ptr<TTransport> video_socket(new TSocket(VIDEO_IP, VIDEO_PORT));
         std::shared_ptr<TTransport> video_transport(new TBufferedTransport(video_socket));
         std::shared_ptr<TProtocol> video_protocol(new TBinaryProtocol(video_transport));
         VideoClient video_client(video_protocol);
@@ -86,7 +86,7 @@ namespace rpc{
     };
 
     void  VideoClean(const std::string &s ){
-        std::shared_ptr<TTransport> video_socket(new TSocket(VIDEO_IP, VIDEO_POST));
+        std::shared_ptr<TTransport> video_socket(new TSocket(VIDEO_IP, VIDEO_PORT));
         std::shared_ptr<TTransport> video_transport(new TBufferedTransport(video_socket));
         std::shared_ptr<TProtocol> video_protocol(new TBinaryProtocol(video_transport));
         VideoClient video_client(video_protocol);

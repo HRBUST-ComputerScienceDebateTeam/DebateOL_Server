@@ -15,7 +15,7 @@ using namespace apache::thrift::transport;
 
 
 int main() {
-  std::shared_ptr<TTransport> socket(new TSocket(AUDIO_IP, AUDIO_POST));
+  std::shared_ptr<TTransport> socket(new TSocket(AUDIO_IP, AUDIO_PORT));
   std::shared_ptr<TTransport> transport(new TBufferedTransport(socket));
   std::shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
   AudioClient client(protocol);

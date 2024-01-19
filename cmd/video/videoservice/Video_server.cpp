@@ -102,7 +102,6 @@ class VideoHandler : virtual public VideoIf {
     _return.type = Video_Download_RecvInfo_TypeId; 
     _return.info = it->second;
     _return.sendtime = timeinfo;
-    //printf("Video_Download\n");
     return;
   }
   
@@ -115,7 +114,7 @@ class VideoHandler : virtual public VideoIf {
 };
 
 int main(int argc, char **argv) {
-  int port = VIDEO_POST;
+  int port = VIDEO_PORT;
   ::std::shared_ptr<VideoHandler> handler(new VideoHandler());
   ::std::shared_ptr<TProcessor> processor(new VideoProcessor(handler));
   ::std::shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));

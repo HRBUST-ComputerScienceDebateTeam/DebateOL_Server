@@ -14,7 +14,7 @@ using namespace apache::thrift::transport;
 
 
 int main() {
-  std::shared_ptr<TTransport> socket(new TSocket(ECHO_IP, ECHO_POST));
+  std::shared_ptr<TTransport> socket(new TSocket(ECHO_IP, ECHO_PORT));
   std::shared_ptr<TTransport> transport(new TBufferedTransport(socket));
   std::shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
   EchoClient client(protocol);
