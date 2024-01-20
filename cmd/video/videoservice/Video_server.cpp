@@ -24,6 +24,7 @@ class VideoHandler : virtual public VideoIf {
  public:
   VideoHandler() :videomp(){
     // Your initialization goes here
+    std::cout << "[*]video服务开启"<<std::endl;
   }
   //多个video服务端的时候 应该配合redis 
   //把多个图像同时存储到同一级缓存里 达到共享

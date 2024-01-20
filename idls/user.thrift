@@ -88,6 +88,7 @@ struct User_login_Tel_SendInfo {
   3:string tel,
   4:string passwd
 }
+
 //用户登陆请求 - num
 struct User_login_num_SendInfo {
   1:i32 type,
@@ -121,7 +122,8 @@ struct User_logoff_RecvInfo {
 struct User_refresh_jwt1_SendInfo {
   1:i32 type,
   2:i32 sendtime,
-  3:string jwt_token
+  3:string jwt_token,
+  4:string refresh_jwt_token
 }
 struct User_refresh_jwt1_RecvInfo {
   1:i32 type,
@@ -150,7 +152,7 @@ struct User_refresh_jwt2_RecvInfo {
 struct User_friend_SendInfo {
   1:i32 type,
   2:string jwt_token,
-  3:i32 sendtime,
+  3:i32 sendtime
 }
 struct User_friend_RecvInfo {
   1:i32 type,
@@ -158,11 +160,12 @@ struct User_friend_RecvInfo {
   3:i32 status,
   4:string info
 }
+
 // 获取我关注的
 struct User_follow_SendInfo {
   1:i32 type,
   2:string jwt_token,
-  3:i32 sendtime,
+  3:i32 sendtime
 }
 struct User_follow_RecvInfo {
   1:i32 type,
@@ -174,7 +177,7 @@ struct User_follow_RecvInfo {
 struct User_followed_SendInfo {
   1:i32 type,
   2:string jwt_token,
-  3:i32 sendtime,
+  3:i32 sendtime
 }
 struct User_followed_RecvInfo {
   1:i32 type,

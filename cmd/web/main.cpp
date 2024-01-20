@@ -243,6 +243,16 @@ std::string handleRequest(RequestInfo &reqinfo) {
             std::cout << "\taudioclean" << std::endl;
             rpc::AudioClean(reqinfo.body);
 
+        //路由选择路线6 :  用户tel登陆
+        }else if(reqinfo.uri.path == "/usertellogin"){
+
+            std::cout << "\tuser tel login" << std::endl;
+            std::string s = rpc::User_login_Tel(reqinfo.body);
+            response += "Content-Length: ";
+            response += std::string( std::to_string(s.length()));
+            response += "\r\n\r\n";
+            response += s;
+
         //路由选择路线 - 匹配失败
         }else{
             std::string s = "<html><head><title>POST Request</title></head><body><h1>POST Request Received!</h1></body></html>";

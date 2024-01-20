@@ -13,16 +13,14 @@ string JWT_token::jwt_create(const string secret , string iss , string aud , str
     if(mp.size() != 0){
         ret.payload.insert(mp.begin(), mp.end());
     }
-
     ret.signature = "";
-
     return jwt_encode(secret , ret);
 }
 
 //生成jwt token
-string JWT_token::jwt_encode(const string secret , JWT_token ret  ){
-    string s1 = Base64toBase64URL(Base64Encode(MapToJsonstring(ret.header)));
-    string s2 = Base64toBase64URL(Base64Encode(MapToJsonstring(ret.payload)));
+string JWT_token::jwt_encode(const string secret , JWT_token& ret  ){
+    string s1 = Base64toBase64URL(Base64Encode(MapToJsonstring(ret.getheadermap())));
+    string s2 = Base64toBase64URL(Base64Encode(MapToJsonstring(ret.getpayloadmap())));
     ret.signature = sha256( s1 + '.' + s2 + '.' + secret );
     return s1 + '.' + s2 + '.' + ret.signature;
 }
@@ -39,7 +37,7 @@ JWT_token JWT_token::jwt_decode(std::string s){
     //反序列化
     jwt_token.header  = JsonstringToMap(Base64Decode(Base64URLtoBase64(s.substr(0 , pos1))));
     jwt_token.payload = JsonstringToMap(Base64Decode(Base64URLtoBase64(s.substr(pos1+1 , pos2 - pos1 -1 ))));
-    
+    jwt_token.signature = s.substr(pos2+1);
     return jwt_token;
 }
 
@@ -90,4 +88,7 @@ std::string JWT_token::jwt_extratime( const string secret , std::string str_jwt_
 
 map<string , string> JWT_token::getpayloadmap(){
     return this->payload;
+}
+map<string , string> JWT_token::getheadermap(){
+    return this->header;
 }

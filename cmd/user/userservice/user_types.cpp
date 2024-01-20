@@ -2045,6 +2045,10 @@ void User_refresh_jwt1_SendInfo::__set_sendtime(const int32_t val) {
 void User_refresh_jwt1_SendInfo::__set_jwt_token(const std::string& val) {
   this->jwt_token = val;
 }
+
+void User_refresh_jwt1_SendInfo::__set_refresh_jwt_token(const std::string& val) {
+  this->refresh_jwt_token = val;
+}
 std::ostream& operator<<(std::ostream& out, const User_refresh_jwt1_SendInfo& obj)
 {
   obj.printTo(out);
@@ -2097,6 +2101,14 @@ uint32_t User_refresh_jwt1_SendInfo::read(::apache::thrift::protocol::TProtocol*
           xfer += iprot->skip(ftype);
         }
         break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->refresh_jwt_token);
+          this->__isset.refresh_jwt_token = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -2126,6 +2138,10 @@ uint32_t User_refresh_jwt1_SendInfo::write(::apache::thrift::protocol::TProtocol
   xfer += oprot->writeString(this->jwt_token);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("refresh_jwt_token", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeString(this->refresh_jwt_token);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -2136,6 +2152,7 @@ void swap(User_refresh_jwt1_SendInfo &a, User_refresh_jwt1_SendInfo &b) {
   swap(a.type, b.type);
   swap(a.sendtime, b.sendtime);
   swap(a.jwt_token, b.jwt_token);
+  swap(a.refresh_jwt_token, b.refresh_jwt_token);
   swap(a.__isset, b.__isset);
 }
 
@@ -2143,12 +2160,14 @@ User_refresh_jwt1_SendInfo::User_refresh_jwt1_SendInfo(const User_refresh_jwt1_S
   type = other26.type;
   sendtime = other26.sendtime;
   jwt_token = other26.jwt_token;
+  refresh_jwt_token = other26.refresh_jwt_token;
   __isset = other26.__isset;
 }
 User_refresh_jwt1_SendInfo& User_refresh_jwt1_SendInfo::operator=(const User_refresh_jwt1_SendInfo& other27) {
   type = other27.type;
   sendtime = other27.sendtime;
   jwt_token = other27.jwt_token;
+  refresh_jwt_token = other27.refresh_jwt_token;
   __isset = other27.__isset;
   return *this;
 }
@@ -2158,6 +2177,7 @@ void User_refresh_jwt1_SendInfo::printTo(std::ostream& out) const {
   out << "type=" << to_string(type);
   out << ", " << "sendtime=" << to_string(sendtime);
   out << ", " << "jwt_token=" << to_string(jwt_token);
+  out << ", " << "refresh_jwt_token=" << to_string(refresh_jwt_token);
   out << ")";
 }
 

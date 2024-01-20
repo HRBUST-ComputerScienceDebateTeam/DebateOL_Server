@@ -926,10 +926,11 @@ void swap(User_logoff_RecvInfo &a, User_logoff_RecvInfo &b);
 std::ostream& operator<<(std::ostream& out, const User_logoff_RecvInfo& obj);
 
 typedef struct _User_refresh_jwt1_SendInfo__isset {
-  _User_refresh_jwt1_SendInfo__isset() : type(false), sendtime(false), jwt_token(false) {}
+  _User_refresh_jwt1_SendInfo__isset() : type(false), sendtime(false), jwt_token(false), refresh_jwt_token(false) {}
   bool type :1;
   bool sendtime :1;
   bool jwt_token :1;
+  bool refresh_jwt_token :1;
 } _User_refresh_jwt1_SendInfo__isset;
 
 class User_refresh_jwt1_SendInfo : public virtual ::apache::thrift::TBase {
@@ -940,13 +941,15 @@ class User_refresh_jwt1_SendInfo : public virtual ::apache::thrift::TBase {
   User_refresh_jwt1_SendInfo() noexcept
                              : type(0),
                                sendtime(0),
-                               jwt_token() {
+                               jwt_token(),
+                               refresh_jwt_token() {
   }
 
   virtual ~User_refresh_jwt1_SendInfo() noexcept;
   int32_t type;
   int32_t sendtime;
   std::string jwt_token;
+  std::string refresh_jwt_token;
 
   _User_refresh_jwt1_SendInfo__isset __isset;
 
@@ -956,6 +959,8 @@ class User_refresh_jwt1_SendInfo : public virtual ::apache::thrift::TBase {
 
   void __set_jwt_token(const std::string& val);
 
+  void __set_refresh_jwt_token(const std::string& val);
+
   bool operator == (const User_refresh_jwt1_SendInfo & rhs) const
   {
     if (!(type == rhs.type))
@@ -963,6 +968,8 @@ class User_refresh_jwt1_SendInfo : public virtual ::apache::thrift::TBase {
     if (!(sendtime == rhs.sendtime))
       return false;
     if (!(jwt_token == rhs.jwt_token))
+      return false;
+    if (!(refresh_jwt_token == rhs.refresh_jwt_token))
       return false;
     return true;
   }
