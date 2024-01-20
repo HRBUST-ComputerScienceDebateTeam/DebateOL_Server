@@ -30,7 +30,7 @@ void User_GetBaseInfo_SendInfo::__set_sendtime(const int32_t val) {
   this->sendtime = val;
 }
 
-void User_GetBaseInfo_SendInfo::__set_Aim_usernum(const int32_t val) {
+void User_GetBaseInfo_SendInfo::__set_Aim_usernum(const std::string& val) {
   this->Aim_usernum = val;
 }
 
@@ -90,8 +90,8 @@ uint32_t User_GetBaseInfo_SendInfo::read(::apache::thrift::protocol::TProtocol* 
         }
         break;
       case 4:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->Aim_usernum);
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->Aim_usernum);
           this->__isset.Aim_usernum = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -134,8 +134,8 @@ uint32_t User_GetBaseInfo_SendInfo::write(::apache::thrift::protocol::TProtocol*
   xfer += oprot->writeI32(this->sendtime);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("Aim_usernum", ::apache::thrift::protocol::T_I32, 4);
-  xfer += oprot->writeI32(this->Aim_usernum);
+  xfer += oprot->writeFieldBegin("Aim_usernum", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeString(this->Aim_usernum);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldBegin("info", ::apache::thrift::protocol::T_STRING, 5);
@@ -354,7 +354,7 @@ void User_GetSocialInfo_SendInfo::__set_sendtime(const int32_t val) {
   this->sendtime = val;
 }
 
-void User_GetSocialInfo_SendInfo::__set_Aim_usernum(const int32_t val) {
+void User_GetSocialInfo_SendInfo::__set_Aim_usernum(const std::string& val) {
   this->Aim_usernum = val;
 }
 
@@ -414,8 +414,8 @@ uint32_t User_GetSocialInfo_SendInfo::read(::apache::thrift::protocol::TProtocol
         }
         break;
       case 4:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->Aim_usernum);
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->Aim_usernum);
           this->__isset.Aim_usernum = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -458,8 +458,8 @@ uint32_t User_GetSocialInfo_SendInfo::write(::apache::thrift::protocol::TProtoco
   xfer += oprot->writeI32(this->sendtime);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("Aim_usernum", ::apache::thrift::protocol::T_I32, 4);
-  xfer += oprot->writeI32(this->Aim_usernum);
+  xfer += oprot->writeFieldBegin("Aim_usernum", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeString(this->Aim_usernum);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldBegin("info", ::apache::thrift::protocol::T_STRING, 5);
@@ -678,7 +678,7 @@ void User_GetExInfo_SendInfo::__set_sendtime(const int32_t val) {
   this->sendtime = val;
 }
 
-void User_GetExInfo_SendInfo::__set_Aim_usernum(const int32_t val) {
+void User_GetExInfo_SendInfo::__set_Aim_usernum(const std::string& val) {
   this->Aim_usernum = val;
 }
 
@@ -738,8 +738,8 @@ uint32_t User_GetExInfo_SendInfo::read(::apache::thrift::protocol::TProtocol* ip
         }
         break;
       case 4:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->Aim_usernum);
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->Aim_usernum);
           this->__isset.Aim_usernum = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -782,8 +782,8 @@ uint32_t User_GetExInfo_SendInfo::write(::apache::thrift::protocol::TProtocol* o
   xfer += oprot->writeI32(this->sendtime);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("Aim_usernum", ::apache::thrift::protocol::T_I32, 4);
-  xfer += oprot->writeI32(this->Aim_usernum);
+  xfer += oprot->writeFieldBegin("Aim_usernum", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeString(this->Aim_usernum);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldBegin("info", ::apache::thrift::protocol::T_STRING, 5);
@@ -1774,12 +1774,12 @@ void User_logoff_SendInfo::__set_type(const int32_t val) {
   this->type = val;
 }
 
-void User_logoff_SendInfo::__set_sendtime(const int32_t val) {
-  this->sendtime = val;
+void User_logoff_SendInfo::__set_jwt_token(const std::string& val) {
+  this->jwt_token = val;
 }
 
-void User_logoff_SendInfo::__set_uid(const int32_t val) {
-  this->uid = val;
+void User_logoff_SendInfo::__set_sendtime(const int32_t val) {
+  this->sendtime = val;
 }
 std::ostream& operator<<(std::ostream& out, const User_logoff_SendInfo& obj)
 {
@@ -1818,17 +1818,17 @@ uint32_t User_logoff_SendInfo::read(::apache::thrift::protocol::TProtocol* iprot
         }
         break;
       case 2:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->sendtime);
-          this->__isset.sendtime = true;
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->jwt_token);
+          this->__isset.jwt_token = true;
         } else {
           xfer += iprot->skip(ftype);
         }
         break;
       case 3:
         if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->uid);
-          this->__isset.uid = true;
+          xfer += iprot->readI32(this->sendtime);
+          this->__isset.sendtime = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -1854,12 +1854,12 @@ uint32_t User_logoff_SendInfo::write(::apache::thrift::protocol::TProtocol* opro
   xfer += oprot->writeI32(this->type);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("sendtime", ::apache::thrift::protocol::T_I32, 2);
-  xfer += oprot->writeI32(this->sendtime);
+  xfer += oprot->writeFieldBegin("jwt_token", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString(this->jwt_token);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("uid", ::apache::thrift::protocol::T_I32, 3);
-  xfer += oprot->writeI32(this->uid);
+  xfer += oprot->writeFieldBegin("sendtime", ::apache::thrift::protocol::T_I32, 3);
+  xfer += oprot->writeI32(this->sendtime);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -1870,21 +1870,21 @@ uint32_t User_logoff_SendInfo::write(::apache::thrift::protocol::TProtocol* opro
 void swap(User_logoff_SendInfo &a, User_logoff_SendInfo &b) {
   using ::std::swap;
   swap(a.type, b.type);
+  swap(a.jwt_token, b.jwt_token);
   swap(a.sendtime, b.sendtime);
-  swap(a.uid, b.uid);
   swap(a.__isset, b.__isset);
 }
 
-User_logoff_SendInfo::User_logoff_SendInfo(const User_logoff_SendInfo& other22) noexcept {
+User_logoff_SendInfo::User_logoff_SendInfo(const User_logoff_SendInfo& other22) {
   type = other22.type;
+  jwt_token = other22.jwt_token;
   sendtime = other22.sendtime;
-  uid = other22.uid;
   __isset = other22.__isset;
 }
-User_logoff_SendInfo& User_logoff_SendInfo::operator=(const User_logoff_SendInfo& other23) noexcept {
+User_logoff_SendInfo& User_logoff_SendInfo::operator=(const User_logoff_SendInfo& other23) {
   type = other23.type;
+  jwt_token = other23.jwt_token;
   sendtime = other23.sendtime;
-  uid = other23.uid;
   __isset = other23.__isset;
   return *this;
 }
@@ -1892,8 +1892,8 @@ void User_logoff_SendInfo::printTo(std::ostream& out) const {
   using ::apache::thrift::to_string;
   out << "User_logoff_SendInfo(";
   out << "type=" << to_string(type);
+  out << ", " << "jwt_token=" << to_string(jwt_token);
   out << ", " << "sendtime=" << to_string(sendtime);
-  out << ", " << "uid=" << to_string(uid);
   out << ")";
 }
 

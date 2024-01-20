@@ -745,8 +745,8 @@ typedef struct _User_User_logoff_args__isset {
 class User_User_logoff_args {
  public:
 
-  User_User_logoff_args(const User_User_logoff_args&) noexcept;
-  User_User_logoff_args& operator=(const User_User_logoff_args&) noexcept;
+  User_User_logoff_args(const User_User_logoff_args&);
+  User_User_logoff_args& operator=(const User_User_logoff_args&);
   User_User_logoff_args() noexcept {
   }
 

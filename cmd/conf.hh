@@ -27,6 +27,9 @@
 #define USER_IP "127.0.0.1"
 #define USER_PORT 9004
 
+//Room微服务
+#define ROOM_IP "127.0.0.1"
+#define ROOM_PORT 9005
 
 //状态字
 #define MAX_ROOM 1000
@@ -107,7 +110,8 @@ const int No_such_username= -4;
 
 //Access level -- uu 用户关系 
 enum AC_Level_uu{
-    level_self     =  0,
+    level_never    =  0,
+    level_self     =  1,
     level_friend   =  3,
     level_follow   =  6,
     level_stranger =  9,

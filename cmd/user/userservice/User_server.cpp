@@ -83,7 +83,7 @@ class UserHandler : virtual public UserIf {
 
     //获取好友关系
     int uidA = stoi(jwt_payload_mp["aud"]);
-    int uidB = info.Aim_usernum;
+    int uidB = get_userid_fromUsernum(info.Aim_usernum);
     int truelevel = -1;
     int aimlevel = level_black;
 
@@ -156,7 +156,7 @@ class UserHandler : virtual public UserIf {
 
     //获取好友关系
     int uidA = stoi(jwt_payload_mp["aud"]);
-    int uidB = info.Aim_usernum;
+    int uidB = get_userid_fromUsernum(info.Aim_usernum);
     int truelevel = -1;
     int aimlevel = level_black;
 
@@ -227,7 +227,7 @@ class UserHandler : virtual public UserIf {
 
     //获取好友关系
     int uidA = stoi(jwt_payload_mp["aud"]);
-    int uidB = info.Aim_usernum;
+    int uidB = get_userid_fromUsernum(info.Aim_usernum);
     int truelevel = -1;
     int aimlevel = level_black;
 
@@ -285,10 +285,11 @@ class UserHandler : virtual public UserIf {
     }
 
     //取出对应的信息 进行校验
-    DAL_User_Base dubase = get_user_base(uid);
+    string truepasswd = get_UserPasswd(uid);
+    string truesalt   = get_UserSalt(uid);
     
     //密码核对
-    if(sha256(info.passwd + dubase.Salt) == dubase.Passwd){
+    if(sha256(info.passwd + truesalt) == truepasswd){
       //成功
       time_t timnow;
       time(&timnow);
@@ -315,10 +316,11 @@ class UserHandler : virtual public UserIf {
     }
 
     //取出对应的信息 进行校验
-    DAL_User_Base dubase = get_user_base(uid);
+    string truepasswd = get_UserPasswd(uid);
+    string truesalt   = get_UserSalt(uid);
     
     //密码核对
-    if(sha256(info.passwd + dubase.Salt) == dubase.Passwd){
+    if(sha256(info.passwd + truesalt) == truepasswd){
       //成功
       time_t timnow;
       time(&timnow);
