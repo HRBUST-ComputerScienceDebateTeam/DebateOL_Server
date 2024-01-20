@@ -23,7 +23,7 @@ struct User_GetBaseInfo_SendInfo {
   1:i32 type,
   2:string jwt_token,
   3:i32 sendtime,
-  4:i32 Aim_usernum,
+  4:string Aim_usernum,
   5:string info
 }
 
@@ -39,7 +39,7 @@ struct User_GetSocialInfo_SendInfo {
   1:i32 type,
   2:string jwt_token,
   3:i32 sendtime,
-  4:i32 Aim_usernum,
+  4:string Aim_usernum,
   5:string info
 }
 
@@ -55,7 +55,7 @@ struct User_GetExInfo_SendInfo {
   1:i32 type,
   2:string jwt_token,
   3:i32 sendtime,
-  4:i32 Aim_usernum,
+  4:string Aim_usernum,
   5:string info
 }
 
@@ -107,8 +107,8 @@ struct User_login_RecvInfo {
 //用户下线请求
 struct User_logoff_SendInfo {
   1:i32 type,
-  2:i32 sendtime,
-  3:i32 uid
+  2:string jwt_token,
+  3:i32 sendtime,
 }
 struct User_logoff_RecvInfo {
   1:i32 type,
