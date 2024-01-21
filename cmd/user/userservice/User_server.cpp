@@ -88,9 +88,14 @@ class UserHandler : virtual public UserIf {
     SetAclevel(mp_User_ModifyExInfo_level ,FourPosNum)       = level_never;    
 
     //初始化mysql
+
     DB_MYSQL_OFUSER::DB_mysql.DB_init(User_host, User_user, User_passwd, User_db, User_port);  
     if(DB_MYSQL_OFUSER::DB_mysql.isinit()){
-      cout << "[*]user服务开启"<<endl;
+      if(DB_MYSQL_OFUSER::init_title() == false){
+        cout << "[x]user服务没有开启 - title初始化有误 " << endl;
+      }else{
+        cout << "[*]user服务开启"<<endl;
+      }
     }else{
       cout << "[x]user服务没有开启 - 数据库连接出现问题 " << endl;
     }

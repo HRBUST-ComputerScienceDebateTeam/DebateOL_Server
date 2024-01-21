@@ -22,6 +22,18 @@ class RoomHandler : virtual public RoomIf {
  public:
   RoomHandler() {
     // Your initialization goes here
+    //初始化mysql
+
+    DB_MYSQL_OFROOM::DB_mysql.DB_init(Room_host, Room_user, Room_passwd, Room_db, Room_port);  
+    if(DB_MYSQL_OFROOM::DB_mysql.isinit()){
+      if(DB_MYSQL_OFROOM::init_title() == false){
+        cout << "[x]Room服务没有开启 - title初始化有误 " << endl;
+      }else{
+        cout << "[*]Room服务开启"<<endl;
+      }
+    }else{
+      cout << "[x]Room服务没有开启 - 数据库连接出现问题 " << endl;
+    }
   }
 
   void Room_ChangeDebatePos(Room_ChangeDebatePos_RecvInfo& _return, const Room_ChangeDebatePos_SendInfo& info) {
