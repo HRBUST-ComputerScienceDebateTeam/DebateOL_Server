@@ -27,6 +27,9 @@
 #define USER_IP "127.0.0.1"
 #define USER_PORT 9004
 
+//Room微服务
+#define ROOM_IP "127.0.0.1"
+#define ROOM_PORT 9005
 
 //状态字
 #define MAX_ROOM 1000
@@ -42,12 +45,17 @@
 
 #define USER_ACTION_OK           200
 #define USER_WRONG_DOWNLOAD_TYPE 400
-#define USER_LOWLEVEL_JWT        403
+#define USER_LOWACLevel          403
 #define USER_TIMEOUT_JWT         405
 #define USER_ERR_REQINFO         406
 #define USER_LOGIN_ERRINFO       408
 #define User_Reg_Havethisnum     409
 #define User_Reg_Havethistel     410
+#define User_Logoff_notonline    415
+#define User_JWT_NOTOUTTIME      420
+#define User_REJWT_NOTOUTTIME    421
+#define User_REJWT_HAVEOUTTIME   422
+
 #define USER_DAL_ERR             502
 
 
@@ -72,19 +80,37 @@ const int Audio_Download_SendInfo_TypeId = 203;
 const int Audio_Download_RecvInfo_TypeId = 204;
 const int Audio_Clean_SendInfo_TypeId = 205; 
 
-const int User_GetBaseInfo_SendInfo_TypeId = 301;
-const int User_GetBaseInfo_RecvInfo_TypeId = 302;
+const int User_GetBaseInfo_SendInfo_TypeId   = 301;
+const int User_GetBaseInfo_RecvInfo_TypeId   = 302;
 const int User_GetSocialInfo_SendInfo_TypeId = 303;
 const int User_GetSocialInfo_RecvInfo_TypeId = 304;
-const int User_GetExtraInfo_SendInfo_TypeId = 305;
-const int User_GetExtraInfo_RecvInfo_TypeId = 306;
+const int User_GetExtraInfo_SendInfo_TypeId  = 305;
+const int User_GetExtraInfo_RecvInfo_TypeId  = 306;
 
 const int User_LoginNum_SendInfo_TypeId = 310;
 const int User_LoginTel_SendInfo_TypeId = 311;
 const int User_Login_RecvInfo_TypeId    = 312;
+const int User_Reg_SendInfo_TypeId      = 313;
+const int User_Reg_RecvInfo_TypeId      = 314;
 
-const int User_Reg_TypeId = 313;
-
+const int User_logoff_SendInfo_TypeId          = 321;
+const int User_logoff_RecvInfo_TypeId          = 322;
+const int User_refresh_jwt1_SendInfo_TypeId    = 323;
+const int User_refresh_jwt1_RecvInfo_TypeId    = 324;
+const int User_refresh_jwt2_SendInfo_TypeId    = 325;
+const int User_refresh_jwt2_RecvInfo_TypeId    = 326;
+const int User_friend_SendInfo_TypeId          = 331;
+const int User_friend_RecvInfo_TypeId          = 332;
+const int User_follow_SendInfo_TypeId          = 333;
+const int User_follow_RecvInfo_TypeId          = 334;
+const int User_followed_SendInfo_TypeId        = 335;
+const int User_followed_RecvInfo_TypeId        = 336;
+const int User_ModifyBaseInfo_SendInf_TypeId   = 341;
+const int User_ModifyBaseInfo_RecvInfo_TypeId  = 342;
+const int User_ModifySocialInfo_SendInfo_TypeId= 343;
+const int User_ModifySocialInfo_RecvInfo_TypeId= 344;
+const int User_ModifyExInfo_SendInfo_TypeId    = 345;
+const int User_ModifyExInfo_RecvInfo_TypeId    = 346;
 
 
 //时间
@@ -93,7 +119,6 @@ const int time_minute = 60   ;
 const int time_second = 1    ;
 const int jwt_time         = 10*time_minute;
 const int refresh_jwt_time =  2*time_hour  ;
-
 
 //密码加密：
 // 1. 登陆申请提交的是 base64 + sha256 的passwd
@@ -107,7 +132,8 @@ const int No_such_username= -4;
 
 //Access level -- uu 用户关系 
 enum AC_Level_uu{
-    level_self     =  0,
+    level_never    =  0,
+    level_self     =  1,
     level_friend   =  3,
     level_follow   =  6,
     level_stranger =  9,

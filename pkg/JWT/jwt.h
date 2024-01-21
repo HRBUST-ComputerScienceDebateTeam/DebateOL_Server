@@ -41,6 +41,8 @@ public:
     //无需密码
     // getmap 返回payload
     map<string , string> getpayloadmap();
+    map<string , string> getheadermap();
+
 
     //反序列化
     //xxxx.yyyy.zzz -> JWT_token
@@ -58,10 +60,18 @@ public:
 
     //整个串变成jwt要求的字符串
     //xxxx.yyyy.zzz -> JWT_token
-    static std::string jwt_encode(const string secret,JWT_token ret );
+    static std::string jwt_encode(const string secret,JWT_token& ret );
 
     //检查标签合法化 指第三部分
     static bool jwt_check_hash(const string secret,string s);
 
 }JWT_token;
+
+
+
+//用户鉴权
+//三部分 ： 头部 负载 签名
+//签名 ： sha(头部 base64 + '.' + 负载 base64 + '.' + 密钥); 
+//jwt 头部base64 + '.' + 负载 base64 (时间) + 签名
+
 

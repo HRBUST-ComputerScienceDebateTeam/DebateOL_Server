@@ -8,6 +8,7 @@
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TBufferTransports.h>
 #include "../../conf.hh"
+using namespace std;
 
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;
@@ -18,6 +19,7 @@ class EchoHandler : virtual public EchoIf {
  public:
   EchoHandler() {
     // Your initialization goes here
+    cout << "[*]echo服务开启"<<endl;
   }
   std::string gettime(){
     time_t timep;

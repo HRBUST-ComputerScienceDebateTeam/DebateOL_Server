@@ -7,6 +7,8 @@ Top_path     = ../../
 CMD_path     = $(Top_path)cmd/
 RPC_path     = $(CMD_path)$(SmallName)/
 Ser_path     = $(RPC_path)$(SmallName)service/
+Dal_path     = $(RPC_path)dal/
+
 
 #库路径
 Thrift_path  = /usr/local/include/thrift
@@ -25,6 +27,9 @@ PKG_LIB   = $(shell find $(PKG_rootpath) -maxdepth 3 -type d)
 PKG_FILE  = $(foreach dir, $(PKG_LIB), $(wildcard $(dir)/*.cpp))
 PKG_path  = $(foreach lib, $(PKG_LIB),  $(patsubst %, -I%, $(lib)))
 
+#dal
+dalfiles  = $(wildcard $(Dal_path)*.cpp)
+
 #文件
 type_cpp   =  $(Ser_path)$(SmallName)_types.cpp $(Ser_path)$(BigName).cpp
 
@@ -41,7 +46,7 @@ ALLLIB   = 	-I$(Ser_path)\
 
 
 #行为
-$(SmallName)_server: $(server_cpp)
+$(SmallName)_server: $(server_cpp) $(PKG_FILE) $(dalfiles)
 	$(CPP) $(CFlag)  $(ALLLIB) $^ -o ./$(SmallName)_server $(Libflag)
 
 $(SmallName)_client: $(client_cpp)

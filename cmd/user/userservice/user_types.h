@@ -97,7 +97,7 @@ class User_GetBaseInfo_SendInfo : public virtual ::apache::thrift::TBase {
                             : type(0),
                               jwt_token(),
                               sendtime(0),
-                              Aim_usernum(0),
+                              Aim_usernum(),
                               info() {
   }
 
@@ -105,7 +105,7 @@ class User_GetBaseInfo_SendInfo : public virtual ::apache::thrift::TBase {
   int32_t type;
   std::string jwt_token;
   int32_t sendtime;
-  int32_t Aim_usernum;
+  std::string Aim_usernum;
   std::string info;
 
   _User_GetBaseInfo_SendInfo__isset __isset;
@@ -116,7 +116,7 @@ class User_GetBaseInfo_SendInfo : public virtual ::apache::thrift::TBase {
 
   void __set_sendtime(const int32_t val);
 
-  void __set_Aim_usernum(const int32_t val);
+  void __set_Aim_usernum(const std::string& val);
 
   void __set_info(const std::string& val);
 
@@ -232,7 +232,7 @@ class User_GetSocialInfo_SendInfo : public virtual ::apache::thrift::TBase {
                               : type(0),
                                 jwt_token(),
                                 sendtime(0),
-                                Aim_usernum(0),
+                                Aim_usernum(),
                                 info() {
   }
 
@@ -240,7 +240,7 @@ class User_GetSocialInfo_SendInfo : public virtual ::apache::thrift::TBase {
   int32_t type;
   std::string jwt_token;
   int32_t sendtime;
-  int32_t Aim_usernum;
+  std::string Aim_usernum;
   std::string info;
 
   _User_GetSocialInfo_SendInfo__isset __isset;
@@ -251,7 +251,7 @@ class User_GetSocialInfo_SendInfo : public virtual ::apache::thrift::TBase {
 
   void __set_sendtime(const int32_t val);
 
-  void __set_Aim_usernum(const int32_t val);
+  void __set_Aim_usernum(const std::string& val);
 
   void __set_info(const std::string& val);
 
@@ -367,7 +367,7 @@ class User_GetExInfo_SendInfo : public virtual ::apache::thrift::TBase {
                           : type(0),
                             jwt_token(),
                             sendtime(0),
-                            Aim_usernum(0),
+                            Aim_usernum(),
                             info() {
   }
 
@@ -375,7 +375,7 @@ class User_GetExInfo_SendInfo : public virtual ::apache::thrift::TBase {
   int32_t type;
   std::string jwt_token;
   int32_t sendtime;
-  int32_t Aim_usernum;
+  std::string Aim_usernum;
   std::string info;
 
   _User_GetExInfo_SendInfo__isset __isset;
@@ -386,7 +386,7 @@ class User_GetExInfo_SendInfo : public virtual ::apache::thrift::TBase {
 
   void __set_sendtime(const int32_t val);
 
-  void __set_Aim_usernum(const int32_t val);
+  void __set_Aim_usernum(const std::string& val);
 
   void __set_info(const std::string& val);
 
@@ -812,43 +812,43 @@ void swap(User_login_RecvInfo &a, User_login_RecvInfo &b);
 std::ostream& operator<<(std::ostream& out, const User_login_RecvInfo& obj);
 
 typedef struct _User_logoff_SendInfo__isset {
-  _User_logoff_SendInfo__isset() : type(false), sendtime(false), uid(false) {}
+  _User_logoff_SendInfo__isset() : type(false), jwt_token(false), sendtime(false) {}
   bool type :1;
+  bool jwt_token :1;
   bool sendtime :1;
-  bool uid :1;
 } _User_logoff_SendInfo__isset;
 
 class User_logoff_SendInfo : public virtual ::apache::thrift::TBase {
  public:
 
-  User_logoff_SendInfo(const User_logoff_SendInfo&) noexcept;
-  User_logoff_SendInfo& operator=(const User_logoff_SendInfo&) noexcept;
+  User_logoff_SendInfo(const User_logoff_SendInfo&);
+  User_logoff_SendInfo& operator=(const User_logoff_SendInfo&);
   User_logoff_SendInfo() noexcept
                        : type(0),
-                         sendtime(0),
-                         uid(0) {
+                         jwt_token(),
+                         sendtime(0) {
   }
 
   virtual ~User_logoff_SendInfo() noexcept;
   int32_t type;
+  std::string jwt_token;
   int32_t sendtime;
-  int32_t uid;
 
   _User_logoff_SendInfo__isset __isset;
 
   void __set_type(const int32_t val);
 
-  void __set_sendtime(const int32_t val);
+  void __set_jwt_token(const std::string& val);
 
-  void __set_uid(const int32_t val);
+  void __set_sendtime(const int32_t val);
 
   bool operator == (const User_logoff_SendInfo & rhs) const
   {
     if (!(type == rhs.type))
       return false;
-    if (!(sendtime == rhs.sendtime))
+    if (!(jwt_token == rhs.jwt_token))
       return false;
-    if (!(uid == rhs.uid))
+    if (!(sendtime == rhs.sendtime))
       return false;
     return true;
   }
@@ -926,10 +926,11 @@ void swap(User_logoff_RecvInfo &a, User_logoff_RecvInfo &b);
 std::ostream& operator<<(std::ostream& out, const User_logoff_RecvInfo& obj);
 
 typedef struct _User_refresh_jwt1_SendInfo__isset {
-  _User_refresh_jwt1_SendInfo__isset() : type(false), sendtime(false), jwt_token(false) {}
+  _User_refresh_jwt1_SendInfo__isset() : type(false), sendtime(false), jwt_token(false), refresh_jwt_token(false) {}
   bool type :1;
   bool sendtime :1;
   bool jwt_token :1;
+  bool refresh_jwt_token :1;
 } _User_refresh_jwt1_SendInfo__isset;
 
 class User_refresh_jwt1_SendInfo : public virtual ::apache::thrift::TBase {
@@ -940,13 +941,15 @@ class User_refresh_jwt1_SendInfo : public virtual ::apache::thrift::TBase {
   User_refresh_jwt1_SendInfo() noexcept
                              : type(0),
                                sendtime(0),
-                               jwt_token() {
+                               jwt_token(),
+                               refresh_jwt_token() {
   }
 
   virtual ~User_refresh_jwt1_SendInfo() noexcept;
   int32_t type;
   int32_t sendtime;
   std::string jwt_token;
+  std::string refresh_jwt_token;
 
   _User_refresh_jwt1_SendInfo__isset __isset;
 
@@ -956,6 +959,8 @@ class User_refresh_jwt1_SendInfo : public virtual ::apache::thrift::TBase {
 
   void __set_jwt_token(const std::string& val);
 
+  void __set_refresh_jwt_token(const std::string& val);
+
   bool operator == (const User_refresh_jwt1_SendInfo & rhs) const
   {
     if (!(type == rhs.type))
@@ -963,6 +968,8 @@ class User_refresh_jwt1_SendInfo : public virtual ::apache::thrift::TBase {
     if (!(sendtime == rhs.sendtime))
       return false;
     if (!(jwt_token == rhs.jwt_token))
+      return false;
+    if (!(refresh_jwt_token == rhs.refresh_jwt_token))
       return false;
     return true;
   }
