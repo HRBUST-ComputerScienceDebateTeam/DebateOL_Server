@@ -34,4 +34,14 @@ namespace rpc{
     std::string User_followed(const std::string &s);
     std::string User_friend(const std::string &s);
 
+    std::string Room_ChangeDebatePos(const std::string &s );
+    std::string Room_ChangeExtraInfo(const std::string &s );
+    std::string Room_ChangePasswd(const std::string &s );
+    std::string Room_Exitroom(const std::string &s );
+    std::string Room_Joinroom(const std::string &s );
+    std::string Room_Create(const std::string &s );
+    std::string Room_GetURrelation(const std::string &s );
+    std::string Room_GetExInfo(const std::string &s );
+    std::string Room_GetBaseInfo(const std::string &s );
+
 };

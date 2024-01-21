@@ -1022,7 +1022,7 @@ void Room_Create_SendInfo::__set_sendtime(const int32_t val) {
   this->sendtime = val;
 }
 
-void Room_Create_SendInfo::__set_Roomnum(const int32_t val) {
+void Room_Create_SendInfo::__set_Roomnum(const std::string& val) {
   this->Roomnum = val;
 }
 
@@ -1094,8 +1094,8 @@ uint32_t Room_Create_SendInfo::read(::apache::thrift::protocol::TProtocol* iprot
         }
         break;
       case 4:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->Roomnum);
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->Roomnum);
           this->__isset.Roomnum = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -1162,8 +1162,8 @@ uint32_t Room_Create_SendInfo::write(::apache::thrift::protocol::TProtocol* opro
   xfer += oprot->writeI32(this->sendtime);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("Roomnum", ::apache::thrift::protocol::T_I32, 4);
-  xfer += oprot->writeI32(this->Roomnum);
+  xfer += oprot->writeFieldBegin("Roomnum", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeString(this->Roomnum);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldBegin("Islocking", ::apache::thrift::protocol::T_I32, 5);
@@ -1393,6 +1393,10 @@ void Room_Joinroom_SendInfo::__set_roomnum(const std::string& val) {
 void Room_Joinroom_SendInfo::__set_Debate_pos(const int32_t val) {
   this->Debate_pos = val;
 }
+
+void Room_Joinroom_SendInfo::__set_passwd(const std::string& val) {
+  this->passwd = val;
+}
 std::ostream& operator<<(std::ostream& out, const Room_Joinroom_SendInfo& obj)
 {
   obj.printTo(out);
@@ -1461,6 +1465,14 @@ uint32_t Room_Joinroom_SendInfo::read(::apache::thrift::protocol::TProtocol* ipr
           xfer += iprot->skip(ftype);
         }
         break;
+      case 6:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->passwd);
+          this->__isset.passwd = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -1498,6 +1510,10 @@ uint32_t Room_Joinroom_SendInfo::write(::apache::thrift::protocol::TProtocol* op
   xfer += oprot->writeI32(this->Debate_pos);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("passwd", ::apache::thrift::protocol::T_STRING, 6);
+  xfer += oprot->writeString(this->passwd);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -1510,6 +1526,7 @@ void swap(Room_Joinroom_SendInfo &a, Room_Joinroom_SendInfo &b) {
   swap(a.sendtime, b.sendtime);
   swap(a.roomnum, b.roomnum);
   swap(a.Debate_pos, b.Debate_pos);
+  swap(a.passwd, b.passwd);
   swap(a.__isset, b.__isset);
 }
 
@@ -1519,6 +1536,7 @@ Room_Joinroom_SendInfo::Room_Joinroom_SendInfo(const Room_Joinroom_SendInfo& oth
   sendtime = other16.sendtime;
   roomnum = other16.roomnum;
   Debate_pos = other16.Debate_pos;
+  passwd = other16.passwd;
   __isset = other16.__isset;
 }
 Room_Joinroom_SendInfo& Room_Joinroom_SendInfo::operator=(const Room_Joinroom_SendInfo& other17) {
@@ -1527,6 +1545,7 @@ Room_Joinroom_SendInfo& Room_Joinroom_SendInfo::operator=(const Room_Joinroom_Se
   sendtime = other17.sendtime;
   roomnum = other17.roomnum;
   Debate_pos = other17.Debate_pos;
+  passwd = other17.passwd;
   __isset = other17.__isset;
   return *this;
 }
@@ -1538,6 +1557,7 @@ void Room_Joinroom_SendInfo::printTo(std::ostream& out) const {
   out << ", " << "sendtime=" << to_string(sendtime);
   out << ", " << "roomnum=" << to_string(roomnum);
   out << ", " << "Debate_pos=" << to_string(Debate_pos);
+  out << ", " << "passwd=" << to_string(passwd);
   out << ")";
 }
 
@@ -1974,6 +1994,10 @@ void Room_ChangePasswd_SendInfo::__set_sendtime(const int32_t val) {
   this->sendtime = val;
 }
 
+void Room_ChangePasswd_SendInfo::__set_roomnum(const std::string& val) {
+  this->roomnum = val;
+}
+
 void Room_ChangePasswd_SendInfo::__set_Opasswd(const std::string& val) {
   this->Opasswd = val;
 }
@@ -2035,13 +2059,21 @@ uint32_t Room_ChangePasswd_SendInfo::read(::apache::thrift::protocol::TProtocol*
         break;
       case 4:
         if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->roomnum);
+          this->__isset.roomnum = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 5:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
           xfer += iprot->readString(this->Opasswd);
           this->__isset.Opasswd = true;
         } else {
           xfer += iprot->skip(ftype);
         }
         break;
-      case 5:
+      case 6:
         if (ftype == ::apache::thrift::protocol::T_STRING) {
           xfer += iprot->readString(this->Npasswd);
           this->__isset.Npasswd = true;
@@ -2078,11 +2110,15 @@ uint32_t Room_ChangePasswd_SendInfo::write(::apache::thrift::protocol::TProtocol
   xfer += oprot->writeI32(this->sendtime);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("Opasswd", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeFieldBegin("roomnum", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeString(this->roomnum);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("Opasswd", ::apache::thrift::protocol::T_STRING, 5);
   xfer += oprot->writeString(this->Opasswd);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("Npasswd", ::apache::thrift::protocol::T_STRING, 5);
+  xfer += oprot->writeFieldBegin("Npasswd", ::apache::thrift::protocol::T_STRING, 6);
   xfer += oprot->writeString(this->Npasswd);
   xfer += oprot->writeFieldEnd();
 
@@ -2096,6 +2132,7 @@ void swap(Room_ChangePasswd_SendInfo &a, Room_ChangePasswd_SendInfo &b) {
   swap(a.type, b.type);
   swap(a.jwt_token, b.jwt_token);
   swap(a.sendtime, b.sendtime);
+  swap(a.roomnum, b.roomnum);
   swap(a.Opasswd, b.Opasswd);
   swap(a.Npasswd, b.Npasswd);
   swap(a.__isset, b.__isset);
@@ -2105,6 +2142,7 @@ Room_ChangePasswd_SendInfo::Room_ChangePasswd_SendInfo(const Room_ChangePasswd_S
   type = other24.type;
   jwt_token = other24.jwt_token;
   sendtime = other24.sendtime;
+  roomnum = other24.roomnum;
   Opasswd = other24.Opasswd;
   Npasswd = other24.Npasswd;
   __isset = other24.__isset;
@@ -2113,6 +2151,7 @@ Room_ChangePasswd_SendInfo& Room_ChangePasswd_SendInfo::operator=(const Room_Cha
   type = other25.type;
   jwt_token = other25.jwt_token;
   sendtime = other25.sendtime;
+  roomnum = other25.roomnum;
   Opasswd = other25.Opasswd;
   Npasswd = other25.Npasswd;
   __isset = other25.__isset;
@@ -2124,6 +2163,7 @@ void Room_ChangePasswd_SendInfo::printTo(std::ostream& out) const {
   out << "type=" << to_string(type);
   out << ", " << "jwt_token=" << to_string(jwt_token);
   out << ", " << "sendtime=" << to_string(sendtime);
+  out << ", " << "roomnum=" << to_string(roomnum);
   out << ", " << "Opasswd=" << to_string(Opasswd);
   out << ", " << "Npasswd=" << to_string(Npasswd);
   out << ")";
@@ -2278,7 +2318,7 @@ void Room_ChangeExtraInfo_SendInfo::__set_sendtime(const int32_t val) {
   this->sendtime = val;
 }
 
-void Room_ChangeExtraInfo_SendInfo::__set_roomnum(const int32_t val) {
+void Room_ChangeExtraInfo_SendInfo::__set_roomnum(const std::string& val) {
   this->roomnum = val;
 }
 
@@ -2338,8 +2378,8 @@ uint32_t Room_ChangeExtraInfo_SendInfo::read(::apache::thrift::protocol::TProtoc
         }
         break;
       case 4:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->roomnum);
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->roomnum);
           this->__isset.roomnum = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -2382,8 +2422,8 @@ uint32_t Room_ChangeExtraInfo_SendInfo::write(::apache::thrift::protocol::TProto
   xfer += oprot->writeI32(this->sendtime);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("roomnum", ::apache::thrift::protocol::T_I32, 4);
-  xfer += oprot->writeI32(this->roomnum);
+  xfer += oprot->writeFieldBegin("roomnum", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeString(this->roomnum);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldBegin("info", ::apache::thrift::protocol::T_STRING, 5);

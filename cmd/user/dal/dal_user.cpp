@@ -2,8 +2,8 @@
 #include "dal_user.h"
 #include <regex>
 #include <string>
-
-
+#define INT_DEFAULT "-1"
+#define STR_DEFAULT ""
 
 void SettoClass_getval(int &a    , string &s){a = stoi(s);}
 void SettoClass_getval(string& a , string &s){a =  s;};
@@ -768,8 +768,24 @@ bool DB_MYSQL_OFUSER::updata_user_base    (int uid , DAL_User_Base   t){ //整�
         cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
         return false;
     }
+    //取出原表
+    DAL_User_Base baset = get_user_base (uid);
+    map<string , string >mp_indb = baset.toMap();
+
+    map<string , string >mp_modify = t.toMap();
+    for(int i = 0;i<DAL_User_Base::title_DAL_User_Base.size();i++){
+        if(mp_modify[DAL_User_Base::title_DAL_User_Base[i]] == INT_DEFAULT\
+         || mp_modify[DAL_User_Base::title_DAL_User_Base[i]] == STR_DEFAULT){
+            //没被填写
+            continue;          
+        }else{
+            //TODO 检测
+            mp_indb[DAL_User_Base::title_DAL_User_Base[i]] = mp_modify[DAL_User_Base::title_DAL_User_Base[i]];
+        }
+        
+    }
     int flag1 = DelUser_t1(uid);
-    int flag2 = AddUser_t1(t);
+    int flag2 = AddUser_t1(DAL_User_Base::ToClass(mp_indb));
     return flag1 && flag2;
 };
 bool DB_MYSQL_OFUSER::updata_user_extra   (int uid , DAL_User_Extra  t){
@@ -777,8 +793,24 @@ bool DB_MYSQL_OFUSER::updata_user_extra   (int uid , DAL_User_Extra  t){
         cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
         return false;
     }
+    //取出原表
+    DAL_User_Extra baset = get_user_extra (uid);
+    map<string , string >mp_indb = baset.toMap();
+
+    map<string , string >mp_modify = t.toMap();
+    for(int i = 0;i<DAL_User_Extra::title_DAL_User_Extra.size();i++){
+        if(mp_modify[DAL_User_Extra::title_DAL_User_Extra[i]] == INT_DEFAULT\
+         || mp_modify[DAL_User_Extra::title_DAL_User_Extra[i]] == STR_DEFAULT){
+            //没被填写
+            continue;          
+        }else{
+            //TODO 检测
+            mp_indb[DAL_User_Extra::title_DAL_User_Extra[i]] = mp_modify[DAL_User_Extra::title_DAL_User_Extra[i]];
+        }
+        
+    }
     int flag1 = DelUser_t3(uid);
-    int flag2 = AddUser_t3(t);
+    int flag2 = AddUser_t3(DAL_User_Extra::ToClass(mp_indb));
     return flag1 && flag2;
 };
 bool DB_MYSQL_OFUSER::updata_user_social  (int uid , DAL_User_Social t){
@@ -786,8 +818,24 @@ bool DB_MYSQL_OFUSER::updata_user_social  (int uid , DAL_User_Social t){
         cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
         return false;
     }
+    //取出原表
+    DAL_User_Social baset = get_user_social(uid);
+    map<string , string >mp_indb = baset.toMap();
+
+    map<string , string >mp_modify = t.toMap();
+    for(int i = 0;i<DAL_User_Social::title_DAL_User_Social.size();i++){
+        if(mp_modify[DAL_User_Social::title_DAL_User_Social[i]] == INT_DEFAULT\
+         || mp_modify[DAL_User_Social::title_DAL_User_Social[i]] == STR_DEFAULT){
+            //没被填写
+            continue;          
+        }else{
+            //TODO 检测
+            mp_indb[DAL_User_Social::title_DAL_User_Social[i]] = mp_modify[DAL_User_Social::title_DAL_User_Social[i]];
+        }
+        
+    }
     int flag1 = DelUser_t2(uid);
-    int flag2 = AddUser_t2(t);
+    int flag2 = AddUser_t2(DAL_User_Social::ToClass(mp_indb));
     return flag1 && flag2;
 };
 

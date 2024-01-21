@@ -8,6 +8,9 @@ void SettoClass_getval(int &a    , string &s){a = stoi(s);}
 void SettoClass_getval(string& a , string &s){a =  s;};
 std::string to_string(string x){return x;};
 
+#define INT_DEFAULT "-1"
+#define STR_DEFAULT ""
+
 //建立连接 - 数据库(TODO:redis)
 //提供交互函数
 //完善tomap函数
@@ -243,6 +246,63 @@ int DB_MYSQL_OFROOM::get_RootOfRoom   (int roomid){
     return ans;
 }    
 
+int DB_MYSQL_OFROOM::get_Roomid_fromUserid(int uid  ){
+     if(DB_MYSQL_OFROOM::DB_mysql.isinit()== false){
+        cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
+        return -1;
+    }
+    if(DAL_UR_relation::title_DAL_UR_relation.size() == 0){
+        cout <<__func__ <<  " title 没有初始化" << endl;
+        return -1;
+    }
+
+    DBRES  * res;
+    string sql = " select Roomid from DAL_UR_relation where Userid = " + to_string(uid) + ";";
+    res = DB_MYSQL_OFROOM::DB_mysql.exec(sql);
+    
+    if(res->OKflag == false){
+        cout<<__func__ <<  " 执行sql : " << sql <<endl;
+        cout<< __func__ <<" mysql use DebateOL err"<< res->errinfo << endl;
+        return -1;
+    }
+    
+    if(res->num_fields != DAL_UR_relation::title_DAL_UR_relation.size() ){
+        cout <<__func__ <<  " 找到的列数不符合" <<endl;
+        return -1;
+    }
+
+    return stoi(res->v[0][0]);
+
+}  //Userid  to roomid
+
+int  get_Debatepos_fromUserid  (int uid  ){
+    if(DB_MYSQL_OFROOM::DB_mysql.isinit()== false){
+        cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
+        return -1;
+    }
+    if(DAL_UR_relation::title_DAL_UR_relation.size() == 0){
+        cout <<__func__ <<  " title 没有初始化" << endl;
+        return -1;
+    }
+
+    DBRES  * res;
+    string sql = " select Debate_pos from DAL_UR_relation where Userid = " + to_string(uid) + ";";
+    res = DB_MYSQL_OFROOM::DB_mysql.exec(sql);
+    
+    if(res->OKflag == false){
+        cout<<__func__ <<  " 执行sql : " << sql <<endl;
+        cout<< __func__ <<" mysql use DebateOL err"<< res->errinfo << endl;
+        return -1;
+    }
+    
+    if(res->num_fields != DAL_UR_relation::title_DAL_UR_relation.size() ){
+        cout <<__func__ <<  " 找到的列数不符合" <<endl;
+        return -1;
+    }
+
+    return stoi(res->v[0][0]);
+};  //userid   to debatepos
+
 //Roomnum  to roomid
 int DB_MYSQL_OFROOM::get_Roomid_fromRoomnum  (string Roomnum  ){
     if(DB_MYSQL_OFROOM::DB_mysql.isinit()== false){
@@ -470,7 +530,13 @@ bool DB_MYSQL_OFROOM::AddURrelation    (DAL_UR_relation urr){
         return true;
     }
 }
-
+bool DB_MYSQL_OFROOM::AddRoom (DAL_Room_Base    t1,DAL_Room_Extra   t2,DAL_UR_relation urr){
+    //TODO: 原子
+    bool flag1 = AddRoom_t1(t1);
+    bool flag2 = AddRoom_t2(t2);
+    bool flag3 = AddURrelation(urr);
+    return flag1&&flag2&&flag3;
+}
 /* 删除 */
 //删除对应房间
 bool DB_MYSQL_OFROOM::DelRoom_t1          (int roomid){
@@ -543,8 +609,24 @@ bool DB_MYSQL_OFROOM::updata_Room_base       (int roomid , DAL_Room_Base   t){
         cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
         return false;
     }
+    //取出原表
+    DAL_Room_Base baset = get_Room_base (roomid);
+    map<string , string >mp_indb = baset.toMap();
+
+    map<string , string >mp_modify = t.toMap();
+    for(int i = 0;i<DAL_Room_Base::title_DAL_Room_Base.size();i++){
+        if(mp_modify[DAL_Room_Base::title_DAL_Room_Base[i]] == INT_DEFAULT\
+         || mp_modify[DAL_Room_Base::title_DAL_Room_Base[i]] == STR_DEFAULT){
+            //没被填写
+            continue;          
+        }else{
+            //TODO 检测
+            mp_indb[DAL_Room_Base::title_DAL_Room_Base[i]] = mp_modify[DAL_Room_Base::title_DAL_Room_Base[i]];
+        }
+        
+    }
     int flag1 = DelRoom_t1(roomid);
-    int flag2 = AddRoom_t1(t);
+    int flag2 = AddRoom_t1(DAL_Room_Base::ToClass(mp_indb));
     return flag1 && flag2;
 };
 
@@ -553,14 +635,41 @@ bool DB_MYSQL_OFROOM::updata_Room_extra      (int roomid , DAL_Room_Extra  t){
         cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
         return false;
     }
+    //取出原表
+    DAL_Room_Extra baset = get_Room_extra (roomid);
+    map<string , string >mp_indb = baset.toMap();
+
+    map<string , string >mp_modify = t.toMap();
+    for(int i = 0;i<DAL_Room_Extra::title_DAL_Room_Extra.size();i++){
+        if(mp_modify[DAL_Room_Extra::title_DAL_Room_Extra[i]] == INT_DEFAULT\
+         || mp_modify[DAL_Room_Extra::title_DAL_Room_Extra[i]] == STR_DEFAULT){
+            //没被填写
+            continue;          
+        }else{
+            //TODO 检测
+            mp_indb[DAL_Room_Extra::title_DAL_Room_Extra[i]] = mp_modify[DAL_Room_Extra::title_DAL_Room_Extra[i]];
+        }
+        
+    }
     int flag1 = DelRoom_t2(roomid);
-    int flag2 = AddRoom_t2(t);
+    int flag2 = AddRoom_t2(DAL_Room_Extra::ToClass(mp_indb));
     return flag1 && flag2;
 }
 bool DB_MYSQL_OFROOM::updata_RoomURrelation  (int uid    , int roomid , int pos , int newlevel){
     if(DB_MYSQL_OFROOM::DB_mysql.isinit()== false){
         cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
         return false;
+    }
+    //取出原址
+    if(to_string(pos) == INT_DEFAULT){
+        string rets = get_UserinRoom_Debatepos(roomid);
+        map<string , string>mp  = JsonstringToMap(rets);
+        pos = stoi(mp[to_string(uid)]);
+    }
+    if(to_string(newlevel) != INT_DEFAULT){
+        string rets = get_UserinRoom_Debatepos(roomid);
+        map<string , string>mp  = JsonstringToMap(rets);
+        newlevel = stoi(mp[to_string(uid)]);
     }
     int flag1 = DelURrelation(uid , roomid);
     DAL_UR_relation t;

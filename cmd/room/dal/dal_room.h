@@ -16,7 +16,7 @@ void SettoClass_getval(string& a , string &s);
 typedef class DAL_Room_Base{
     public:
         int     Roomid;                //Roomid
-        string     Roomnum;               //Roomnum
+        string  Roomnum;               //Roomnum
         string  Passwd;                //Room密码
         string  RoomCreatetime;        //Room注册时间
         string  Salt;                  //盐 sha256
@@ -83,6 +83,8 @@ static    string get_UserinRoom_permissions  (int roomid);    //查询Room中都
 static    int    get_RootOfRoom              (int roomid);    //获取房间的管理员用户id
 
 static    int    get_Roomid_fromRoomnum  (string Roomnum  );  //Roomnum  to roomid
+static    int    get_Roomid_fromUserid  (int uid  );  //userid  to roomid
+static    int    get_Debatepos_fromUserid  (int uid  );  //userid   to debatepos
 
 static    string get_RoomSalt     (int roomid);  //查询密码和盐
 static    string get_RoomPasswd   (int roomid);  
@@ -90,6 +92,7 @@ static    int    getnextroomid();             //获取下一次的roomid
 
 
     /* 创建 */
+static    bool AddRoom (DAL_Room_Base    t1,DAL_Room_Extra   t2,DAL_UR_relation urr);
 static    bool AddRoom_t1       (DAL_Room_Base    t1);//为避免并发 内部数据库设置触发器
 static    bool AddRoom_t2       (DAL_Room_Extra   t2);//为避免并发 内部数据库设置触发器
 static    bool AddURrelation (DAL_UR_relation urr);//添加用户房间关系

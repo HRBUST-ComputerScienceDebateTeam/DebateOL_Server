@@ -37,55 +37,55 @@ class UserHandler : virtual public UserIf {
   map<string, int>mp_User_ModifyExInfo_level    ;
 
   void AcLevel_Init_user(){ // Ac 等级设定 
-    SetAclevel(mp_User_GetBaseInfo_level ,Userid)         = level_black;        
-    SetAclevel(mp_User_GetBaseInfo_level ,Usernum)        = level_stranger;         
-    SetAclevel(mp_User_GetBaseInfo_level ,Passwd)         = level_self;        
-    SetAclevel(mp_User_GetBaseInfo_level ,Tel)            = level_self;     
-    SetAclevel(mp_User_GetBaseInfo_level ,UserRegtime)    = level_stranger;             
-    SetAclevel(mp_User_GetBaseInfo_level ,UserLasttime)   = level_friend;              
-    SetAclevel(mp_User_GetBaseInfo_level ,Salt)           = level_self; 
+    SetAclevel(mp_User_GetBaseInfo_level ,Userid)         = level_black_uu;        
+    SetAclevel(mp_User_GetBaseInfo_level ,Usernum)        = level_stranger_uu;         
+    SetAclevel(mp_User_GetBaseInfo_level ,Passwd)         = level_self_uu;        
+    SetAclevel(mp_User_GetBaseInfo_level ,Tel)            = level_self_uu;     
+    SetAclevel(mp_User_GetBaseInfo_level ,UserRegtime)    = level_stranger_uu;             
+    SetAclevel(mp_User_GetBaseInfo_level ,UserLasttime)   = level_friend_uu;              
+    SetAclevel(mp_User_GetBaseInfo_level ,Salt)           = level_self_uu; 
   
-    SetAclevel(mp_User_GetSocialInfo_level , Userid)      = level_black;                         
-    SetAclevel(mp_User_GetSocialInfo_level , Username)    = level_stranger;                           
-    SetAclevel(mp_User_GetSocialInfo_level , Headshot)    = level_stranger;                           
-    SetAclevel(mp_User_GetSocialInfo_level , Sex)         = level_stranger;                      
-    SetAclevel(mp_User_GetSocialInfo_level , Signature)   = level_stranger;                            
-    SetAclevel(mp_User_GetSocialInfo_level , Contact)     = level_friend;
+    SetAclevel(mp_User_GetSocialInfo_level , Userid)      = level_black_uu;                         
+    SetAclevel(mp_User_GetSocialInfo_level , Username)    = level_stranger_uu;                           
+    SetAclevel(mp_User_GetSocialInfo_level , Headshot)    = level_stranger_uu;                           
+    SetAclevel(mp_User_GetSocialInfo_level , Sex)         = level_stranger_uu;                      
+    SetAclevel(mp_User_GetSocialInfo_level , Signature)   = level_stranger_uu;                            
+    SetAclevel(mp_User_GetSocialInfo_level , Contact)     = level_friend_uu;
 
-    SetAclevel(mp_User_GetExInfo_level ,Userid)           = level_black;         
-    SetAclevel(mp_User_GetExInfo_level ,IntentionToArgue) = level_stranger;                   
-    SetAclevel(mp_User_GetExInfo_level ,MatcheNum)        = level_stranger;            
-    SetAclevel(mp_User_GetExInfo_level ,BestPlayerNum)    = level_follow;                
-    SetAclevel(mp_User_GetExInfo_level ,VectoryNum)       = level_follow;             
-    SetAclevel(mp_User_GetExInfo_level ,OnePosNum)        = level_self;            
-    SetAclevel(mp_User_GetExInfo_level ,TwoPosNum)        = level_self;            
-    SetAclevel(mp_User_GetExInfo_level ,ThreePosNum)      = level_self;              
-    SetAclevel(mp_User_GetExInfo_level ,FourPosNum)       = level_self;             
+    SetAclevel(mp_User_GetExInfo_level ,Userid)           = level_black_uu;         
+    SetAclevel(mp_User_GetExInfo_level ,IntentionToArgue) = level_stranger_uu;                   
+    SetAclevel(mp_User_GetExInfo_level ,MatcheNum)        = level_stranger_uu;            
+    SetAclevel(mp_User_GetExInfo_level ,BestPlayerNum)    = level_follow_uu;                
+    SetAclevel(mp_User_GetExInfo_level ,VectoryNum)       = level_follow_uu;             
+    SetAclevel(mp_User_GetExInfo_level ,OnePosNum)        = level_self_uu;            
+    SetAclevel(mp_User_GetExInfo_level ,TwoPosNum)        = level_self_uu;            
+    SetAclevel(mp_User_GetExInfo_level ,ThreePosNum)      = level_self_uu;              
+    SetAclevel(mp_User_GetExInfo_level ,FourPosNum)       = level_self_uu;             
 
-    SetAclevel(mp_User_ModifyBaseInfo_level ,Userid)         = level_never;        
-    SetAclevel(mp_User_ModifyBaseInfo_level ,Usernum)        = level_never;         
-    SetAclevel(mp_User_ModifyBaseInfo_level ,Passwd)         = level_self;        
-    SetAclevel(mp_User_ModifyBaseInfo_level ,Tel)            = level_self;     
-    SetAclevel(mp_User_ModifyBaseInfo_level ,UserRegtime)    = level_never;             
-    SetAclevel(mp_User_ModifyBaseInfo_level ,UserLasttime)   = level_never;              
-    SetAclevel(mp_User_ModifyBaseInfo_level ,Salt)           = level_never; 
+    SetAclevel(mp_User_ModifyBaseInfo_level ,Userid)         = level_never_uu;        
+    SetAclevel(mp_User_ModifyBaseInfo_level ,Usernum)        = level_never_uu;         
+    SetAclevel(mp_User_ModifyBaseInfo_level ,Passwd)         = level_self_uu;        
+    SetAclevel(mp_User_ModifyBaseInfo_level ,Tel)            = level_self_uu;     
+    SetAclevel(mp_User_ModifyBaseInfo_level ,UserRegtime)    = level_never_uu;             
+    SetAclevel(mp_User_ModifyBaseInfo_level ,UserLasttime)   = level_never_uu;              
+    SetAclevel(mp_User_ModifyBaseInfo_level ,Salt)           = level_never_uu; 
   
-    SetAclevel(mp_User_ModifySocialInfo_level , Userid)      = level_never;                         
-    SetAclevel(mp_User_ModifySocialInfo_level , Username)    = level_self;                           
-    SetAclevel(mp_User_ModifySocialInfo_level , Headshot)    = level_self;                           
-    SetAclevel(mp_User_ModifySocialInfo_level , Sex)         = level_self;                      
-    SetAclevel(mp_User_ModifySocialInfo_level , Signature)   = level_self;                            
-    SetAclevel(mp_User_ModifySocialInfo_level , Contact)     = level_self;
+    SetAclevel(mp_User_ModifySocialInfo_level , Userid)      = level_never_uu;                         
+    SetAclevel(mp_User_ModifySocialInfo_level , Username)    = level_self_uu;                           
+    SetAclevel(mp_User_ModifySocialInfo_level , Headshot)    = level_self_uu;                           
+    SetAclevel(mp_User_ModifySocialInfo_level , Sex)         = level_self_uu;                      
+    SetAclevel(mp_User_ModifySocialInfo_level , Signature)   = level_self_uu;                            
+    SetAclevel(mp_User_ModifySocialInfo_level , Contact)     = level_self_uu;
 
-    SetAclevel(mp_User_ModifyExInfo_level ,Userid)           = level_never;         
-    SetAclevel(mp_User_ModifyExInfo_level ,IntentionToArgue) = level_self;                   
-    SetAclevel(mp_User_ModifyExInfo_level ,MatcheNum)        = level_never;            
-    SetAclevel(mp_User_ModifyExInfo_level ,BestPlayerNum)    = level_never;                
-    SetAclevel(mp_User_ModifyExInfo_level ,VectoryNum)       = level_never;             
-    SetAclevel(mp_User_ModifyExInfo_level ,OnePosNum)        = level_never;            
-    SetAclevel(mp_User_ModifyExInfo_level ,TwoPosNum)        = level_never;            
-    SetAclevel(mp_User_ModifyExInfo_level ,ThreePosNum)      = level_never;              
-    SetAclevel(mp_User_ModifyExInfo_level ,FourPosNum)       = level_never;    
+    SetAclevel(mp_User_ModifyExInfo_level ,Userid)           = level_never_uu;         
+    SetAclevel(mp_User_ModifyExInfo_level ,IntentionToArgue) = level_self_uu;                   
+    SetAclevel(mp_User_ModifyExInfo_level ,MatcheNum)        = level_never_uu;            
+    SetAclevel(mp_User_ModifyExInfo_level ,BestPlayerNum)    = level_never_uu;                
+    SetAclevel(mp_User_ModifyExInfo_level ,VectoryNum)       = level_never_uu;             
+    SetAclevel(mp_User_ModifyExInfo_level ,OnePosNum)        = level_never_uu;            
+    SetAclevel(mp_User_ModifyExInfo_level ,TwoPosNum)        = level_never_uu;            
+    SetAclevel(mp_User_ModifyExInfo_level ,ThreePosNum)      = level_never_uu;              
+    SetAclevel(mp_User_ModifyExInfo_level ,FourPosNum)       = level_never_uu;    
 
     //初始化mysql
 
@@ -133,7 +133,7 @@ class UserHandler : virtual public UserIf {
     int uidA = stoi(jwt_payload_mp["aud"]);
     int uidB = DB_MYSQL_OFUSER::get_userid_fromUsernum(info.Aim_usernum);
     int truelevel = -1;
-    int aimlevel = level_black;
+    int aimlevel = level_black_uu;
 
     if(uidA <=0 || uidA >= MAX_USER && uidB<=0 || uidB>=MAX_USER){//申请数据检查
       _return.status=USER_ERR_REQINFO;
@@ -218,7 +218,7 @@ class UserHandler : virtual public UserIf {
     int uidA = stoi(jwt_payload_mp["aud"]);
     int uidB = DB_MYSQL_OFUSER::get_userid_fromUsernum(info.Aim_usernum);
     int truelevel = -1;
-    int aimlevel = level_black;
+    int aimlevel = level_black_uu;
 
     if(uidA <=0 || uidA >= MAX_USER && uidB<=0 || uidB>=MAX_USER){//申请数据检查
       _return.status=USER_ERR_REQINFO;
@@ -301,7 +301,7 @@ class UserHandler : virtual public UserIf {
     int uidA = stoi(jwt_payload_mp["aud"]);
     int uidB = DB_MYSQL_OFUSER::get_userid_fromUsernum(info.Aim_usernum);
     int truelevel = -1;
-    int aimlevel = level_black;
+    int aimlevel = level_black_uu;
 
     if(uidA <=0 || uidA >= MAX_USER && uidB<=0 || uidB>=MAX_USER){//申请数据检查
       _return.status=USER_ERR_REQINFO;
@@ -367,7 +367,7 @@ class UserHandler : virtual public UserIf {
 
     //首先 根据usernum找到 对应的id
     int uid = DB_MYSQL_OFUSER::get_userid_fromUsernum(info.usernum);
-    if(uid == No_such_usernum){
+    if(uid == INT_DEFAULT){
       _return.status = USER_LOGIN_ERRINFO ;
       _return.type = User_Login_RecvInfo_TypeId;
       _return.sendtime = info.sendtime;
@@ -434,7 +434,7 @@ class UserHandler : virtual public UserIf {
     
     //首先 根据usernum找到 对应的id
     int uid = DB_MYSQL_OFUSER::get_userid_fromTel(info.tel);
-    if(uid == No_such_tel){
+    if(uid == INT_DEFAULT){
       _return.status = USER_LOGIN_ERRINFO ;
       _return.type = User_Login_RecvInfo_TypeId;
       _return.sendtime = info.sendtime;
@@ -504,13 +504,13 @@ class UserHandler : virtual public UserIf {
     // }
 
     //检测重复性
-    if(DB_MYSQL_OFUSER::get_userid_fromTel(info.tel) != No_such_tel){
+    if(DB_MYSQL_OFUSER::get_userid_fromTel(info.tel) != INT_DEFAULT){
       _return.status = User_Reg_Havethistel;
       _return.type = User_Reg_RecvInfo_TypeId;
       _return.sendtime = info.sendtime;
       return;
     }
-    if(DB_MYSQL_OFUSER::get_userid_fromUsernum(info.usernum) != No_such_username){
+    if(DB_MYSQL_OFUSER::get_userid_fromUsernum(info.usernum) != INT_DEFAULT){
       _return.status = User_Reg_Havethisnum;
       _return.type = User_Reg_RecvInfo_TypeId;
       _return.sendtime = info.sendtime;
@@ -720,7 +720,7 @@ class UserHandler : virtual public UserIf {
     //获取好友关系
     int uidA = stoi(jwt_payload_mp["aud"]);
     int truelevel = 0;
-    int aimlevel = level_black;
+    int aimlevel = level_black_uu;
 
     if(uidA <=0 || uidA >= MAX_USER){//申请数据检查
       _return.status=USER_ERR_REQINFO;
@@ -801,7 +801,7 @@ class UserHandler : virtual public UserIf {
     //获取好友关系
     int uidA = stoi(jwt_payload_mp["aud"]);
     int truelevel = 0;
-    int aimlevel = level_black;
+    int aimlevel = level_black_uu;
 
     if(uidA <=0 || uidA >= MAX_USER){//申请数据检查
       _return.status=USER_ERR_REQINFO;
@@ -882,7 +882,7 @@ class UserHandler : virtual public UserIf {
     //获取好友关系
     int uidA = stoi(jwt_payload_mp["aud"]);
     int truelevel = 0;
-    int aimlevel = level_black;
+    int aimlevel = level_black_uu;
 
     if(uidA <=0 || uidA >= MAX_USER){//申请数据检查
       _return.status=USER_ERR_REQINFO;
