@@ -4,12 +4,14 @@
 #include "User.h"
 #include "../../conf.hh"
 #include "../dal/dal_user.h"
+#include "../dal/dal_userconfig.h"
 #include "../../../pkg/JsonChange/jsonchange.h"
 #include "../../../pkg/JWT/jwt.h"
 #include "../../../pkg/Openssl/openssl.h"
 #include "../dal/dal_userconfig.h"
 #include <bits/types/time_t.h>
 #include <cstdint>
+#include <mysql/mysql.h>
 #include <regex>
 #include <string>
 #include <thrift/protocol/TBinaryProtocol.h>
@@ -83,8 +85,16 @@ class UserHandler : virtual public UserIf {
     SetAclevel(mp_User_ModifyExInfo_level ,OnePosNum)        = level_never;            
     SetAclevel(mp_User_ModifyExInfo_level ,TwoPosNum)        = level_never;            
     SetAclevel(mp_User_ModifyExInfo_level ,ThreePosNum)      = level_never;              
-    SetAclevel(mp_User_ModifyExInfo_level ,FourPosNum)       = level_never;          
-    cout << "[*]user服务开启"<<endl;
+    SetAclevel(mp_User_ModifyExInfo_level ,FourPosNum)       = level_never;    
+
+    //初始化mysql
+    DB_MYSQL_OFUSER::DB_mysql.DB_init(User_host, User_user, User_passwd, User_db, User_port);  
+    if(DB_MYSQL_OFUSER::DB_mysql.isinit()){
+      cout << "[*]user服务开启"<<endl;
+    }else{
+      cout << "[x]user服务没有开启 - 数据库连接出现问题 " << endl;
+    }
+    
   }
  public:
   UserHandler() {
@@ -116,7 +126,7 @@ class UserHandler : virtual public UserIf {
 
     //获取好友关系
     int uidA = stoi(jwt_payload_mp["aud"]);
-    int uidB = get_userid_fromUsernum(info.Aim_usernum);
+    int uidB = DB_MYSQL_OFUSER::get_userid_fromUsernum(info.Aim_usernum);
     int truelevel = -1;
     int aimlevel = level_black;
 
@@ -126,7 +136,7 @@ class UserHandler : virtual public UserIf {
       _return.sendtime = info.sendtime;
       return;
     }
-    truelevel = get_uulevel(uidA,uidB).UULevel;
+    truelevel = DB_MYSQL_OFUSER::get_uulevel(uidA,uidB).UULevel;
     //返回数据检查
     if(truelevel != -1){
       _return.status = USER_DAL_ERR;
@@ -158,7 +168,7 @@ class UserHandler : virtual public UserIf {
     }
     
     //获得对应数据
-    DAL_User_Base dal_user_base = get_user_base(uidB);
+    DAL_User_Base dal_user_base = DB_MYSQL_OFUSER::get_user_base(uidB);
     map<string , string >ret ;
     map<string , string> dal_user_base_mp = dal_user_base.toMap();
     for(auto &it : info_mp){
@@ -201,7 +211,7 @@ class UserHandler : virtual public UserIf {
 
     //获取好友关系
     int uidA = stoi(jwt_payload_mp["aud"]);
-    int uidB = get_userid_fromUsernum(info.Aim_usernum);
+    int uidB = DB_MYSQL_OFUSER::get_userid_fromUsernum(info.Aim_usernum);
     int truelevel = -1;
     int aimlevel = level_black;
 
@@ -211,7 +221,7 @@ class UserHandler : virtual public UserIf {
       _return.sendtime = info.sendtime;
       return;
     }
-    truelevel = get_uulevel(uidA,uidB).UULevel;
+    truelevel = DB_MYSQL_OFUSER::get_uulevel(uidA,uidB).UULevel;
     //返回数据检查
     if(truelevel != -1){
       _return.status = USER_DAL_ERR;
@@ -243,7 +253,7 @@ class UserHandler : virtual public UserIf {
     }
     
     //获得对应数据
-    DAL_User_Social dal_user_social = get_user_social(uidB);
+    DAL_User_Social dal_user_social = DB_MYSQL_OFUSER::get_user_social(uidB);
     map<string , string >ret ;
     map<string , string> dal_user_social_mp = dal_user_social.toMap();
     for(auto &it : info_mp){
@@ -284,7 +294,7 @@ class UserHandler : virtual public UserIf {
 
     //获取好友关系
     int uidA = stoi(jwt_payload_mp["aud"]);
-    int uidB = get_userid_fromUsernum(info.Aim_usernum);
+    int uidB = DB_MYSQL_OFUSER::get_userid_fromUsernum(info.Aim_usernum);
     int truelevel = -1;
     int aimlevel = level_black;
 
@@ -294,7 +304,7 @@ class UserHandler : virtual public UserIf {
       _return.sendtime = info.sendtime;
       return;
     }
-    truelevel = get_uulevel(uidA,uidB).UULevel;
+    truelevel = DB_MYSQL_OFUSER::get_uulevel(uidA,uidB).UULevel;
     //返回数据检查
     if(truelevel != -1){
       _return.status = USER_DAL_ERR;
@@ -326,7 +336,7 @@ class UserHandler : virtual public UserIf {
     }
     
     //获得对应数据
-    DAL_User_Extra dal_user_ex = get_user_extra(uidB);
+    DAL_User_Extra dal_user_ex = DB_MYSQL_OFUSER::get_user_extra(uidB);
     map<string , string >ret ;
     map<string , string> dal_user_ex_mp = dal_user_ex.toMap();
     for(auto &it : info_mp){
@@ -351,7 +361,7 @@ class UserHandler : virtual public UserIf {
     }
 
     //首先 根据usernum找到 对应的id
-    int uid = get_userid_fromUsernum(info.usernum);
+    int uid = DB_MYSQL_OFUSER::get_userid_fromUsernum(info.usernum);
     if(uid == No_such_usernum){
       _return.status = USER_LOGIN_ERRINFO ;
       _return.type = User_Login_RecvInfo_TypeId;
@@ -360,8 +370,8 @@ class UserHandler : virtual public UserIf {
     }
 
     //取出对应的信息 进行校验
-    string truepasswd = get_UserPasswd(uid);
-    string truesalt   = get_UserSalt(uid);
+    string truepasswd = DB_MYSQL_OFUSER::get_UserPasswd(uid);
+    string truesalt   = DB_MYSQL_OFUSER::get_UserSalt(uid);
     
     //密码核对
     if(sha256(info.passwd + truesalt) == truepasswd){
@@ -370,7 +380,7 @@ class UserHandler : virtual public UserIf {
       time(&timnow);
 
       //更新在线时间
-      bool updatatime = updata_UserLasttime(uid,to_string(0));
+      bool updatatime = DB_MYSQL_OFUSER::updata_UserLasttime(uid,to_string(0));
       if(updatatime == false){
         _return.type              = User_Login_RecvInfo_TypeId;
         _return.status            = USER_DAL_ERR;
@@ -418,7 +428,7 @@ class UserHandler : virtual public UserIf {
     }
     
     //首先 根据usernum找到 对应的id
-    int uid = get_userid_fromTel(info.tel);
+    int uid = DB_MYSQL_OFUSER::get_userid_fromTel(info.tel);
     if(uid == No_such_tel){
       _return.status = USER_LOGIN_ERRINFO ;
       _return.type = User_Login_RecvInfo_TypeId;
@@ -428,8 +438,8 @@ class UserHandler : virtual public UserIf {
     
 
     //取出对应的信息 进行校验
-    string truepasswd = get_UserPasswd(uid);
-    string truesalt   = get_UserSalt(uid);
+    string truepasswd = DB_MYSQL_OFUSER::get_UserPasswd(uid);
+    string truesalt   = DB_MYSQL_OFUSER::get_UserSalt(uid);
     
     //密码核对
     if(sha256(info.passwd + truesalt) == truepasswd){
@@ -438,7 +448,7 @@ class UserHandler : virtual public UserIf {
       time(&timnow);
       
       //更新在线时间
-      bool updatatime = updata_UserLasttime(uid,to_string(0));
+      bool updatatime = DB_MYSQL_OFUSER::updata_UserLasttime(uid,to_string(0));
       if(updatatime == false){
         _return.type              = User_Login_RecvInfo_TypeId;
         _return.status            = USER_DAL_ERR;
@@ -489,13 +499,13 @@ class UserHandler : virtual public UserIf {
     // }
 
     //检测重复性
-    if(get_userid_fromTel(info.tel) != No_such_tel){
+    if(DB_MYSQL_OFUSER::get_userid_fromTel(info.tel) != No_such_tel){
       _return.status = User_Reg_Havethistel;
       _return.type = User_Reg_RecvInfo_TypeId;
       _return.sendtime = info.sendtime;
       return;
     }
-    if(get_userid_fromUsernum(info.usernum) != No_such_username){
+    if(DB_MYSQL_OFUSER::get_userid_fromUsernum(info.usernum) != No_such_username){
       _return.status = User_Reg_Havethisnum;
       _return.type = User_Reg_RecvInfo_TypeId;
       _return.sendtime = info.sendtime;
@@ -508,14 +518,14 @@ class UserHandler : virtual public UserIf {
     srand(time(0));
     //写入数据库
     DAL_User_Base t1;
-    t1.Userid         = getnextuid();
+    t1.Userid         = DB_MYSQL_OFUSER::getnextuid();
     t1.Usernum        = info.usernum;
     t1.UserRegtime    = to_string((int64_t)timenow);
     t1.UserLasttime   = to_string((int64_t)timenow);
     t1.Salt           = sha256(Base64Encode(to_string(rand())));
     t1.Passwd         = sha256(info.passwd + t1.Salt); 
     t1.Tel = info.tel;
-    AddUser_t1(t1);
+    DB_MYSQL_OFUSER::AddUser_t1(t1);
     _return.status = USER_ACTION_OK;
     _return.sendtime = info.sendtime;
     _return.type = User_Reg_RecvInfo_TypeId;
@@ -553,7 +563,7 @@ class UserHandler : virtual public UserIf {
     int uid = stoi(jwt_payload_mp["aud"]);
 
     //判断在线
-    if(stoi(get_UserLasttime(uid))  != 0){
+    if(stoi(DB_MYSQL_OFUSER::get_UserLasttime(uid))  != 0){
       //不在线
       _return.status = User_Logoff_notonline;
       _return.type = User_logoff_RecvInfo_TypeId;
@@ -564,7 +574,7 @@ class UserHandler : virtual public UserIf {
     //在线
     time_t timenow;
     time(&timenow);
-    if(updata_UserLasttime(uid,to_string((int64_t)timenow)) == false){
+    if(DB_MYSQL_OFUSER::updata_UserLasttime(uid,to_string((int64_t)timenow)) == false){
       _return.status = USER_DAL_ERR;
       _return.type = User_logoff_RecvInfo_TypeId;
       _return.sendtime = info.sendtime;
@@ -744,13 +754,13 @@ class UserHandler : virtual public UserIf {
     }
     
     //获得对应数据
-    DAL_User_Base dal_user_base =get_user_base(uidA);
+    DAL_User_Base dal_user_base =DB_MYSQL_OFUSER::get_user_base(uidA);
     map<string , string> dal_user_base_mp = dal_user_base.toMap();
     for(auto &it : info_mp){
       //暂无校验机制
       dal_user_base_mp[it.first] = it.second;
     }
-    updata_user_base(uidA, DAL_User_Base::ToClass(dal_user_base_mp));
+    DB_MYSQL_OFUSER::updata_user_base(uidA, DAL_User_Base::ToClass(dal_user_base_mp));
     _return.sendtime = info.sendtime;
     _return.status = USER_ACTION_OK;
     _return.type = User_ModifyBaseInfo_RecvInfo_TypeId;
@@ -825,13 +835,13 @@ class UserHandler : virtual public UserIf {
     }
     
     //获得对应数据
-    DAL_User_Social dal_user_social =get_user_social(uidA);
+    DAL_User_Social dal_user_social =DB_MYSQL_OFUSER::get_user_social(uidA);
     map<string , string> dal_user_social_mp = dal_user_social.toMap();
     for(auto &it : info_mp){
       //暂无校验机制
       dal_user_social_mp[it.first] = it.second;
     }
-    updata_user_social(uidA, DAL_User_Social::ToClass(dal_user_social_mp));
+    DB_MYSQL_OFUSER::updata_user_social(uidA, DAL_User_Social::ToClass(dal_user_social_mp));
     _return.sendtime = info.sendtime;
     _return.status = USER_ACTION_OK;
     _return.type = User_ModifySocialInfo_RecvInfo_TypeId;
@@ -906,13 +916,13 @@ class UserHandler : virtual public UserIf {
     }
     
     //获得对应数据
-    DAL_User_Extra dal_user_ex =get_user_extra(uidA);
+    DAL_User_Extra dal_user_ex =DB_MYSQL_OFUSER::get_user_extra(uidA);
     map<string , string> dal_user_ex_mp = dal_user_ex.toMap();
     for(auto &it : info_mp){
       //暂无校验机制
       dal_user_ex_mp[it.first] = it.second;
     }
-    updata_user_extra(uidA, DAL_User_Extra::ToClass(dal_user_ex_mp));
+    DB_MYSQL_OFUSER::updata_user_extra(uidA, DAL_User_Extra::ToClass(dal_user_ex_mp));
     _return.sendtime = info.sendtime;
     _return.status = USER_ACTION_OK;
     _return.type = User_ModifyExInfo_RecvInfo_TypeId;
@@ -945,7 +955,7 @@ class UserHandler : virtual public UserIf {
     }
     int uid = stoi(jwt_payload_mp["aud"]);
 
-    string dbinfo = get_UUrelation(uid);
+    string dbinfo = DB_MYSQL_OFUSER::get_UUrelation(uid);
     map<string , string> dbmp = JsonstringToMap(dbinfo);
 
     map<string , string>ret;
@@ -986,7 +996,7 @@ class UserHandler : virtual public UserIf {
     }
     int uid = stoi(jwt_payload_mp["aud"]);
 
-    string dbinfo = get_UUrelation(uid);
+    string dbinfo = DB_MYSQL_OFUSER::get_UUrelation(uid);
     map<string , string> dbmp = JsonstringToMap(dbinfo);
 
     map<string , string>ret;
@@ -1026,7 +1036,7 @@ class UserHandler : virtual public UserIf {
     }
     int uid = stoi(jwt_payload_mp["aud"]);
 
-    string dbinfo = get_UUrelation(uid);
+    string dbinfo = DB_MYSQL_OFUSER::get_UUrelation(uid);
     map<string , string> dbmp = JsonstringToMap(dbinfo);
 
     map<string , string>ret;

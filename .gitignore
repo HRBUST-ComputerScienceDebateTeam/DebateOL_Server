@@ -2,3 +2,4 @@
 /logging/frp/frp_logging*.txt
 /pkg/JWT/secret.h
 /cmd/user/dal/dal_userconfig.h
+/cmd/room/dal/dal_roomconfig.h

@@ -1,5 +1,4 @@
 //提供访问数据库的方法
-//`mysql_config --cflags --libs` 
 #include "dal_user.h"
 #include <regex>
 #include <string>
@@ -15,24 +14,26 @@ vector<string> DAL_User_Base::title_DAL_User_Base;
 vector<string> DAL_User_Social::title_DAL_User_Social;
 vector<string> DAL_User_Extra::title_DAL_User_Extra;
 vector<string> DAL_UU_relation::title_DAL_UU_relation;
+
+DB_MYSQL DB_MYSQL_OFUSER::DB_mysql;
 //建立连接 - 数据库(TODO:redis)
-bool connect_tomysql(){
+bool DB_MYSQL_OFUSER::connect_tomysql(){
     DBRES * res;
-    res = DB_MYSQL::DB_mysql.DB_init(User_host, User_user ,  User_passwd ,User_db,User_port);
+    res = DB_MYSQL_OFUSER::DB_mysql.DB_init(User_host, User_user ,  User_passwd ,User_db,User_port);
     if(res->OKflag != true){
         cout<< "mysql connnect err"<< res->errinfo << endl;
         return false;
     }
 
     string sql = "use DebateOL;";
-    res = DB_MYSQL::DB_mysql.exec(sql);
+    res = DB_MYSQL_OFUSER::DB_mysql.exec(sql);
     if(res->OKflag != true){
         cout<< "mysql use DebateOL err"<< res->errinfo << endl;
         return false;
     }
     return true;
 }
-bool connect_toredis(){};
+bool DB_MYSQL_OFUSER::connect_toredis(){};
 
 using namespace std;
 //提供交互函数
@@ -52,15 +53,15 @@ DAL_UU_relation::DAL_UU_relation(){
     UseridA =UseridB =  -1;
 }
 
-bool init_title(){
-    if(DB_MYSQL::DB_mysql.isinit()== false){
+bool DB_MYSQL_OFUSER::init_title(){
+    if(DB_MYSQL_OFUSER::DB_mysql.isinit()== false){
         cout << "DB_Mysql 没有初始化"<<endl;
         return false;
     }
     DBRES * res;
 
     string sql1 = "show columns from DAL_User_Base;";
-    res = DB_MYSQL::DB_mysql.exec(sql1);
+    res = DB_MYSQL_OFUSER::DB_mysql.exec(sql1);
     if(res->checkerr(sql1) == false){
         return false;
     }else{
@@ -70,7 +71,7 @@ bool init_title(){
     }
 
     string sql2 = "show columns from DAL_User_Social;";
-    res = DB_MYSQL::DB_mysql.exec(sql2);
+    res = DB_MYSQL_OFUSER::DB_mysql.exec(sql2);
     if(res->checkerr(sql2) == false){
         return false;
     }else{
@@ -80,7 +81,7 @@ bool init_title(){
     }
 
     string sql3 = "show columns from DAL_User_Extra;";
-    res = DB_MYSQL::DB_mysql.exec(sql3);
+    res = DB_MYSQL_OFUSER::DB_mysql.exec(sql3);
     if(res->checkerr(sql3) == false){
         return false;
     }else{
@@ -90,7 +91,7 @@ bool init_title(){
     }
 
     string sql4 = "show columns from DAL_UU_relation;";
-    res = DB_MYSQL::DB_mysql.exec(sql4);
+    res = DB_MYSQL_OFUSER::DB_mysql.exec(sql4);
     if(res->checkerr(sql4) == false){
         return false;
     }else{
@@ -106,8 +107,8 @@ bool init_title(){
 /* 连接 */
 
 /* 查询 */
-DAL_User_Base   get_user_base  (int uid){
-    if(DB_MYSQL::DB_mysql.isinit()== false){
+DAL_User_Base   DB_MYSQL_OFUSER::get_user_base  (int uid){
+    if(DB_MYSQL_OFUSER::DB_mysql.isinit()== false){
         cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
         return DAL_User_Base();
     }
@@ -118,7 +119,7 @@ DAL_User_Base   get_user_base  (int uid){
 
     DBRES  * res;
     string sql = " select * from DAL_User_Base where Userid = " + to_string(uid) + ";";
-    res = DB_MYSQL::DB_mysql.exec(sql);
+    res = DB_MYSQL_OFUSER::DB_mysql.exec(sql);
     
     if(res->OKflag == false){
         cout<<__func__ <<  " 执行sql : " << sql <<endl;
@@ -140,8 +141,8 @@ DAL_User_Base   get_user_base  (int uid){
     }
     return DAL_User_Base::ToClass(mp);
 }
-DAL_User_Extra  get_user_extra (int uid){
-    if(DB_MYSQL::DB_mysql.isinit()== false){
+DAL_User_Extra  DB_MYSQL_OFUSER::get_user_extra (int uid){
+    if(DB_MYSQL_OFUSER::DB_mysql.isinit()== false){
         cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
         return DAL_User_Extra();
     }
@@ -152,7 +153,7 @@ DAL_User_Extra  get_user_extra (int uid){
 
     DBRES  * res;
     string sql = " select * from DAL_User_Extra where Userid = " + to_string(uid) + ";";
-    res = DB_MYSQL::DB_mysql.exec(sql);
+    res = DB_MYSQL_OFUSER::DB_mysql.exec(sql);
     
     if(res->OKflag == false){
         cout<<__func__ <<  " 执行sql : " << sql <<endl;
@@ -174,8 +175,8 @@ DAL_User_Extra  get_user_extra (int uid){
     }
     return DAL_User_Extra::ToClass(mp);
 }
-DAL_User_Social get_user_social(int uid){
-    if(DB_MYSQL::DB_mysql.isinit()== false){
+DAL_User_Social DB_MYSQL_OFUSER::get_user_social(int uid){
+    if(DB_MYSQL_OFUSER::DB_mysql.isinit()== false){
         cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
         return DAL_User_Social();
     }
@@ -186,7 +187,7 @@ DAL_User_Social get_user_social(int uid){
 
     DBRES  * res;
     string sql = " select * from DAL_User_Social where Userid = " + to_string(uid) + ";";
-    res = DB_MYSQL::DB_mysql.exec(sql);
+    res = DB_MYSQL_OFUSER::DB_mysql.exec(sql);
     
     if(res->OKflag == false){
         cout<<__func__ <<  " 执行sql : " << sql <<endl;
@@ -208,14 +209,14 @@ DAL_User_Social get_user_social(int uid){
     }
     return DAL_User_Social::ToClass(mp);
 }
-DAL_UU_relation get_uulevel    (int uidA , int uidB){//查询用户关系
+DAL_UU_relation DB_MYSQL_OFUSER::get_uulevel    (int uidA , int uidB){//查询用户关系
     if(uidA >uidB){
         swap(uidA , uidB);
     }else if(uidA == uidB){
         cout <<__func__ << "同一个人"<<endl;
         return DAL_UU_relation();
     }
-    if(DB_MYSQL::DB_mysql.isinit()== false){
+    if(DB_MYSQL_OFUSER::DB_mysql.isinit()== false){
         cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
         return DAL_UU_relation();
     }
@@ -226,7 +227,7 @@ DAL_UU_relation get_uulevel    (int uidA , int uidB){//查询用户关系
 
     DBRES  * res;
     string sql = " select * from DAL_UU_relation where UseridA = " + to_string(uidA) + " and UseridB = "+ to_string(uidB) + ";";
-    res = DB_MYSQL::DB_mysql.exec(sql);
+    res = DB_MYSQL_OFUSER::DB_mysql.exec(sql);
     
     if(res->OKflag == false){
         cout<<__func__ <<  " 执行sql : " << sql <<endl;
@@ -252,15 +253,15 @@ DAL_UU_relation get_uulevel    (int uidA , int uidB){//查询用户关系
     return DAL_UU_relation::ToClass(mp);
 } 
 
-int get_userid_fromUsernum  (string Usernum  ){
-    if(DB_MYSQL::DB_mysql.isinit()== false){
+int DB_MYSQL_OFUSER::get_userid_fromUsernum  (string Usernum  ){
+    if(DB_MYSQL_OFUSER::DB_mysql.isinit()== false){
         cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
         return -1;
     }
 
     DBRES  * res;
     string sql = " select Userid from DAL_User_Base where Usernum = " + Usernum + ";";
-    res = DB_MYSQL::DB_mysql.exec(sql);
+    res = DB_MYSQL_OFUSER::DB_mysql.exec(sql);
     if(res->checkerr(sql) == false) return -1;
 
     if(res->num_row != 1){
@@ -275,15 +276,15 @@ int get_userid_fromUsernum  (string Usernum  ){
 
     return stoi(res->v[0][0]);
 };//Usernum  to uid
-int get_userid_fromTel      (string Tel      ){
-    if(DB_MYSQL::DB_mysql.isinit()== false){
+int DB_MYSQL_OFUSER::get_userid_fromTel      (string Tel      ){
+    if(DB_MYSQL_OFUSER::DB_mysql.isinit()== false){
         cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
         return -1;
     }
 
     DBRES  * res;
     string sql = " select Userid from DAL_User_Base where Tel = " + Tel + ";";
-    res = DB_MYSQL::DB_mysql.exec(sql);
+    res = DB_MYSQL_OFUSER::DB_mysql.exec(sql);
     if(res->checkerr(sql) == false) return -1;
 
     if(res->num_row != 1){
@@ -298,15 +299,15 @@ int get_userid_fromTel      (string Tel      ){
 
     return stoi(res->v[0][0]);
 };//Tel      to uid
-int get_userid_fromUsername (string Username ){
-    if(DB_MYSQL::DB_mysql.isinit()== false){
+int DB_MYSQL_OFUSER::get_userid_fromUsername (string Username ){
+    if(DB_MYSQL_OFUSER::DB_mysql.isinit()== false){
         cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
         return -1;
     }
 
     DBRES  * res;
     string sql = " select Userid from DAL_User_Social where Username = " + Username + ";";
-    res = DB_MYSQL::DB_mysql.exec(sql);
+    res = DB_MYSQL_OFUSER::DB_mysql.exec(sql);
     if(res->checkerr(sql) == false) return -1;
 
     if(res->num_row != 1){
@@ -323,15 +324,15 @@ int get_userid_fromUsername (string Username ){
     return stoi(res->v[0][0]);
 };//Username to uid
 
-string get_UserLasttime (int uid){
-    if(DB_MYSQL::DB_mysql.isinit()== false){
+string DB_MYSQL_OFUSER::get_UserLasttime (int uid){
+    if(DB_MYSQL_OFUSER::DB_mysql.isinit()== false){
         cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
         return "";
     }
 
     DBRES  * res;
     string sql = " select UserLasttime from DAL_User_Base where Userid = " + to_string(uid) + ";";
-    res = DB_MYSQL::DB_mysql.exec(sql);
+    res = DB_MYSQL_OFUSER::DB_mysql.exec(sql);
     if(res->checkerr(sql) == false) return "";
 
     if(res->num_row != 1){
@@ -346,15 +347,15 @@ string get_UserLasttime (int uid){
 
     return res->v[0][0];
 };  //查询上一次在线时间
-string get_UserSalt     (int uid){
-    if(DB_MYSQL::DB_mysql.isinit()== false){
+string DB_MYSQL_OFUSER::get_UserSalt     (int uid){
+    if(DB_MYSQL_OFUSER::DB_mysql.isinit()== false){
         cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
         return "";
     }
 
     DBRES  * res;
     string sql = " select Salt from DAL_User_Base where Userid = " + to_string(uid) + ";";
-    res = DB_MYSQL::DB_mysql.exec(sql);
+    res = DB_MYSQL_OFUSER::DB_mysql.exec(sql);
     if(res->checkerr(sql) == false) return "";
 
     if(res->num_row != 1){
@@ -370,14 +371,14 @@ string get_UserSalt     (int uid){
     return res->v[0][0];
 };  //查询密码和盐
 string get_UserPasswd   (int uid){
-    if(DB_MYSQL::DB_mysql.isinit()== false){
+    if(DB_MYSQL_OFUSER::DB_mysql.isinit()== false){
         cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
         return "";
     }
 
     DBRES  * res;
     string sql = " select Passwd from DAL_User_Base where Userid = " + to_string(uid) + ";";
-    res = DB_MYSQL::DB_mysql.exec(sql);
+    res = DB_MYSQL_OFUSER::DB_mysql.exec(sql);
     if(res->checkerr(sql) == false) return "";
 
     if(res->num_row != 1){
@@ -392,15 +393,15 @@ string get_UserPasswd   (int uid){
 
     return res->v[0][0];
 };  
-int getnextuid(){
-    if(DB_MYSQL::DB_mysql.isinit()== false){
+int DB_MYSQL_OFUSER::getnextuid(){
+    if(DB_MYSQL_OFUSER::DB_mysql.isinit()== false){
         cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
         return -1;
     }
 
     DBRES  * res;
     string sql = " show create table DAL_User_Base;";
-    res = DB_MYSQL::DB_mysql.exec(sql);
+    res = DB_MYSQL_OFUSER::DB_mysql.exec(sql);
     if(res->checkerr(sql) == false) return -1;
 
     if(res->num_row != 1){
@@ -427,8 +428,8 @@ int getnextuid(){
 };//获取下一次的uid
 
 //获得列表
-string get_UUrelation  (int uid){
-    if(DB_MYSQL::DB_mysql.isinit()== false){
+string DB_MYSQL_OFUSER::get_UUrelation  (int uid){
+    if(DB_MYSQL_OFUSER::DB_mysql.isinit()== false){
         cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
         return "";
     }
@@ -439,7 +440,7 @@ string get_UUrelation  (int uid){
 
     DBRES  * res;
     string sql = " select * from DAL_UU_relation where UseridA = " + to_string(uid) + ";";
-    res = DB_MYSQL::DB_mysql.exec(sql);
+    res = DB_MYSQL_OFUSER::DB_mysql.exec(sql);
     
     if(res->OKflag == false){
         cout<<__func__ <<  " 执行sql : " << sql <<endl;
@@ -457,7 +458,7 @@ string get_UUrelation  (int uid){
     }
 
     string sql2 = " select * from DAL_UU_relation where UseridB = " + to_string(uid) + ";";
-    res = DB_MYSQL::DB_mysql.exec(sql);
+    res = DB_MYSQL_OFUSER::DB_mysql.exec(sql);
     
     if(res->OKflag == false){
         cout<<__func__ <<  " 执行sql : " << sql <<endl;
@@ -482,8 +483,8 @@ string get_UUrelation  (int uid){
 };
 
 /* 创建 */
-bool AddUser_t1    (DAL_User_Base t1){
-    if(DB_MYSQL::DB_mysql.isinit()== false){
+bool DB_MYSQL_OFUSER::AddUser_t1    (DAL_User_Base t1){
+    if(DB_MYSQL_OFUSER::DB_mysql.isinit()== false){
         cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
         return false;
     }
@@ -514,15 +515,15 @@ bool AddUser_t1    (DAL_User_Base t1){
     
     sprintf(outsql ,"Insert DAL_User_Base values(%s);" ,Insertinfo.data() );
     string s_outsql(outsql);
-    res = DB_MYSQL::DB_mysql.exec(s_outsql);
+    res = DB_MYSQL_OFUSER::DB_mysql.exec(s_outsql);
     if(res->checkerr(s_outsql) == false ){
         return false;
     }else{
         return true;
     }
 }
-bool AddUser_t2    (DAL_User_Social t2){
-    if(DB_MYSQL::DB_mysql.isinit()== false){
+bool DB_MYSQL_OFUSER::AddUser_t2    (DAL_User_Social t2){
+    if(DB_MYSQL_OFUSER::DB_mysql.isinit()== false){
         cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
         return false;
     }
@@ -553,15 +554,15 @@ bool AddUser_t2    (DAL_User_Social t2){
     
     sprintf(outsql ,"Insert DAL_User_Social values(%s);" ,Insertinfo.data() );
     string s_outsql(outsql);
-    res = DB_MYSQL::DB_mysql.exec(s_outsql);
+    res = DB_MYSQL_OFUSER::DB_mysql.exec(s_outsql);
     if(res->checkerr(s_outsql) == false ){
         return false;
     }else{
         return true;
     }
 }
-bool AddUser_t3    (DAL_User_Extra t3){
-    if(DB_MYSQL::DB_mysql.isinit()== false){
+bool DB_MYSQL_OFUSER::AddUser_t3    (DAL_User_Extra t3){
+    if(DB_MYSQL_OFUSER::DB_mysql.isinit()== false){
         cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
         return false;
     }
@@ -592,19 +593,19 @@ bool AddUser_t3    (DAL_User_Extra t3){
     
     sprintf(outsql ,"Insert DAL_User_Extra values(%s);" ,Insertinfo.data() );
     string s_outsql(outsql);
-    res = DB_MYSQL::DB_mysql.exec(s_outsql);
+    res = DB_MYSQL_OFUSER::DB_mysql.exec(s_outsql);
     if(res->checkerr(s_outsql) == false ){
         return false;
     }else{
         return true;
     }
 }
-bool AddUUlevel (DAL_UU_relation uulevel){
+bool DB_MYSQL_OFUSER::AddUUlevel (DAL_UU_relation uulevel){
     if(uulevel.UseridA >= uulevel.UseridB){
         cout << __func__ << "错误的输入" <<endl;
         return false;
     }
-    if(DB_MYSQL::DB_mysql.isinit()== false){
+    if(DB_MYSQL_OFUSER::DB_mysql.isinit()== false){
         cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
         return false;
     }
@@ -635,7 +636,7 @@ bool AddUUlevel (DAL_UU_relation uulevel){
     
     sprintf(outsql ,"Insert DAL_UU_relation values(%s);" ,Insertinfo.data() );
     string s_outsql(outsql);
-    res = DB_MYSQL::DB_mysql.exec(s_outsql);
+    res = DB_MYSQL_OFUSER::DB_mysql.exec(s_outsql);
     if(res->checkerr(s_outsql) == false ){
         return false;
     }else{
@@ -644,8 +645,8 @@ bool AddUUlevel (DAL_UU_relation uulevel){
 }
 
 /* 删除 */
-bool DelUser(int uid){
-    if(DB_MYSQL::DB_mysql.isinit()== false){
+bool DB_MYSQL_OFUSER::DelUser(int uid){
+    if(DB_MYSQL_OFUSER::DB_mysql.isinit()== false){
         cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
         return false;
     }
@@ -665,22 +666,22 @@ bool DelUser(int uid){
     string sql3 = "delete from DAL_User_Extra where Userid = " + to_string(uid) + ";";
     string sql4 = "delete from DAL_UU_relation where UseridA = " + to_string(uid) + " or " +"UseridA ="  + to_string(uid) +";";
     
-    res = DB_MYSQL::DB_mysql.exec(sql1);
+    res = DB_MYSQL_OFUSER::DB_mysql.exec(sql1);
     doflag1 = res->checkerr(sql1);
     
-    res = DB_MYSQL::DB_mysql.exec(sql2);
+    res = DB_MYSQL_OFUSER::DB_mysql.exec(sql2);
     doflag2 = res->checkerr(sql2);
     
-    res = DB_MYSQL::DB_mysql.exec(sql3);
+    res = DB_MYSQL_OFUSER::DB_mysql.exec(sql3);
     doflag3 = res->checkerr(sql3);
 
-    res = DB_MYSQL::DB_mysql.exec(sql4);
+    res = DB_MYSQL_OFUSER::DB_mysql.exec(sql4);
     doflag4 = res->checkerr(sql4);
 
     return doflag1 && doflag2 &&doflag3 && doflag4;
 }
-bool DelUser_t1(int uid){
-    if(DB_MYSQL::DB_mysql.isinit()== false){
+bool DB_MYSQL_OFUSER::DelUser_t1(int uid){
+    if(DB_MYSQL_OFUSER::DB_mysql.isinit()== false){
         cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
         return false;
     }
@@ -694,13 +695,13 @@ bool DelUser_t1(int uid){
 
     string sql1 = "delete from DAL_User_Base where Userid = " + to_string(uid) + ";"; 
     
-    res = DB_MYSQL::DB_mysql.exec(sql1);
+    res = DB_MYSQL_OFUSER::DB_mysql.exec(sql1);
     doflag1 = res->checkerr(sql1);
     
     return (doflag1);
 }
-bool DelUser_t2(int uid){
-    if(DB_MYSQL::DB_mysql.isinit()== false){
+bool DB_MYSQL_OFUSER::DelUser_t2(int uid){
+    if(DB_MYSQL_OFUSER::DB_mysql.isinit()== false){
         cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
         return false;
     }
@@ -714,13 +715,13 @@ bool DelUser_t2(int uid){
 
     string sql1 = "delete from DAL_User_Social where Userid = " + to_string(uid) + ";";
     
-    res = DB_MYSQL::DB_mysql.exec(sql1);
+    res = DB_MYSQL_OFUSER::DB_mysql.exec(sql1);
     doflag1 = res->checkerr(sql1);
     
     return (doflag1);
 }
-bool DelUser_t3(int uid){
-    if(DB_MYSQL::DB_mysql.isinit()== false){
+bool DB_MYSQL_OFUSER::DelUser_t3(int uid){
+    if(DB_MYSQL_OFUSER::DB_mysql.isinit()== false){
         cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
         return false;
     }
@@ -734,14 +735,14 @@ bool DelUser_t3(int uid){
 
     string sql1 = "delete from DAL_User_Extra where Userid = " + to_string(uid) + ";";
     
-    res = DB_MYSQL::DB_mysql.exec(sql1);
+    res = DB_MYSQL_OFUSER::DB_mysql.exec(sql1);
     doflag1 = res->checkerr(sql1);
     
     return (doflag1);
 }
 
-bool DelUUlevel (int uidA , int uidB){
-    if(DB_MYSQL::DB_mysql.isinit()== false){
+bool DB_MYSQL_OFUSER::DelUUlevel (int uidA , int uidB){
+    if(DB_MYSQL_OFUSER::DB_mysql.isinit()== false){
         cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
         return false;
     }
@@ -754,7 +755,7 @@ bool DelUUlevel (int uidA , int uidB){
     bool doflag1 = 0;
     string sql1 = "delete from DAL_UU_relation where UseridA = " + to_string(uidA) + " and " +"UseridB ="  + to_string(uidB) +";";
     
-    res = DB_MYSQL::DB_mysql.exec(sql1);
+    res = DB_MYSQL_OFUSER::DB_mysql.exec(sql1);
     doflag1 = res->checkerr(sql1);
     
     return (doflag1);
@@ -762,8 +763,8 @@ bool DelUUlevel (int uidA , int uidB){
 
 
 /* 更改 */
-bool updata_user_base    (int uid , DAL_User_Base   t){ //整表更改
-    if(DB_MYSQL::DB_mysql.isinit()== false){
+bool DB_MYSQL_OFUSER::updata_user_base    (int uid , DAL_User_Base   t){ //整表更改
+    if(DB_MYSQL_OFUSER::DB_mysql.isinit()== false){
         cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
         return false;
     }
@@ -771,8 +772,8 @@ bool updata_user_base    (int uid , DAL_User_Base   t){ //整表更改
     int flag2 = AddUser_t1(t);
     return flag1 && flag2;
 };
-bool updata_user_extra   (int uid , DAL_User_Extra  t){
-    if(DB_MYSQL::DB_mysql.isinit()== false){
+bool DB_MYSQL_OFUSER::updata_user_extra   (int uid , DAL_User_Extra  t){
+    if(DB_MYSQL_OFUSER::DB_mysql.isinit()== false){
         cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
         return false;
     }
@@ -780,8 +781,8 @@ bool updata_user_extra   (int uid , DAL_User_Extra  t){
     int flag2 = AddUser_t3(t);
     return flag1 && flag2;
 };
-bool updata_user_social  (int uid , DAL_User_Social t){
-    if(DB_MYSQL::DB_mysql.isinit()== false){
+bool DB_MYSQL_OFUSER::updata_user_social  (int uid , DAL_User_Social t){
+    if(DB_MYSQL_OFUSER::DB_mysql.isinit()== false){
         cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
         return false;
     }
@@ -791,13 +792,13 @@ bool updata_user_social  (int uid , DAL_User_Social t){
 };
 
 
-bool updata_UserLasttime (int uid , string s){
-    if(DB_MYSQL::DB_mysql.isinit()== false){
+bool DB_MYSQL_OFUSER::updata_UserLasttime (int uid , string s){
+    if(DB_MYSQL_OFUSER::DB_mysql.isinit()== false){
         cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
         return false;
     }
     string sql = "update DAL_User_Base set UserLasttime = \"" + s + "\" where Userid = " + to_string(uid) + ";";
-    DBRES * res = DB_MYSQL::DB_mysql.exec(sql);
+    DBRES * res = DB_MYSQL_OFUSER::DB_mysql.exec(sql);
     if(res->checkerr(sql) == false){
         cout << __func__ << " err " <<endl;
         return false;
@@ -810,15 +811,15 @@ bool updata_UserLasttime (int uid , string s){
     }
 };  //更改在线时间
 
-bool updata_UserUUlevel  (int uidA , int uidB , int newlevel){
-    if(DB_MYSQL::DB_mysql.isinit()== false){
+bool DB_MYSQL_OFUSER::updata_UserUUlevel  (int uidA , int uidB , int newlevel){
+    if(DB_MYSQL_OFUSER::DB_mysql.isinit()== false){
         cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
         return false;
     }
     string sql = "update DAL_UU_relation set UULevel  = " + to_string(newlevel) + \
                 " where UseridA = " + to_string(uidA) + \
                 " and UseridB = " + to_string(uidB) + ";";
-    DBRES * res = DB_MYSQL::DB_mysql.exec(sql);
+    DBRES * res = DB_MYSQL_OFUSER::DB_mysql.exec(sql);
     if(res->checkerr(sql) == false){
         cout << __func__ << " err " <<endl;
         return false;
