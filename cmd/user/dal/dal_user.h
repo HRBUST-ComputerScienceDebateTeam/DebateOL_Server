@@ -7,6 +7,7 @@
 #include <mysql/mysql.h>
 using namespace std;
 
+
 #define SettoMap(x) mp[#x] = to_string(this->x)
 #define SettoClass(x)  SettoClass_getval(ret.x , mp[#x])
 #define ToBeSQLString(x) #x
@@ -90,61 +91,65 @@ public:
 }DAL_UU_relation;
 
 
-
-//--function
-/* 连接 */
-bool connect_tomysql();
-bool connect_toredis();
-bool init_title();
-
-
-/* 查询 */
-DAL_User_Base   get_user_base  (int uid); //通过uid查表
-DAL_User_Extra  get_user_extra (int uid);
-DAL_User_Social get_user_social(int uid);
-
-// id 为-1 表示查询失败
-// id 正常 relation 为0 表示没有关系
-// 要求a < b 
-DAL_UU_relation get_uulevel    (int uidA , int uidB); //查询用户关系
-
-int get_userid_fromUsernum  (string Usernum  );//Usernum  to uid
-int get_userid_fromTel      (string Tel      );//Tel      to uid
-int get_userid_fromUsername (string Username );//Username to uid
-
-string get_UserLasttime (int uid);  //查询上一次在线时间
-string get_UserSalt     (int uid);  //查询密码和盐
-string get_UserPasswd   (int uid);  
-int getnextuid();//获取下一次的uid
-
-string get_UUrelation  (int uid);
-
-/* 创建 */
-bool AddUser_t1    (DAL_User_Base t1);//要求完整
-bool AddUser_t2    (DAL_User_Social t2);//要求完整
-bool AddUser_t3    (DAL_User_Extra t3);//要求完整
-bool AddUUlevel (DAL_UU_relation uulevel);
-
-/* 删除 */
-bool DelUser(int uid);
-bool DelUser_t1(int uid);
-bool DelUser_t2(int uid);
-bool DelUser_t3(int uid);
-bool DelUUlevel (int uidA , int uidB);
+class DB_MYSQL_OFUSER:public DB_MYSQL{
+public:
+    //--function
+    /* 连接 */
+    static bool connect_tomysql();
+    static bool connect_toredis();
+    static bool init_title();
 
 
-/* 更改 */
-bool updata_user_base    (int uid , DAL_User_Base   t); //整表更改
-bool updata_user_extra   (int uid , DAL_User_Extra  t);
-bool updata_user_social  (int uid , DAL_User_Social t);
-bool updata_UserLasttime (int uid , string s);  //更改在线时间
-bool updata_UserUUlevel  (int uidA , int uidB , int newlevel);  //更改关系
+    /* 查询 */
+    static DAL_User_Base   get_user_base  (int uid); //通过uid查表
+    static DAL_User_Extra  get_user_extra (int uid);
+    static DAL_User_Social get_user_social(int uid);
 
-//关系说明
-//两人公用一个关系连接
-//无记录 - 陌生人
-//1 1 1 1
-//8：a关注b 
-//4：b关注a
-//2：a拉黑b
-//1: b拉黑a
+    // id 为-1 表示查询失败
+    // id 正常 relation 为0 表示没有关系
+    // 要求a < b 
+    static DAL_UU_relation get_uulevel    (int uidA , int uidB); //查询用户关系
+
+    static int get_userid_fromUsernum  (string Usernum  );//Usernum  to uid
+    static int get_userid_fromTel      (string Tel      );//Tel      to uid
+    static int get_userid_fromUsername (string Username );//Username to uid
+
+    static string get_UserLasttime (int uid);  //查询上一次在线时间
+    static string get_UserSalt     (int uid);  //查询密码和盐
+    static string get_UserPasswd   (int uid);  
+    static int getnextuid();//获取下一次的uid
+
+    static string get_UUrelation  (int uid);
+
+    /* 创建 */
+    static bool AddUser_t1    (DAL_User_Base t1);//要求完整
+    static bool AddUser_t2    (DAL_User_Social t2);//要求完整
+    static bool AddUser_t3    (DAL_User_Extra t3);//要求完整
+    static bool AddUUlevel (DAL_UU_relation uulevel);
+
+    /* 删除 */
+    static bool DelUser(int uid);
+    static bool DelUser_t1(int uid);
+    static bool DelUser_t2(int uid);
+    static bool DelUser_t3(int uid);
+    static bool DelUUlevel (int uidA , int uidB);
+
+
+    /* 更改 */
+    static bool updata_user_base    (int uid , DAL_User_Base   t); //整表更改
+    static bool updata_user_extra   (int uid , DAL_User_Extra  t);
+    static bool updata_user_social  (int uid , DAL_User_Social t);
+    static bool updata_UserLasttime (int uid , string s);  //更改在线时间
+    static bool updata_UserUUlevel  (int uidA , int uidB , int newlevel);  //更改关系
+
+    //关系说明
+    //两人公用一个关系连接
+    //无记录 - 陌生人
+    //1 1 1 1
+    //8：a关注b 
+    //4：b关注a
+    //2：a拉黑b
+    //1: b拉黑a
+public: 
+    static DB_MYSQL DB_mysql;
+};

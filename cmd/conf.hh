@@ -2,6 +2,7 @@
 #pragma once
 
 //http服务器
+#include <string>
 #define HTTP_IP "127.0.0.1"
 #define HTTP_PORT 8080
 #define HTTP_REQ_BUFFER_SIZE 102400
@@ -58,6 +59,16 @@
 
 #define USER_DAL_ERR             502
 
+#define ROOM_ACTION_OK           200
+#define ROOM_LOWACLevel          403
+#define ROOM_TIMEOUT_JWT         405
+#define ROOM_ERR_REQINFO         406
+#define ROOM_NoSuchRoomInfo      407
+#define ROOM_Create_Havethisnum  409
+#define ROOM_JOINROOM_ERRPASSWD  410
+#define ROOM_Changepos_Havepeo   412
+#define ROOM_DAL_ERR             502
+
 
 //线程池的参数
 #define THREAD_POOL_MAXTHREADNUM (100)
@@ -113,6 +124,35 @@ const int User_ModifyExInfo_SendInfo_TypeId    = 345;
 const int User_ModifyExInfo_RecvInfo_TypeId    = 346;
 
 
+const int Room_GetBaseInfo_RecvInfo_TypeId      = 401;   
+const int Room_GetBaseInfo_SendInfo_TypeId      = 402;   
+const int Room_GetExInfo_RecvInfo_TypeId        = 403;
+const int Room_GetExInfo_SendInfo_TypeId        = 404;
+const int Room_GetURrelation_RecvInfo_TypeId    = 405; 
+const int Room_GetURrelation_SendInfo_TypeId    = 406;  
+const int Room_Create_RecvInfo_TypeId           = 407; 
+const int Room_Create_SendInfo_TypeId           = 408;  
+const int Room_Joinroom_RecvInfo_TypeId         = 409; 
+const int Room_Joinroom_SendInfo_TypeId         = 410;   
+const int Room_Exitroom_RecvInfo_TypeId         = 411;   
+const int Room_Exitroom_SendInfo_TypeId         = 412;
+const int Room_ChangePasswd_RecvInfo_TypeId     = 413;  
+const int Room_ChangePasswd_SendInfo_TypeId     = 414;  
+const int Room_ChangeExtraInfo_RecvInfo_TypeId  = 415;                
+const int Room_ChangeExtraInfo_SendInfo_TypeId  = 416;                              
+const int Room_ChangeDebatePos_RecvInfo_TypeId  = 417; 
+const int Room_ChangeDebatePos_SendInfo_TypeId  = 418; 
+        
+         
+         
+       
+       
+              
+               
+          
+             
+   
+
 //时间
 const int time_hour   = 60*60;
 const int time_minute = 60   ;
@@ -125,21 +165,27 @@ const int refresh_jwt_time =  2*time_hour  ;
 // 2. 盐是            base64 + sha256 的存入数据库
 // 3. 数据库中的密码 是上述两个相加 之后 sha256 存入数据库
 //数据库
-const int No_such_uid     = -1;
-const int No_such_usernum = -2;
-const int No_such_tel     = -3;
-const int No_such_username= -4;
+
+const int INT_DEFAULT = -1;
+const std::string STR_DEFAULT = "";
 
 //Access level -- uu 用户关系 
 enum AC_Level_uu{
-    level_never    =  0,
-    level_self     =  1,
-    level_friend   =  3,
-    level_follow   =  6,
-    level_stranger =  9,
-    level_black    =  12
+    level_never_uu    =  0,
+    level_self_uu     =  1,
+    level_friend_uu   =  3,
+    level_follow_uu   =  6,
+    level_stranger_uu =  9,
+    level_black_uu    =  12
 };
 
+enum AC_Level_ur{
+    level_never_ur       =  0,
+    level_root_ur        =  1,
+    level_inroom_ur      =  3,
+    level_notinroom_ur   =  4,
+    level_black_ur       =  9
+};
 //Access level -- ur 
 // enum Jwt_Level_ur{
 //     level_self     =  0,

@@ -73,7 +73,7 @@ struct Room_Create_SendInfo {
   1:i32 type,
   2:string jwt_token,
   3:i32 sendtime,
-  4:i32 Roomnum,
+  4:string Roomnum,
   5:i32 Islocking,
   6:string Roomname,
   7:string passwd,
@@ -92,7 +92,8 @@ struct Room_Joinroom_SendInfo {
   2:string jwt_token,
   3:i32 sendtime,
   4:string roomnum,
-  5:i32 Debate_pos
+  5:i32 Debate_pos,
+  6:string passwd
 }
 struct Room_Joinroom_RecvInfo {
   1:i32 type,
@@ -117,8 +118,9 @@ struct Room_ChangePasswd_SendInfo {
   1:i32 type,
   2:string jwt_token,
   3:i32 sendtime,
-  4:string Opasswd,
-  5:string Npasswd
+  4:string roomnum,
+  5:string Opasswd,
+  6:string Npasswd
 }
 struct Room_ChangePasswd_RecvInfo {
   1:i32 type,
@@ -130,7 +132,7 @@ struct Room_ChangeExtraInfo_SendInfo {
   1:i32 type,
   2:string jwt_token,
   3:i32 sendtime,
-  4:i32 roomnum,
+  4:string roomnum,
   5:string info
 }
 struct Room_ChangeExtraInfo_RecvInfo {

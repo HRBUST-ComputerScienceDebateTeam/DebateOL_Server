@@ -490,7 +490,7 @@ class Room_Create_SendInfo : public virtual ::apache::thrift::TBase {
                        : type(0),
                          jwt_token(),
                          sendtime(0),
-                         Roomnum(0),
+                         Roomnum(),
                          Islocking(0),
                          Roomname(),
                          passwd(),
@@ -501,7 +501,7 @@ class Room_Create_SendInfo : public virtual ::apache::thrift::TBase {
   int32_t type;
   std::string jwt_token;
   int32_t sendtime;
-  int32_t Roomnum;
+  std::string Roomnum;
   int32_t Islocking;
   std::string Roomname;
   std::string passwd;
@@ -515,7 +515,7 @@ class Room_Create_SendInfo : public virtual ::apache::thrift::TBase {
 
   void __set_sendtime(const int32_t val);
 
-  void __set_Roomnum(const int32_t val);
+  void __set_Roomnum(const std::string& val);
 
   void __set_Islocking(const int32_t val);
 
@@ -619,12 +619,13 @@ void swap(Room_Create_RecvInfo &a, Room_Create_RecvInfo &b);
 std::ostream& operator<<(std::ostream& out, const Room_Create_RecvInfo& obj);
 
 typedef struct _Room_Joinroom_SendInfo__isset {
-  _Room_Joinroom_SendInfo__isset() : type(false), jwt_token(false), sendtime(false), roomnum(false), Debate_pos(false) {}
+  _Room_Joinroom_SendInfo__isset() : type(false), jwt_token(false), sendtime(false), roomnum(false), Debate_pos(false), passwd(false) {}
   bool type :1;
   bool jwt_token :1;
   bool sendtime :1;
   bool roomnum :1;
   bool Debate_pos :1;
+  bool passwd :1;
 } _Room_Joinroom_SendInfo__isset;
 
 class Room_Joinroom_SendInfo : public virtual ::apache::thrift::TBase {
@@ -637,7 +638,8 @@ class Room_Joinroom_SendInfo : public virtual ::apache::thrift::TBase {
                            jwt_token(),
                            sendtime(0),
                            roomnum(),
-                           Debate_pos(0) {
+                           Debate_pos(0),
+                           passwd() {
   }
 
   virtual ~Room_Joinroom_SendInfo() noexcept;
@@ -646,6 +648,7 @@ class Room_Joinroom_SendInfo : public virtual ::apache::thrift::TBase {
   int32_t sendtime;
   std::string roomnum;
   int32_t Debate_pos;
+  std::string passwd;
 
   _Room_Joinroom_SendInfo__isset __isset;
 
@@ -659,6 +662,8 @@ class Room_Joinroom_SendInfo : public virtual ::apache::thrift::TBase {
 
   void __set_Debate_pos(const int32_t val);
 
+  void __set_passwd(const std::string& val);
+
   bool operator == (const Room_Joinroom_SendInfo & rhs) const
   {
     if (!(type == rhs.type))
@@ -670,6 +675,8 @@ class Room_Joinroom_SendInfo : public virtual ::apache::thrift::TBase {
     if (!(roomnum == rhs.roomnum))
       return false;
     if (!(Debate_pos == rhs.Debate_pos))
+      return false;
+    if (!(passwd == rhs.passwd))
       return false;
     return true;
   }
@@ -868,10 +875,11 @@ void swap(Room_Exitroom_RecvInfo &a, Room_Exitroom_RecvInfo &b);
 std::ostream& operator<<(std::ostream& out, const Room_Exitroom_RecvInfo& obj);
 
 typedef struct _Room_ChangePasswd_SendInfo__isset {
-  _Room_ChangePasswd_SendInfo__isset() : type(false), jwt_token(false), sendtime(false), Opasswd(false), Npasswd(false) {}
+  _Room_ChangePasswd_SendInfo__isset() : type(false), jwt_token(false), sendtime(false), roomnum(false), Opasswd(false), Npasswd(false) {}
   bool type :1;
   bool jwt_token :1;
   bool sendtime :1;
+  bool roomnum :1;
   bool Opasswd :1;
   bool Npasswd :1;
 } _Room_ChangePasswd_SendInfo__isset;
@@ -885,6 +893,7 @@ class Room_ChangePasswd_SendInfo : public virtual ::apache::thrift::TBase {
                              : type(0),
                                jwt_token(),
                                sendtime(0),
+                               roomnum(),
                                Opasswd(),
                                Npasswd() {
   }
@@ -893,6 +902,7 @@ class Room_ChangePasswd_SendInfo : public virtual ::apache::thrift::TBase {
   int32_t type;
   std::string jwt_token;
   int32_t sendtime;
+  std::string roomnum;
   std::string Opasswd;
   std::string Npasswd;
 
@@ -903,6 +913,8 @@ class Room_ChangePasswd_SendInfo : public virtual ::apache::thrift::TBase {
   void __set_jwt_token(const std::string& val);
 
   void __set_sendtime(const int32_t val);
+
+  void __set_roomnum(const std::string& val);
 
   void __set_Opasswd(const std::string& val);
 
@@ -915,6 +927,8 @@ class Room_ChangePasswd_SendInfo : public virtual ::apache::thrift::TBase {
     if (!(jwt_token == rhs.jwt_token))
       return false;
     if (!(sendtime == rhs.sendtime))
+      return false;
+    if (!(roomnum == rhs.roomnum))
       return false;
     if (!(Opasswd == rhs.Opasswd))
       return false;
@@ -1013,7 +1027,7 @@ class Room_ChangeExtraInfo_SendInfo : public virtual ::apache::thrift::TBase {
                                 : type(0),
                                   jwt_token(),
                                   sendtime(0),
-                                  roomnum(0),
+                                  roomnum(),
                                   info() {
   }
 
@@ -1021,7 +1035,7 @@ class Room_ChangeExtraInfo_SendInfo : public virtual ::apache::thrift::TBase {
   int32_t type;
   std::string jwt_token;
   int32_t sendtime;
-  int32_t roomnum;
+  std::string roomnum;
   std::string info;
 
   _Room_ChangeExtraInfo_SendInfo__isset __isset;
@@ -1032,7 +1046,7 @@ class Room_ChangeExtraInfo_SendInfo : public virtual ::apache::thrift::TBase {
 
   void __set_sendtime(const int32_t val);
 
-  void __set_roomnum(const int32_t val);
+  void __set_roomnum(const std::string& val);
 
   void __set_info(const std::string& val);
 
