@@ -515,7 +515,7 @@ class UserHandler : virtual public UserIf {
     t1.Salt           = sha256(Base64Encode(to_string(rand())));
     t1.Passwd         = sha256(info.passwd + t1.Salt); 
     t1.Tel = info.tel;
-    AddUser(t1);
+    AddUser_t1(t1);
     _return.status = USER_ACTION_OK;
     _return.sendtime = info.sendtime;
     _return.type = User_Reg_RecvInfo_TypeId;
