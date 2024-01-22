@@ -317,7 +317,7 @@ class RoomHandler : virtual public RoomIf {
     //对比密码
     //取盐 取密码
     DAL_Room_Base rb = DB_MYSQL_OFROOM::get_Room_base(roomid);
-    if(sha256(info.Opasswd+ rb.Salt) != rb.Passwd){
+    if(sha256(Base64Decode(info.Opasswd)+ rb.Salt) != rb.Passwd){
       //不正确
       _return.status = ROOM_JOINROOM_ERRPASSWD; 
       _return.sendtime = info.sendtime;
@@ -326,7 +326,7 @@ class RoomHandler : virtual public RoomIf {
     }
     //新的密码
     DAL_Room_Base t;
-    t.Passwd = sha256(info.Opasswd+ rb.Salt);
+    t.Passwd = sha256(Base64Decode(info.Opasswd)+ rb.Salt);
     bool err = DB_MYSQL_OFROOM::updata_Room_base(roomid,  t);
     if(!err){
       _return.sendtime = info.sendtime;
@@ -485,7 +485,7 @@ class RoomHandler : virtual public RoomIf {
     //对比密码
     //取盐 取密码
     DAL_Room_Base rb = DB_MYSQL_OFROOM::get_Room_base(roomid);
-    if(sha256(info.passwd + rb.Salt) != rb.Passwd){
+    if(sha256(Base64Decode(info.passwd )+ rb.Salt) != rb.Passwd){
       //不正确
       _return.status = ROOM_JOINROOM_ERRPASSWD; 
       _return.sendtime = info.sendtime;
@@ -583,7 +583,7 @@ class RoomHandler : virtual public RoomIf {
     if(info.Islocking == false)
       t1.Passwd = "";
     else 
-      t1.Passwd = info.passwd;
+      t1.Passwd = Base64Decode(info.passwd);
     t1.Salt = sha256(Base64Encode(to_string(rand())));
 
     t2.Roomid = roomid;

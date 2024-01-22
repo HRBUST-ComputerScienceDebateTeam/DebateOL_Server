@@ -109,7 +109,7 @@ struct User_login_RecvInfo {
 struct User_logoff_SendInfo {
   1:i32 type,
   2:string jwt_token,
-  3:i32 sendtime,
+  3:i32 sendtime
 }
 struct User_logoff_RecvInfo {
   1:i32 type,

@@ -411,16 +411,6 @@ class UserHandler : virtual public UserIf {
   }
 
   void User_login_Tel(User_login_RecvInfo& _return, const User_login_Tel_SendInfo& info) {
-    //TODO : tmp mock
-
-    time_t timenow;
-    time(&timenow);
-    _return.status = USER_ACTION_OK;
-    _return.type = User_Login_RecvInfo_TypeId;
-    _return.jwt_token = JWT_token::jwt_create(jwt_secret, "root", "32",to_string(timenow) , to_string(timenow + jwt_time));
-    _return.refresh_jwt_token = JWT_token::jwt_create(jwt_secret, "root", "32",to_string(timenow) , to_string(timenow + refresh_jwt_time));
-    _return.sendtime = info.sendtime;
-    return;
 
     //检测各个字段的合法性
     //正则匹配
@@ -447,7 +437,7 @@ class UserHandler : virtual public UserIf {
     string truesalt   = DB_MYSQL_OFUSER::get_UserSalt(uid);
     
     //密码核对
-    if(sha256(info.passwd + truesalt) == truepasswd){
+    if(sha256(Base64Decode(info.passwd) + truesalt) == truepasswd){
       //成功
       time_t timnow;
       time(&timnow);
@@ -467,6 +457,7 @@ class UserHandler : virtual public UserIf {
       _return.sendtime          = info.sendtime;
       _return.jwt_token         = JWT_token::jwt_create(jwt_secret,"ljy",to_string(uid), to_string((int64_t)timnow),to_string((int64_t)timnow + jwt_time) );
       _return.refresh_jwt_token = JWT_token::jwt_create(jwt_secret,"ljy",to_string(uid), to_string((int64_t)timnow),to_string((int64_t)timnow + refresh_jwt_time) );
+      printf("[→]User_login_Tel Success  Userid: %d !\n" , uid);
       return;
     }else{
       _return.status            = USER_LOGIN_ERRINFO;
@@ -474,7 +465,7 @@ class UserHandler : virtual public UserIf {
       _return.sendtime = info.sendtime;
       return;
     }
-    printf("User_login_Tel Success!\n");
+    
   }
 
   void User_reg(User_reg_RecvInfo& _return, const User_reg_SendInfo& info) {
@@ -528,13 +519,13 @@ class UserHandler : virtual public UserIf {
     t1.UserRegtime    = to_string((int64_t)timenow);
     t1.UserLasttime   = to_string((int64_t)timenow);
     t1.Salt           = sha256(Base64Encode(to_string(rand())));
-    t1.Passwd         = sha256(info.passwd + t1.Salt); 
+    t1.Passwd         = sha256(Base64Decode(info.passwd) + t1.Salt); 
     t1.Tel = info.tel;
     DB_MYSQL_OFUSER::AddUser_t1(t1);
     _return.status = USER_ACTION_OK;
     _return.sendtime = info.sendtime;
     _return.type = User_Reg_RecvInfo_TypeId;
-    printf("User_reg Success!\n");
+    printf("[+]User_reg Success  Userid: %d !\n" , t1.Userid);
   }
 
   void User_logoff(User_logoff_RecvInfo& _return, const User_logoff_SendInfo& info) {
@@ -551,15 +542,15 @@ class UserHandler : virtual public UserIf {
       return;
     }
 
-    //检查超时 - 超时返回超时
-    if(JWT_token::jwt_check_time(info.jwt_token) == JWT_TIMEOUT){
-      //丢掉
-      cout << "UserServer : 超时的jwt" <<endl;
-      _return.type = User_logoff_RecvInfo_TypeId;
-      _return.sendtime = info.sendtime;
-      _return.status = USER_TIMEOUT_JWT;
-      return;
-    }
+    //检查超时 - 超时返回超时 // 下线请求受理超时请求
+    // if(JWT_token::jwt_check_time(info.jwt_token) == JWT_TIMEOUT){
+    //   //丢掉
+    //   cout << "UserServer : 超时的jwt" <<endl;
+    //   _return.type = User_logoff_RecvInfo_TypeId;
+    //   _return.sendtime = info.sendtime;
+    //   _return.status = USER_TIMEOUT_JWT;
+    //   return;
+    // }
 
 
     /* 第二步 处理逻辑 */
@@ -589,7 +580,7 @@ class UserHandler : virtual public UserIf {
     _return.status = USER_ACTION_OK;
     _return.sendtime = info.sendtime;
 
-    printf("User_logoff Success\n");
+    printf("[←]User_logoff Success  Userid: %d !\n" , uid);
   }
 
   void User_refresh_jwt1(User_refresh_jwt1_RecvInfo& _return, const User_refresh_jwt1_SendInfo& info) {

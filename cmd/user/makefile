@@ -18,7 +18,7 @@ Conf_path    = $(CMD_path)
 CC           = CC
 CPP          = g++
 CFlag        = -g -Wall -std=c++11
-Libflag      = -lssl -lpthread -lcrypto -lthrift
+Libflag      = -lssl -lpthread -lcrypto -lthrift -lmysqlclient
 
 #pkg
 Top_path  = ../../
@@ -46,7 +46,7 @@ ALLLIB   = 	-I$(Ser_path)\
 
 
 #行为
-$(SmallName)_server: $(server_cpp) $(PKG_FILE) $(dalfiles)
+$(SmallName)_server: $(server_cpp) $(PKG_FILE) $(dalfiles) 
 	$(CPP) $(CFlag)  $(ALLLIB) $^ -o ./$(SmallName)_server $(Libflag)
 
 $(SmallName)_client: $(client_cpp)

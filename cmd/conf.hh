@@ -161,7 +161,7 @@ const int jwt_time         = 10*time_minute;
 const int refresh_jwt_time =  2*time_hour  ;
 
 //密码加密：
-// 1. 登陆申请提交的是 base64 + sha256 的passwd
+// 1. 登陆申请提交的是 base64 + sha256 又base64 的passwd
 // 2. 盐是            base64 + sha256 的存入数据库
 // 3. 数据库中的密码 是上述两个相加 之后 sha256 存入数据库
 //数据库
