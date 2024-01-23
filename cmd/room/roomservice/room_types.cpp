@@ -1253,6 +1253,10 @@ void Room_Create_RecvInfo::__set_sendtime(const int32_t val) {
 void Room_Create_RecvInfo::__set_status(const int32_t val) {
   this->status = val;
 }
+
+void Room_Create_RecvInfo::__set_info(const std::string& val) {
+  this->info = val;
+}
 std::ostream& operator<<(std::ostream& out, const Room_Create_RecvInfo& obj)
 {
   obj.printTo(out);
@@ -1305,6 +1309,14 @@ uint32_t Room_Create_RecvInfo::read(::apache::thrift::protocol::TProtocol* iprot
           xfer += iprot->skip(ftype);
         }
         break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->info);
+          this->__isset.info = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -1334,6 +1346,10 @@ uint32_t Room_Create_RecvInfo::write(::apache::thrift::protocol::TProtocol* opro
   xfer += oprot->writeI32(this->status);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("info", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeString(this->info);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -1344,19 +1360,22 @@ void swap(Room_Create_RecvInfo &a, Room_Create_RecvInfo &b) {
   swap(a.type, b.type);
   swap(a.sendtime, b.sendtime);
   swap(a.status, b.status);
+  swap(a.info, b.info);
   swap(a.__isset, b.__isset);
 }
 
-Room_Create_RecvInfo::Room_Create_RecvInfo(const Room_Create_RecvInfo& other14) noexcept {
+Room_Create_RecvInfo::Room_Create_RecvInfo(const Room_Create_RecvInfo& other14) {
   type = other14.type;
   sendtime = other14.sendtime;
   status = other14.status;
+  info = other14.info;
   __isset = other14.__isset;
 }
-Room_Create_RecvInfo& Room_Create_RecvInfo::operator=(const Room_Create_RecvInfo& other15) noexcept {
+Room_Create_RecvInfo& Room_Create_RecvInfo::operator=(const Room_Create_RecvInfo& other15) {
   type = other15.type;
   sendtime = other15.sendtime;
   status = other15.status;
+  info = other15.info;
   __isset = other15.__isset;
   return *this;
 }
@@ -1366,6 +1385,7 @@ void Room_Create_RecvInfo::printTo(std::ostream& out) const {
   out << "type=" << to_string(type);
   out << ", " << "sendtime=" << to_string(sendtime);
   out << ", " << "status=" << to_string(status);
+  out << ", " << "info=" << to_string(info);
   out << ")";
 }
 
@@ -1577,6 +1597,10 @@ void Room_Joinroom_RecvInfo::__set_sendtime(const int32_t val) {
 void Room_Joinroom_RecvInfo::__set_status(const int32_t val) {
   this->status = val;
 }
+
+void Room_Joinroom_RecvInfo::__set_info(const std::string& val) {
+  this->info = val;
+}
 std::ostream& operator<<(std::ostream& out, const Room_Joinroom_RecvInfo& obj)
 {
   obj.printTo(out);
@@ -1629,6 +1653,14 @@ uint32_t Room_Joinroom_RecvInfo::read(::apache::thrift::protocol::TProtocol* ipr
           xfer += iprot->skip(ftype);
         }
         break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->info);
+          this->__isset.info = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -1658,6 +1690,10 @@ uint32_t Room_Joinroom_RecvInfo::write(::apache::thrift::protocol::TProtocol* op
   xfer += oprot->writeI32(this->status);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("info", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeString(this->info);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -1668,19 +1704,22 @@ void swap(Room_Joinroom_RecvInfo &a, Room_Joinroom_RecvInfo &b) {
   swap(a.type, b.type);
   swap(a.sendtime, b.sendtime);
   swap(a.status, b.status);
+  swap(a.info, b.info);
   swap(a.__isset, b.__isset);
 }
 
-Room_Joinroom_RecvInfo::Room_Joinroom_RecvInfo(const Room_Joinroom_RecvInfo& other18) noexcept {
+Room_Joinroom_RecvInfo::Room_Joinroom_RecvInfo(const Room_Joinroom_RecvInfo& other18) {
   type = other18.type;
   sendtime = other18.sendtime;
   status = other18.status;
+  info = other18.info;
   __isset = other18.__isset;
 }
-Room_Joinroom_RecvInfo& Room_Joinroom_RecvInfo::operator=(const Room_Joinroom_RecvInfo& other19) noexcept {
+Room_Joinroom_RecvInfo& Room_Joinroom_RecvInfo::operator=(const Room_Joinroom_RecvInfo& other19) {
   type = other19.type;
   sendtime = other19.sendtime;
   status = other19.status;
+  info = other19.info;
   __isset = other19.__isset;
   return *this;
 }
@@ -1690,6 +1729,7 @@ void Room_Joinroom_RecvInfo::printTo(std::ostream& out) const {
   out << "type=" << to_string(type);
   out << ", " << "sendtime=" << to_string(sendtime);
   out << ", " << "status=" << to_string(status);
+  out << ", " << "info=" << to_string(info);
   out << ")";
 }
 
@@ -1861,6 +1901,10 @@ void Room_Exitroom_RecvInfo::__set_sendtime(const int32_t val) {
 void Room_Exitroom_RecvInfo::__set_status(const int32_t val) {
   this->status = val;
 }
+
+void Room_Exitroom_RecvInfo::__set_info(const std::string& val) {
+  this->info = val;
+}
 std::ostream& operator<<(std::ostream& out, const Room_Exitroom_RecvInfo& obj)
 {
   obj.printTo(out);
@@ -1913,6 +1957,14 @@ uint32_t Room_Exitroom_RecvInfo::read(::apache::thrift::protocol::TProtocol* ipr
           xfer += iprot->skip(ftype);
         }
         break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->info);
+          this->__isset.info = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -1942,6 +1994,10 @@ uint32_t Room_Exitroom_RecvInfo::write(::apache::thrift::protocol::TProtocol* op
   xfer += oprot->writeI32(this->status);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("info", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeString(this->info);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -1952,19 +2008,22 @@ void swap(Room_Exitroom_RecvInfo &a, Room_Exitroom_RecvInfo &b) {
   swap(a.type, b.type);
   swap(a.sendtime, b.sendtime);
   swap(a.status, b.status);
+  swap(a.info, b.info);
   swap(a.__isset, b.__isset);
 }
 
-Room_Exitroom_RecvInfo::Room_Exitroom_RecvInfo(const Room_Exitroom_RecvInfo& other22) noexcept {
+Room_Exitroom_RecvInfo::Room_Exitroom_RecvInfo(const Room_Exitroom_RecvInfo& other22) {
   type = other22.type;
   sendtime = other22.sendtime;
   status = other22.status;
+  info = other22.info;
   __isset = other22.__isset;
 }
-Room_Exitroom_RecvInfo& Room_Exitroom_RecvInfo::operator=(const Room_Exitroom_RecvInfo& other23) noexcept {
+Room_Exitroom_RecvInfo& Room_Exitroom_RecvInfo::operator=(const Room_Exitroom_RecvInfo& other23) {
   type = other23.type;
   sendtime = other23.sendtime;
   status = other23.status;
+  info = other23.info;
   __isset = other23.__isset;
   return *this;
 }
@@ -1974,6 +2033,7 @@ void Room_Exitroom_RecvInfo::printTo(std::ostream& out) const {
   out << "type=" << to_string(type);
   out << ", " << "sendtime=" << to_string(sendtime);
   out << ", " << "status=" << to_string(status);
+  out << ", " << "info=" << to_string(info);
   out << ")";
 }
 
@@ -2185,6 +2245,10 @@ void Room_ChangePasswd_RecvInfo::__set_sendtime(const int32_t val) {
 void Room_ChangePasswd_RecvInfo::__set_status(const int32_t val) {
   this->status = val;
 }
+
+void Room_ChangePasswd_RecvInfo::__set_info(const std::string& val) {
+  this->info = val;
+}
 std::ostream& operator<<(std::ostream& out, const Room_ChangePasswd_RecvInfo& obj)
 {
   obj.printTo(out);
@@ -2237,6 +2301,14 @@ uint32_t Room_ChangePasswd_RecvInfo::read(::apache::thrift::protocol::TProtocol*
           xfer += iprot->skip(ftype);
         }
         break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->info);
+          this->__isset.info = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -2266,6 +2338,10 @@ uint32_t Room_ChangePasswd_RecvInfo::write(::apache::thrift::protocol::TProtocol
   xfer += oprot->writeI32(this->status);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("info", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeString(this->info);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -2276,19 +2352,22 @@ void swap(Room_ChangePasswd_RecvInfo &a, Room_ChangePasswd_RecvInfo &b) {
   swap(a.type, b.type);
   swap(a.sendtime, b.sendtime);
   swap(a.status, b.status);
+  swap(a.info, b.info);
   swap(a.__isset, b.__isset);
 }
 
-Room_ChangePasswd_RecvInfo::Room_ChangePasswd_RecvInfo(const Room_ChangePasswd_RecvInfo& other26) noexcept {
+Room_ChangePasswd_RecvInfo::Room_ChangePasswd_RecvInfo(const Room_ChangePasswd_RecvInfo& other26) {
   type = other26.type;
   sendtime = other26.sendtime;
   status = other26.status;
+  info = other26.info;
   __isset = other26.__isset;
 }
-Room_ChangePasswd_RecvInfo& Room_ChangePasswd_RecvInfo::operator=(const Room_ChangePasswd_RecvInfo& other27) noexcept {
+Room_ChangePasswd_RecvInfo& Room_ChangePasswd_RecvInfo::operator=(const Room_ChangePasswd_RecvInfo& other27) {
   type = other27.type;
   sendtime = other27.sendtime;
   status = other27.status;
+  info = other27.info;
   __isset = other27.__isset;
   return *this;
 }
@@ -2298,6 +2377,7 @@ void Room_ChangePasswd_RecvInfo::printTo(std::ostream& out) const {
   out << "type=" << to_string(type);
   out << ", " << "sendtime=" << to_string(sendtime);
   out << ", " << "status=" << to_string(status);
+  out << ", " << "info=" << to_string(info);
   out << ")";
 }
 
@@ -2489,6 +2569,10 @@ void Room_ChangeExtraInfo_RecvInfo::__set_sendtime(const int32_t val) {
 void Room_ChangeExtraInfo_RecvInfo::__set_status(const int32_t val) {
   this->status = val;
 }
+
+void Room_ChangeExtraInfo_RecvInfo::__set_info(const std::string& val) {
+  this->info = val;
+}
 std::ostream& operator<<(std::ostream& out, const Room_ChangeExtraInfo_RecvInfo& obj)
 {
   obj.printTo(out);
@@ -2541,6 +2625,14 @@ uint32_t Room_ChangeExtraInfo_RecvInfo::read(::apache::thrift::protocol::TProtoc
           xfer += iprot->skip(ftype);
         }
         break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->info);
+          this->__isset.info = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -2570,6 +2662,10 @@ uint32_t Room_ChangeExtraInfo_RecvInfo::write(::apache::thrift::protocol::TProto
   xfer += oprot->writeI32(this->status);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("info", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeString(this->info);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -2580,19 +2676,22 @@ void swap(Room_ChangeExtraInfo_RecvInfo &a, Room_ChangeExtraInfo_RecvInfo &b) {
   swap(a.type, b.type);
   swap(a.sendtime, b.sendtime);
   swap(a.status, b.status);
+  swap(a.info, b.info);
   swap(a.__isset, b.__isset);
 }
 
-Room_ChangeExtraInfo_RecvInfo::Room_ChangeExtraInfo_RecvInfo(const Room_ChangeExtraInfo_RecvInfo& other30) noexcept {
+Room_ChangeExtraInfo_RecvInfo::Room_ChangeExtraInfo_RecvInfo(const Room_ChangeExtraInfo_RecvInfo& other30) {
   type = other30.type;
   sendtime = other30.sendtime;
   status = other30.status;
+  info = other30.info;
   __isset = other30.__isset;
 }
-Room_ChangeExtraInfo_RecvInfo& Room_ChangeExtraInfo_RecvInfo::operator=(const Room_ChangeExtraInfo_RecvInfo& other31) noexcept {
+Room_ChangeExtraInfo_RecvInfo& Room_ChangeExtraInfo_RecvInfo::operator=(const Room_ChangeExtraInfo_RecvInfo& other31) {
   type = other31.type;
   sendtime = other31.sendtime;
   status = other31.status;
+  info = other31.info;
   __isset = other31.__isset;
   return *this;
 }
@@ -2602,6 +2701,7 @@ void Room_ChangeExtraInfo_RecvInfo::printTo(std::ostream& out) const {
   out << "type=" << to_string(type);
   out << ", " << "sendtime=" << to_string(sendtime);
   out << ", " << "status=" << to_string(status);
+  out << ", " << "info=" << to_string(info);
   out << ")";
 }
 
@@ -2773,6 +2873,10 @@ void Room_ChangeDebatePos_RecvInfo::__set_sendtime(const int32_t val) {
 void Room_ChangeDebatePos_RecvInfo::__set_status(const int32_t val) {
   this->status = val;
 }
+
+void Room_ChangeDebatePos_RecvInfo::__set_info(const std::string& val) {
+  this->info = val;
+}
 std::ostream& operator<<(std::ostream& out, const Room_ChangeDebatePos_RecvInfo& obj)
 {
   obj.printTo(out);
@@ -2825,6 +2929,14 @@ uint32_t Room_ChangeDebatePos_RecvInfo::read(::apache::thrift::protocol::TProtoc
           xfer += iprot->skip(ftype);
         }
         break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->info);
+          this->__isset.info = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -2854,6 +2966,10 @@ uint32_t Room_ChangeDebatePos_RecvInfo::write(::apache::thrift::protocol::TProto
   xfer += oprot->writeI32(this->status);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("info", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeString(this->info);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -2864,19 +2980,22 @@ void swap(Room_ChangeDebatePos_RecvInfo &a, Room_ChangeDebatePos_RecvInfo &b) {
   swap(a.type, b.type);
   swap(a.sendtime, b.sendtime);
   swap(a.status, b.status);
+  swap(a.info, b.info);
   swap(a.__isset, b.__isset);
 }
 
-Room_ChangeDebatePos_RecvInfo::Room_ChangeDebatePos_RecvInfo(const Room_ChangeDebatePos_RecvInfo& other34) noexcept {
+Room_ChangeDebatePos_RecvInfo::Room_ChangeDebatePos_RecvInfo(const Room_ChangeDebatePos_RecvInfo& other34) {
   type = other34.type;
   sendtime = other34.sendtime;
   status = other34.status;
+  info = other34.info;
   __isset = other34.__isset;
 }
-Room_ChangeDebatePos_RecvInfo& Room_ChangeDebatePos_RecvInfo::operator=(const Room_ChangeDebatePos_RecvInfo& other35) noexcept {
+Room_ChangeDebatePos_RecvInfo& Room_ChangeDebatePos_RecvInfo::operator=(const Room_ChangeDebatePos_RecvInfo& other35) {
   type = other35.type;
   sendtime = other35.sendtime;
   status = other35.status;
+  info = other35.info;
   __isset = other35.__isset;
   return *this;
 }
@@ -2886,6 +3005,7 @@ void Room_ChangeDebatePos_RecvInfo::printTo(std::ostream& out) const {
   out << "type=" << to_string(type);
   out << ", " << "sendtime=" << to_string(sendtime);
   out << ", " << "status=" << to_string(status);
+  out << ", " << "info=" << to_string(info);
   out << ")";
 }
 

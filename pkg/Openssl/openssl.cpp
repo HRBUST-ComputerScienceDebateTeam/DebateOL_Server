@@ -34,7 +34,8 @@ std::string Base64Encode(string data)
 std::string Base64Decode(std::string src)
 {
     string out;
-    size_t srcLen = src.size();
+    size_t srcLen = src.length();
+    if(srcLen == 0) return "" ;
     if (srcLen % 4 != 0)
     {
         return "";

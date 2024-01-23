@@ -146,8 +146,8 @@ typedef struct _Room_Room_ChangeDebatePos_result__isset {
 class Room_Room_ChangeDebatePos_result {
  public:
 
-  Room_Room_ChangeDebatePos_result(const Room_Room_ChangeDebatePos_result&) noexcept;
-  Room_Room_ChangeDebatePos_result& operator=(const Room_Room_ChangeDebatePos_result&) noexcept;
+  Room_Room_ChangeDebatePos_result(const Room_Room_ChangeDebatePos_result&);
+  Room_Room_ChangeDebatePos_result& operator=(const Room_Room_ChangeDebatePos_result&);
   Room_Room_ChangeDebatePos_result() noexcept {
   }
 
@@ -250,8 +250,8 @@ typedef struct _Room_Room_ChangeExtraInfo_result__isset {
 class Room_Room_ChangeExtraInfo_result {
  public:
 
-  Room_Room_ChangeExtraInfo_result(const Room_Room_ChangeExtraInfo_result&) noexcept;
-  Room_Room_ChangeExtraInfo_result& operator=(const Room_Room_ChangeExtraInfo_result&) noexcept;
+  Room_Room_ChangeExtraInfo_result(const Room_Room_ChangeExtraInfo_result&);
+  Room_Room_ChangeExtraInfo_result& operator=(const Room_Room_ChangeExtraInfo_result&);
   Room_Room_ChangeExtraInfo_result() noexcept {
   }
 
@@ -354,8 +354,8 @@ typedef struct _Room_Room_ChangePasswd_result__isset {
 class Room_Room_ChangePasswd_result {
  public:
 
-  Room_Room_ChangePasswd_result(const Room_Room_ChangePasswd_result&) noexcept;
-  Room_Room_ChangePasswd_result& operator=(const Room_Room_ChangePasswd_result&) noexcept;
+  Room_Room_ChangePasswd_result(const Room_Room_ChangePasswd_result&);
+  Room_Room_ChangePasswd_result& operator=(const Room_Room_ChangePasswd_result&);
   Room_Room_ChangePasswd_result() noexcept {
   }
 
@@ -458,8 +458,8 @@ typedef struct _Room_Room_Exitroom_result__isset {
 class Room_Room_Exitroom_result {
  public:
 
-  Room_Room_Exitroom_result(const Room_Room_Exitroom_result&) noexcept;
-  Room_Room_Exitroom_result& operator=(const Room_Room_Exitroom_result&) noexcept;
+  Room_Room_Exitroom_result(const Room_Room_Exitroom_result&);
+  Room_Room_Exitroom_result& operator=(const Room_Room_Exitroom_result&);
   Room_Room_Exitroom_result() noexcept {
   }
 
@@ -562,8 +562,8 @@ typedef struct _Room_Room_Joinroom_result__isset {
 class Room_Room_Joinroom_result {
  public:
 
-  Room_Room_Joinroom_result(const Room_Room_Joinroom_result&) noexcept;
-  Room_Room_Joinroom_result& operator=(const Room_Room_Joinroom_result&) noexcept;
+  Room_Room_Joinroom_result(const Room_Room_Joinroom_result&);
+  Room_Room_Joinroom_result& operator=(const Room_Room_Joinroom_result&);
   Room_Room_Joinroom_result() noexcept {
   }
 
@@ -666,8 +666,8 @@ typedef struct _Room_Room_Create_result__isset {
 class Room_Room_Create_result {
  public:
 
-  Room_Room_Create_result(const Room_Room_Create_result&) noexcept;
-  Room_Room_Create_result& operator=(const Room_Room_Create_result&) noexcept;
+  Room_Room_Create_result(const Room_Room_Create_result&);
+  Room_Room_Create_result& operator=(const Room_Room_Create_result&);
   Room_Room_Create_result() noexcept {
   }
 

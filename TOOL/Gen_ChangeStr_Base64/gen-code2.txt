@@ -1,157 +1,108 @@
-User_GetBaseInfo_SendInfo ChangeStr_encodebase64(User_GetBaseInfo_SendInfo & x){
+Room_GetBaseInfo_SendInfo ChangeStr_encodebase64(Room_GetBaseInfo_SendInfo & x){
 	x.jwt_token = Base64Encode(x.jwt_token);
-	x.Aim_usernum = Base64Encode(x.Aim_usernum);
+	x.Aim_Roomnum = Base64Encode(x.Aim_Roomnum);
 	x.info = Base64Encode(x.info);
 	return x;
 }
 
-User_GetBaseInfo_RecvInfo ChangeStr_encodebase64(User_GetBaseInfo_RecvInfo & x){
+Room_GetBaseInfo_RecvInfo ChangeStr_encodebase64(Room_GetBaseInfo_RecvInfo & x){
 	x.info = Base64Encode(x.info);
 	return x;
 }
 
-User_GetSocialInfo_SendInfo ChangeStr_encodebase64(User_GetSocialInfo_SendInfo & x){
+Room_GetExInfo_SendInfo ChangeStr_encodebase64(Room_GetExInfo_SendInfo & x){
 	x.jwt_token = Base64Encode(x.jwt_token);
-	x.Aim_usernum = Base64Encode(x.Aim_usernum);
+	x.Aim_Roomnum = Base64Encode(x.Aim_Roomnum);
 	x.info = Base64Encode(x.info);
 	return x;
 }
 
-User_GetSocialInfo_RecvInfo ChangeStr_encodebase64(User_GetSocialInfo_RecvInfo & x){
+Room_GetExInfo_RecvInfo ChangeStr_encodebase64(Room_GetExInfo_RecvInfo & x){
 	x.info = Base64Encode(x.info);
 	return x;
 }
 
-User_GetExInfo_SendInfo ChangeStr_encodebase64(User_GetExInfo_SendInfo & x){
+Room_GetURrelation_SendInfo ChangeStr_encodebase64(Room_GetURrelation_SendInfo & x){
 	x.jwt_token = Base64Encode(x.jwt_token);
-	x.Aim_usernum = Base64Encode(x.Aim_usernum);
+	x.Aim_Roomnum = Base64Encode(x.Aim_Roomnum);
 	x.info = Base64Encode(x.info);
 	return x;
 }
 
-User_GetExInfo_RecvInfo ChangeStr_encodebase64(User_GetExInfo_RecvInfo & x){
-	x.info = Base64Encode(x.info);
+Room_GetURrelation_RecvInfo ChangeStr_encodebase64(Room_GetURrelation_RecvInfo & x){
+	x.info_UR_pos = Base64Encode(x.info_UR_pos);
+	x.info_UR_per = Base64Encode(x.info_UR_per);
 	return x;
 }
 
-User_reg_SendInfo ChangeStr_encodebase64(User_reg_SendInfo & x){
-	x.tel = Base64Encode(x.tel);
-	x.usernum = Base64Encode(x.usernum);
+Room_Create_SendInfo ChangeStr_encodebase64(Room_Create_SendInfo & x){
+	x.jwt_token = Base64Encode(x.jwt_token);
+	x.Roomnum = Base64Encode(x.Roomnum);
+	x.Roomname = Base64Encode(x.Roomname);
 	x.passwd = Base64Encode(x.passwd);
 	return x;
 }
 
-User_reg_RecvInfo ChangeStr_encodebase64(User_reg_RecvInfo & x){
+Room_Create_RecvInfo ChangeStr_encodebase64(Room_Create_RecvInfo & x){
+	x.info = Base64Encode(x.info);
 	return x;
 }
 
-User_login_Tel_SendInfo ChangeStr_encodebase64(User_login_Tel_SendInfo & x){
-	x.tel = Base64Encode(x.tel);
+Room_Joinroom_SendInfo ChangeStr_encodebase64(Room_Joinroom_SendInfo & x){
+	x.jwt_token = Base64Encode(x.jwt_token);
+	x.roomnum = Base64Encode(x.roomnum);
 	x.passwd = Base64Encode(x.passwd);
 	return x;
 }
 
-User_login_num_SendInfo ChangeStr_encodebase64(User_login_num_SendInfo & x){
-	x.usernum = Base64Encode(x.usernum);
-	x.passwd = Base64Encode(x.passwd);
-	return x;
-}
-
-User_login_RecvInfo ChangeStr_encodebase64(User_login_RecvInfo & x){
-	x.jwt_token = Base64Encode(x.jwt_token);
-	x.refresh_jwt_token = Base64Encode(x.refresh_jwt_token);
-	return x;
-}
-
-User_logoff_SendInfo ChangeStr_encodebase64(User_logoff_SendInfo & x){
-	x.jwt_token = Base64Encode(x.jwt_token);
-	return x;
-}
-
-User_logoff_RecvInfo ChangeStr_encodebase64(User_logoff_RecvInfo & x){
-	return x;
-}
-
-User_refresh_jwt1_SendInfo ChangeStr_encodebase64(User_refresh_jwt1_SendInfo & x){
-	x.jwt_token = Base64Encode(x.jwt_token);
-	x.refresh_jwt_token = Base64Encode(x.refresh_jwt_token);
-	return x;
-}
-
-User_refresh_jwt1_RecvInfo ChangeStr_encodebase64(User_refresh_jwt1_RecvInfo & x){
-	x.jwt_token = Base64Encode(x.jwt_token);
-	return x;
-}
-
-User_refresh_jwt2_SendInfo ChangeStr_encodebase64(User_refresh_jwt2_SendInfo & x){
-	x.jwt_token = Base64Encode(x.jwt_token);
-	x.refresh_jwt_token = Base64Encode(x.refresh_jwt_token);
-	return x;
-}
-
-User_refresh_jwt2_RecvInfo ChangeStr_encodebase64(User_refresh_jwt2_RecvInfo & x){
-	x.jwt_token = Base64Encode(x.jwt_token);
-	x.refresh_jwt_token = Base64Encode(x.refresh_jwt_token);
-	return x;
-}
-
-User_friend_SendInfo ChangeStr_encodebase64(User_friend_SendInfo & x){
-	x.jwt_token = Base64Encode(x.jwt_token);
-	return x;
-}
-
-User_friend_RecvInfo ChangeStr_encodebase64(User_friend_RecvInfo & x){
+Room_Joinroom_RecvInfo ChangeStr_encodebase64(Room_Joinroom_RecvInfo & x){
 	x.info = Base64Encode(x.info);
 	return x;
 }
 
-User_follow_SendInfo ChangeStr_encodebase64(User_follow_SendInfo & x){
+Room_Exitroom_SendInfo ChangeStr_encodebase64(Room_Exitroom_SendInfo & x){
 	x.jwt_token = Base64Encode(x.jwt_token);
+	x.roomnum = Base64Encode(x.roomnum);
 	return x;
 }
 
-User_follow_RecvInfo ChangeStr_encodebase64(User_follow_RecvInfo & x){
+Room_Exitroom_RecvInfo ChangeStr_encodebase64(Room_Exitroom_RecvInfo & x){
 	x.info = Base64Encode(x.info);
 	return x;
 }
 
-User_followed_SendInfo ChangeStr_encodebase64(User_followed_SendInfo & x){
+Room_ChangePasswd_SendInfo ChangeStr_encodebase64(Room_ChangePasswd_SendInfo & x){
 	x.jwt_token = Base64Encode(x.jwt_token);
+	x.roomnum = Base64Encode(x.roomnum);
+	x.Opasswd = Base64Encode(x.Opasswd);
+	x.Npasswd = Base64Encode(x.Npasswd);
 	return x;
 }
 
-User_followed_RecvInfo ChangeStr_encodebase64(User_followed_RecvInfo & x){
+Room_ChangePasswd_RecvInfo ChangeStr_encodebase64(Room_ChangePasswd_RecvInfo & x){
 	x.info = Base64Encode(x.info);
 	return x;
 }
 
-User_ModifyBaseInfo_SendInfo ChangeStr_encodebase64(User_ModifyBaseInfo_SendInfo & x){
+Room_ChangeExtraInfo_SendInfo ChangeStr_encodebase64(Room_ChangeExtraInfo_SendInfo & x){
 	x.jwt_token = Base64Encode(x.jwt_token);
-	x.modifyinfo = Base64Encode(x.modifyinfo);
+	x.roomnum = Base64Encode(x.roomnum);
+	x.info = Base64Encode(x.info);
 	return x;
 }
 
-User_ModifyBaseInfo_RecvInfo ChangeStr_encodebase64(User_ModifyBaseInfo_RecvInfo & x){
+Room_ChangeExtraInfo_RecvInfo ChangeStr_encodebase64(Room_ChangeExtraInfo_RecvInfo & x){
+	x.info = Base64Encode(x.info);
 	return x;
 }
 
-User_ModifySocialInfo_SendInfo ChangeStr_encodebase64(User_ModifySocialInfo_SendInfo & x){
+Room_ChangeDebatePos_SendInfo ChangeStr_encodebase64(Room_ChangeDebatePos_SendInfo & x){
 	x.jwt_token = Base64Encode(x.jwt_token);
-	x.modifyinfo = Base64Encode(x.modifyinfo);
 	return x;
 }
 
-User_ModifySocialInfo_RecvInfo ChangeStr_encodebase64(User_ModifySocialInfo_RecvInfo & x){
-	return x;
-}
-
-User_ModifyExInfo_SendInfo ChangeStr_encodebase64(User_ModifyExInfo_SendInfo & x){
-	x.jwt_token = Base64Encode(x.jwt_token);
-	x.modifyinfo = Base64Encode(x.modifyinfo);
-	return x;
-}
-
-User_ModifyExInfo_RecvInfo ChangeStr_encodebase64(User_ModifyExInfo_RecvInfo & x){
+Room_ChangeDebatePos_RecvInfo ChangeStr_encodebase64(Room_ChangeDebatePos_RecvInfo & x){
+	x.info = Base64Encode(x.info);
 	return x;
 }
 

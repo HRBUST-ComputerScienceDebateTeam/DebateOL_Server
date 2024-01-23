@@ -3,8 +3,6 @@
 #include "../../cmd/room/roomservice/room_types.h"
 #include "ChangeStr_Base64_room.h"
 
-
-//room
 Room_GetBaseInfo_SendInfo ChangeStr_decodebase64(Room_GetBaseInfo_SendInfo & x){
 	x.jwt_token = Base64Decode(x.jwt_token);
 	x.Aim_Roomnum = Base64Decode(x.Aim_Roomnum);
@@ -51,6 +49,7 @@ Room_Create_SendInfo ChangeStr_decodebase64(Room_Create_SendInfo & x){
 }
 
 Room_Create_RecvInfo ChangeStr_decodebase64(Room_Create_RecvInfo & x){
+	x.info = Base64Decode(x.info);
 	return x;
 }
 
@@ -62,6 +61,7 @@ Room_Joinroom_SendInfo ChangeStr_decodebase64(Room_Joinroom_SendInfo & x){
 }
 
 Room_Joinroom_RecvInfo ChangeStr_decodebase64(Room_Joinroom_RecvInfo & x){
+	x.info = Base64Decode(x.info);
 	return x;
 }
 
@@ -72,6 +72,7 @@ Room_Exitroom_SendInfo ChangeStr_decodebase64(Room_Exitroom_SendInfo & x){
 }
 
 Room_Exitroom_RecvInfo ChangeStr_decodebase64(Room_Exitroom_RecvInfo & x){
+	x.info = Base64Decode(x.info);
 	return x;
 }
 
@@ -84,6 +85,7 @@ Room_ChangePasswd_SendInfo ChangeStr_decodebase64(Room_ChangePasswd_SendInfo & x
 }
 
 Room_ChangePasswd_RecvInfo ChangeStr_decodebase64(Room_ChangePasswd_RecvInfo & x){
+	x.info = Base64Decode(x.info);
 	return x;
 }
 
@@ -95,6 +97,7 @@ Room_ChangeExtraInfo_SendInfo ChangeStr_decodebase64(Room_ChangeExtraInfo_SendIn
 }
 
 Room_ChangeExtraInfo_RecvInfo ChangeStr_decodebase64(Room_ChangeExtraInfo_RecvInfo & x){
+	x.info = Base64Decode(x.info);
 	return x;
 }
 
@@ -104,6 +107,7 @@ Room_ChangeDebatePos_SendInfo ChangeStr_decodebase64(Room_ChangeDebatePos_SendIn
 }
 
 Room_ChangeDebatePos_RecvInfo ChangeStr_decodebase64(Room_ChangeDebatePos_RecvInfo & x){
+	x.info = Base64Decode(x.info);
 	return x;
 }
 
@@ -153,6 +157,7 @@ Room_Create_SendInfo ChangeStr_encodebase64(Room_Create_SendInfo & x){
 }
 
 Room_Create_RecvInfo ChangeStr_encodebase64(Room_Create_RecvInfo & x){
+	x.info = Base64Encode(x.info);
 	return x;
 }
 
@@ -164,6 +169,7 @@ Room_Joinroom_SendInfo ChangeStr_encodebase64(Room_Joinroom_SendInfo & x){
 }
 
 Room_Joinroom_RecvInfo ChangeStr_encodebase64(Room_Joinroom_RecvInfo & x){
+	x.info = Base64Encode(x.info);
 	return x;
 }
 
@@ -174,6 +180,7 @@ Room_Exitroom_SendInfo ChangeStr_encodebase64(Room_Exitroom_SendInfo & x){
 }
 
 Room_Exitroom_RecvInfo ChangeStr_encodebase64(Room_Exitroom_RecvInfo & x){
+	x.info = Base64Encode(x.info);
 	return x;
 }
 
@@ -186,6 +193,7 @@ Room_ChangePasswd_SendInfo ChangeStr_encodebase64(Room_ChangePasswd_SendInfo & x
 }
 
 Room_ChangePasswd_RecvInfo ChangeStr_encodebase64(Room_ChangePasswd_RecvInfo & x){
+	x.info = Base64Encode(x.info);
 	return x;
 }
 
@@ -197,6 +205,7 @@ Room_ChangeExtraInfo_SendInfo ChangeStr_encodebase64(Room_ChangeExtraInfo_SendIn
 }
 
 Room_ChangeExtraInfo_RecvInfo ChangeStr_encodebase64(Room_ChangeExtraInfo_RecvInfo & x){
+	x.info = Base64Encode(x.info);
 	return x;
 }
 
@@ -206,6 +215,7 @@ Room_ChangeDebatePos_SendInfo ChangeStr_encodebase64(Room_ChangeDebatePos_SendIn
 }
 
 Room_ChangeDebatePos_RecvInfo ChangeStr_encodebase64(Room_ChangeDebatePos_RecvInfo & x){
+	x.info = Base64Encode(x.info);
 	return x;
 }
 

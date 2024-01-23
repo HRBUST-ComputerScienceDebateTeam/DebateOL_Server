@@ -419,24 +419,27 @@ class RoomHandler : virtual public RoomIf {
   }
 
   void Room_Joinroom(Room_Joinroom_RecvInfo& _return, const Room_Joinroom_SendInfo& info) {
+    _return.sendtime = info.sendtime;
+    _return.type = Room_Joinroom_RecvInfo_TypeId;
     //检查哈希 - 哈希失败没有返回报文
     if(JWT_token::jwt_check_hash(jwt_secret , info.jwt_token) == JWT_HASHERR){
       //丢掉
-      cout << "ROOMServer : 收到了异常的jwt鉴权 哈希未通过" <<endl;
+      cout << "[x]ROOMServer : 收到了异常的jwt鉴权 哈希未通过 - sendtime:" << info.sendtime <<endl;
       return;
     }
 
     //检查超时 - 超时返回超时
     if(JWT_token::jwt_check_time(info.jwt_token) == JWT_TIMEOUT){
       //丢掉
-      cout << "ROOMServer : 超时的jwt" <<endl;
+      cout << "[~]ROOMServer : 超时的jwt - sendtime:" << info.sendtime <<endl;
       _return.status = ROOM_TIMEOUT_JWT;
-      _return.type = Room_Joinroom_RecvInfo_TypeId;
-      _return.sendtime = info.sendtime;
       return;
     }
+
+    
     
 
+    bool err ;
     //获取uid
     map<string , string > jwt_payload_mp = JWT_token::jwt_decode(info.jwt_token).getpayloadmap();
     int uidA = stoi(jwt_payload_mp["aud"]);
@@ -445,22 +448,35 @@ class RoomHandler : virtual public RoomIf {
     //获取房间id 
     int roomid = DB_MYSQL_OFROOM::get_Roomid_fromRoomnum(info.roomnum);
     if(roomid == INT_DEFAULT){
-      _return.status=ROOM_ERR_REQINFO;
-      _return.type = Room_GetURrelation_RecvInfo_TypeId;
-      _return.sendtime = info.sendtime;
+      _return.status=ROOM_NoSuchRoomInfo;
       return;
     }
 
-    //TODO;黑名单
+    //TODO 黑名单
 
     //对比密码
     //取盐 取密码
     DAL_Room_Base rb = DB_MYSQL_OFROOM::get_Room_base(roomid);
-    if(sha256((info.passwd )+ rb.Salt) != rb.Passwd){
+    if(!((info.passwd == "" && rb.Passwd== "") || (sha256(info.passwd + rb.Salt) == rb.Passwd))){
       //不正确
-      _return.status = ROOM_JOINROOM_ERRPASSWD; 
-      _return.sendtime = info.sendtime;
-      _return.type = Room_Joinroom_RecvInfo_TypeId;
+      _return.status = ROOM_JOINROOM_ERRPASSWD;
+      return;
+    }
+
+    //查询用户是否在任意一场比赛
+    int depos = DB_MYSQL_OFROOM::get_Debatepos_fromUserid(uidA);
+    cout << depos <<endl;
+    if(depos != INT_DEFAULT){
+      //不正确
+      _return.status = ROOM_PlayerInotherRoom;     
+      return;
+    }
+
+    //查询是否已经有这个辩位了
+    DAL_Room_Extra dre = DB_MYSQL_OFROOM::get_Room_extra(roomid);
+    if((dre.Debate_posbitmap & (1 << (8-info.Debate_pos))) != 0){
+      //不正确
+      _return.status = ROOM_Changepos_Havepeo;     
       return;
     }
 
@@ -470,29 +486,38 @@ class RoomHandler : virtual public RoomIf {
     urr.Roomid = roomid;
     urr.Debate_pos = info.Debate_pos;
     urr.Permissions = 0;
-    DB_MYSQL_OFROOM::AddURrelation(urr);
-
-
-    //修改位图
-    DAL_Room_Extra t;
-    t.Debate_posbitmap =( t.Debate_posbitmap | (1<<(8-info.Debate_pos)));
-    bool err = DB_MYSQL_OFROOM::updata_Room_extra(roomid, t);
+    err = DB_MYSQL_OFROOM::AddURrelation(urr);
     if(!err){
-      _return.sendtime = info.sendtime;
-      _return.status = ROOM_DAL_ERR;
-      _return.type = Room_Joinroom_RecvInfo_TypeId;
+      //不正确
+      _return.status = ROOM_DAL_ERR;   
+        
       return;
     }
-    _return.sendtime = info.sendtime;
+
+    
+
+    //修改位图
+    dre.Debate_posbitmap =( dre.Debate_posbitmap | (1<<(8-info.Debate_pos)));
+    err = DB_MYSQL_OFROOM::updata_Room_extra(roomid, dre);
+    if(!err){
+      _return.status = ROOM_DAL_ERR;
+      return;
+    }
+    
+    //携带信息
+    map<string ,string> mp; 
+    mp["Roomid"] = to_string(roomid);
+    mp["Roomnum"] = info.roomnum;
+    mp["Userid"] = to_string(uidA);
+    mp["Debate_pos"] = to_string(info.Debate_pos);
+    string sendinfo_info =MapToJsonstring(mp);
+
     _return.status = ROOM_ACTION_OK;
-    _return.type = Room_Joinroom_RecvInfo_TypeId;
+    printf("[->]用户加入了房间 uid:%d ,  roomid:%d  \n" , uidA , roomid);
     return;
-
-
-    printf("Room_Joinroom\n");
   }
 
-  void Room_Create(Room_Create_RecvInfo& _return, const Room_Create_SendInfo& info) {
+void Room_Create(Room_Create_RecvInfo& _return, const Room_Create_SendInfo& info) {
     //检查哈希 - 哈希失败没有返回报文
     if(JWT_token::jwt_check_hash(jwt_secret , info.jwt_token) == JWT_HASHERR){
       //丢掉
@@ -510,17 +535,20 @@ class RoomHandler : virtual public RoomIf {
       return;
     }
      //拆包
+    
     map<string , string > jwt_payload_mp = JWT_token::jwt_decode(info.jwt_token).getpayloadmap();
     
     //检测各个字段的合法性
     //正则匹配
     std::regex reg_Roomnum("^[1-9]\\d{5,12}$");//6-13个数字
+    
     if(regex_match(info.Roomnum,reg_Roomnum) != true){
       _return.status = ROOM_ERR_REQINFO;
       _return.type = Room_Create_RecvInfo_TypeId;
       _return.sendtime = info.sendtime;
       return;
     }
+    
     //找重复的
     if(DB_MYSQL_OFROOM::get_Roomid_fromRoomnum(info.Roomnum)!= INT_DEFAULT){
       _return.status = ROOM_Create_Havethisnum;
@@ -528,6 +556,7 @@ class RoomHandler : virtual public RoomIf {
       _return.sendtime = info.sendtime;
       return;
     }
+    
 
     //获取用户在房间里面的权限
     int uidA = stoi(jwt_payload_mp["aud"]);
@@ -551,11 +580,11 @@ class RoomHandler : virtual public RoomIf {
     t1.Roomid = roomid;
     t1.Roomnum = info.Roomnum;
     t1.RoomCreatetime = std::to_string((int64_t)timenow);
+    t1.Salt = sha256((to_string(rand())));
     if(info.Islocking == false)
       t1.Passwd = "";
     else 
-      t1.Passwd = Base64Decode(info.passwd);
-    t1.Salt = sha256((to_string(rand())));
+      t1.Passwd = sha256(info.passwd + t1.Salt);
 
     t2.Roomid = roomid;
     t2.Roomnum = info.Roomnum;
@@ -570,6 +599,7 @@ class RoomHandler : virtual public RoomIf {
     t3.Debate_pos = info.Debate_pos;
     t3.Permissions = 1;
 
+
     int err = DB_MYSQL_OFROOM::AddRoom(t1,t2,t3);
     if(!err){
       _return.status = ROOM_Create_Havethisnum;
@@ -577,9 +607,19 @@ class RoomHandler : virtual public RoomIf {
       _return.sendtime = info.sendtime;
       return;
     }
+    //携带信息
+    map<string ,string> mp; 
+    mp["Roomid"] = to_string(roomid);
+    mp["Roomnum"] = info.Roomnum;
+    mp["Userid"] = to_string(uidA);
+    mp["Debate_pos"] = to_string(info.Debate_pos);
+    string sendinfo_info =MapToJsonstring(mp);
+
+
     _return.status = ROOM_ACTION_OK;
     _return.type = Room_Create_RecvInfo_TypeId;
     _return.sendtime = info.sendtime;
+    _return.info = sendinfo_info;
     printf("[+]Room_Create Roomid: %d\n" , roomid);
     return;
   }
@@ -603,6 +643,7 @@ class RoomHandler : virtual public RoomIf {
       _return.sendtime = info.sendtime;
       return;
     }
+
     //获取房间id 
     int roomid = DB_MYSQL_OFROOM::get_Roomid_fromRoomnum(info.Aim_Roomnum);
     if(roomid == INT_DEFAULT){
@@ -643,6 +684,15 @@ class RoomHandler : virtual public RoomIf {
       cout << "RoomServer : 收到了异常的jwt鉴权 哈希未通过" <<endl;
       return;
     }
+    if(JWT_token::jwt_check_time(info.jwt_token) == JWT_TIMEOUT){
+      //丢掉
+      cout << "RoomServer : 超时的jwt" <<endl;
+      _return.status = ROOM_TIMEOUT_JWT;
+      _return.type = User_GetExInfo_RecvInfo_TypeId;
+      _return.sendtime = info.sendtime;
+      return;
+    }
+
      //拆包
     map<string , string > jwt_payload_mp = JWT_token::jwt_decode(info.jwt_token).getpayloadmap();
 
@@ -651,7 +701,7 @@ class RoomHandler : virtual public RoomIf {
       //丢掉
       cout << "RoomServer : 超时的jwt" <<endl;
       _return.status = ROOM_TIMEOUT_JWT;
-      _return.type = User_GetExtraInfo_RecvInfo_TypeId;
+      _return.type = User_GetExInfo_RecvInfo_TypeId;
       _return.sendtime = info.sendtime;
       return;
     }
@@ -662,7 +712,7 @@ class RoomHandler : virtual public RoomIf {
     int roomid = DB_MYSQL_OFROOM::get_Roomid_fromRoomnum(info.Aim_Roomnum);
     if(roomid == INT_DEFAULT){
       _return.status=ROOM_ERR_REQINFO;
-      _return.type = User_GetExtraInfo_RecvInfo_TypeId;
+      _return.type = User_GetExInfo_RecvInfo_TypeId;
       _return.sendtime = info.sendtime;
       return;
     }

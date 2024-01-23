@@ -286,7 +286,7 @@ int DB_MYSQL_OFROOM::get_Roomid_fromUserid(int uid  ){
         return -1;
     }
     
-    if(res->num_fields != DAL_UR_relation::title_DAL_UR_relation.size() ){
+    if(res->num_fields != 1 ){
         cout <<__func__ <<  " 找到的列数不符合" <<endl;
         return -1;
     }
@@ -315,7 +315,7 @@ int  DB_MYSQL_OFROOM::get_Debatepos_fromUserid  (int uid  ){
         return -1;
     }
     
-    if(res->num_fields != DAL_UR_relation::title_DAL_UR_relation.size() ){
+    if(res->num_fields != 1 ){
         cout <<__func__ <<  " 找到的列数不符合" <<endl;
         return -1;
     }
@@ -423,7 +423,7 @@ int    DB_MYSQL_OFROOM::getnextroomid(){
     smatch results;
     regex_search(text ,results ,reg);
     if(results.size() != 2) {
-        cout << __func__ << "匹配失败没有找到自增" <<endl;
+        cout << __func__ << " 匹配失败没有找到自增" <<endl;
         return -1;
     }
     return stoi(results[1]);

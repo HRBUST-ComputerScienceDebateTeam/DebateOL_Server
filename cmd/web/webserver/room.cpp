@@ -114,18 +114,18 @@ std::string Room_Joinroom(const std::string &s ){
     std::shared_ptr<TTransport> room_transport(new TBufferedTransport(room_socket));
     std::shared_ptr<TProtocol> room_protocol(new TBinaryProtocol(room_transport));
     RoomClient room_client(room_protocol);
+
     room_transport->open();
     //反序列化
     // cout <<"-----0----"<< endl;
     // cout << s <<endl;
-    RPC_DEFINE_FOR_SENDINFO(Room_Exitroom) sendinfo = Deserialization<RPC_DEFINE_FOR_SENDINFO(Room_Exitroom)>(s);
+    RPC_DEFINE_FOR_SENDINFO(Room_Joinroom) sendinfo = Deserialization<RPC_DEFINE_FOR_SENDINFO(Room_Joinroom)>(s);
     sendinfo = ChangeStr_decodebase64(sendinfo);
     //  cout <<"-----1---"<< endl;
-    //  cout << sendinfo.info <<endl;
-    RPC_DEFINE_FOR_RECVINFO(Room_Exitroom) recvinfo;
+    RPC_DEFINE_FOR_RECVINFO(Room_Joinroom) recvinfo;
     //  cout <<"-----2---"<< endl;  
     //调用微服务
-    room_client.Room_Exitroom(recvinfo, sendinfo);
+    room_client.Room_Joinroom(recvinfo, sendinfo);
     recvinfo = ChangeStr_encodebase64(recvinfo);
     // cout <<"-----3----"<<endl;
     room_transport->close();
@@ -142,7 +142,7 @@ std::string Room_Create(const std::string &s ){
     // cout << s <<endl;
     RPC_DEFINE_FOR_SENDINFO(Room_Create) sendinfo = Deserialization<RPC_DEFINE_FOR_SENDINFO(Room_Create)>(s);
     sendinfo = ChangeStr_decodebase64(sendinfo);
-    //  cout <<"-----1---"<< endl;
+    //cout <<"-----1---"<< endl;
     //  cout << sendinfo.info <<endl;
     RPC_DEFINE_FOR_RECVINFO(Room_Create) recvinfo;
     //  cout <<"-----2---"<< endl;  

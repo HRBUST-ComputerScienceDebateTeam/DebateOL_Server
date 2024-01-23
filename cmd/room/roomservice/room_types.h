@@ -562,27 +562,30 @@ void swap(Room_Create_SendInfo &a, Room_Create_SendInfo &b);
 std::ostream& operator<<(std::ostream& out, const Room_Create_SendInfo& obj);
 
 typedef struct _Room_Create_RecvInfo__isset {
-  _Room_Create_RecvInfo__isset() : type(false), sendtime(false), status(false) {}
+  _Room_Create_RecvInfo__isset() : type(false), sendtime(false), status(false), info(false) {}
   bool type :1;
   bool sendtime :1;
   bool status :1;
+  bool info :1;
 } _Room_Create_RecvInfo__isset;
 
 class Room_Create_RecvInfo : public virtual ::apache::thrift::TBase {
  public:
 
-  Room_Create_RecvInfo(const Room_Create_RecvInfo&) noexcept;
-  Room_Create_RecvInfo& operator=(const Room_Create_RecvInfo&) noexcept;
+  Room_Create_RecvInfo(const Room_Create_RecvInfo&);
+  Room_Create_RecvInfo& operator=(const Room_Create_RecvInfo&);
   Room_Create_RecvInfo() noexcept
                        : type(0),
                          sendtime(0),
-                         status(0) {
+                         status(0),
+                         info() {
   }
 
   virtual ~Room_Create_RecvInfo() noexcept;
   int32_t type;
   int32_t sendtime;
   int32_t status;
+  std::string info;
 
   _Room_Create_RecvInfo__isset __isset;
 
@@ -592,6 +595,8 @@ class Room_Create_RecvInfo : public virtual ::apache::thrift::TBase {
 
   void __set_status(const int32_t val);
 
+  void __set_info(const std::string& val);
+
   bool operator == (const Room_Create_RecvInfo & rhs) const
   {
     if (!(type == rhs.type))
@@ -599,6 +604,8 @@ class Room_Create_RecvInfo : public virtual ::apache::thrift::TBase {
     if (!(sendtime == rhs.sendtime))
       return false;
     if (!(status == rhs.status))
+      return false;
+    if (!(info == rhs.info))
       return false;
     return true;
   }
@@ -697,27 +704,30 @@ void swap(Room_Joinroom_SendInfo &a, Room_Joinroom_SendInfo &b);
 std::ostream& operator<<(std::ostream& out, const Room_Joinroom_SendInfo& obj);
 
 typedef struct _Room_Joinroom_RecvInfo__isset {
-  _Room_Joinroom_RecvInfo__isset() : type(false), sendtime(false), status(false) {}
+  _Room_Joinroom_RecvInfo__isset() : type(false), sendtime(false), status(false), info(false) {}
   bool type :1;
   bool sendtime :1;
   bool status :1;
+  bool info :1;
 } _Room_Joinroom_RecvInfo__isset;
 
 class Room_Joinroom_RecvInfo : public virtual ::apache::thrift::TBase {
  public:
 
-  Room_Joinroom_RecvInfo(const Room_Joinroom_RecvInfo&) noexcept;
-  Room_Joinroom_RecvInfo& operator=(const Room_Joinroom_RecvInfo&) noexcept;
+  Room_Joinroom_RecvInfo(const Room_Joinroom_RecvInfo&);
+  Room_Joinroom_RecvInfo& operator=(const Room_Joinroom_RecvInfo&);
   Room_Joinroom_RecvInfo() noexcept
                          : type(0),
                            sendtime(0),
-                           status(0) {
+                           status(0),
+                           info() {
   }
 
   virtual ~Room_Joinroom_RecvInfo() noexcept;
   int32_t type;
   int32_t sendtime;
   int32_t status;
+  std::string info;
 
   _Room_Joinroom_RecvInfo__isset __isset;
 
@@ -727,6 +737,8 @@ class Room_Joinroom_RecvInfo : public virtual ::apache::thrift::TBase {
 
   void __set_status(const int32_t val);
 
+  void __set_info(const std::string& val);
+
   bool operator == (const Room_Joinroom_RecvInfo & rhs) const
   {
     if (!(type == rhs.type))
@@ -734,6 +746,8 @@ class Room_Joinroom_RecvInfo : public virtual ::apache::thrift::TBase {
     if (!(sendtime == rhs.sendtime))
       return false;
     if (!(status == rhs.status))
+      return false;
+    if (!(info == rhs.info))
       return false;
     return true;
   }
@@ -818,27 +832,30 @@ void swap(Room_Exitroom_SendInfo &a, Room_Exitroom_SendInfo &b);
 std::ostream& operator<<(std::ostream& out, const Room_Exitroom_SendInfo& obj);
 
 typedef struct _Room_Exitroom_RecvInfo__isset {
-  _Room_Exitroom_RecvInfo__isset() : type(false), sendtime(false), status(false) {}
+  _Room_Exitroom_RecvInfo__isset() : type(false), sendtime(false), status(false), info(false) {}
   bool type :1;
   bool sendtime :1;
   bool status :1;
+  bool info :1;
 } _Room_Exitroom_RecvInfo__isset;
 
 class Room_Exitroom_RecvInfo : public virtual ::apache::thrift::TBase {
  public:
 
-  Room_Exitroom_RecvInfo(const Room_Exitroom_RecvInfo&) noexcept;
-  Room_Exitroom_RecvInfo& operator=(const Room_Exitroom_RecvInfo&) noexcept;
+  Room_Exitroom_RecvInfo(const Room_Exitroom_RecvInfo&);
+  Room_Exitroom_RecvInfo& operator=(const Room_Exitroom_RecvInfo&);
   Room_Exitroom_RecvInfo() noexcept
                          : type(0),
                            sendtime(0),
-                           status(0) {
+                           status(0),
+                           info() {
   }
 
   virtual ~Room_Exitroom_RecvInfo() noexcept;
   int32_t type;
   int32_t sendtime;
   int32_t status;
+  std::string info;
 
   _Room_Exitroom_RecvInfo__isset __isset;
 
@@ -848,6 +865,8 @@ class Room_Exitroom_RecvInfo : public virtual ::apache::thrift::TBase {
 
   void __set_status(const int32_t val);
 
+  void __set_info(const std::string& val);
+
   bool operator == (const Room_Exitroom_RecvInfo & rhs) const
   {
     if (!(type == rhs.type))
@@ -855,6 +874,8 @@ class Room_Exitroom_RecvInfo : public virtual ::apache::thrift::TBase {
     if (!(sendtime == rhs.sendtime))
       return false;
     if (!(status == rhs.status))
+      return false;
+    if (!(info == rhs.info))
       return false;
     return true;
   }
@@ -953,27 +974,30 @@ void swap(Room_ChangePasswd_SendInfo &a, Room_ChangePasswd_SendInfo &b);
 std::ostream& operator<<(std::ostream& out, const Room_ChangePasswd_SendInfo& obj);
 
 typedef struct _Room_ChangePasswd_RecvInfo__isset {
-  _Room_ChangePasswd_RecvInfo__isset() : type(false), sendtime(false), status(false) {}
+  _Room_ChangePasswd_RecvInfo__isset() : type(false), sendtime(false), status(false), info(false) {}
   bool type :1;
   bool sendtime :1;
   bool status :1;
+  bool info :1;
 } _Room_ChangePasswd_RecvInfo__isset;
 
 class Room_ChangePasswd_RecvInfo : public virtual ::apache::thrift::TBase {
  public:
 
-  Room_ChangePasswd_RecvInfo(const Room_ChangePasswd_RecvInfo&) noexcept;
-  Room_ChangePasswd_RecvInfo& operator=(const Room_ChangePasswd_RecvInfo&) noexcept;
+  Room_ChangePasswd_RecvInfo(const Room_ChangePasswd_RecvInfo&);
+  Room_ChangePasswd_RecvInfo& operator=(const Room_ChangePasswd_RecvInfo&);
   Room_ChangePasswd_RecvInfo() noexcept
                              : type(0),
                                sendtime(0),
-                               status(0) {
+                               status(0),
+                               info() {
   }
 
   virtual ~Room_ChangePasswd_RecvInfo() noexcept;
   int32_t type;
   int32_t sendtime;
   int32_t status;
+  std::string info;
 
   _Room_ChangePasswd_RecvInfo__isset __isset;
 
@@ -983,6 +1007,8 @@ class Room_ChangePasswd_RecvInfo : public virtual ::apache::thrift::TBase {
 
   void __set_status(const int32_t val);
 
+  void __set_info(const std::string& val);
+
   bool operator == (const Room_ChangePasswd_RecvInfo & rhs) const
   {
     if (!(type == rhs.type))
@@ -990,6 +1016,8 @@ class Room_ChangePasswd_RecvInfo : public virtual ::apache::thrift::TBase {
     if (!(sendtime == rhs.sendtime))
       return false;
     if (!(status == rhs.status))
+      return false;
+    if (!(info == rhs.info))
       return false;
     return true;
   }
@@ -1081,27 +1109,30 @@ void swap(Room_ChangeExtraInfo_SendInfo &a, Room_ChangeExtraInfo_SendInfo &b);
 std::ostream& operator<<(std::ostream& out, const Room_ChangeExtraInfo_SendInfo& obj);
 
 typedef struct _Room_ChangeExtraInfo_RecvInfo__isset {
-  _Room_ChangeExtraInfo_RecvInfo__isset() : type(false), sendtime(false), status(false) {}
+  _Room_ChangeExtraInfo_RecvInfo__isset() : type(false), sendtime(false), status(false), info(false) {}
   bool type :1;
   bool sendtime :1;
   bool status :1;
+  bool info :1;
 } _Room_ChangeExtraInfo_RecvInfo__isset;
 
 class Room_ChangeExtraInfo_RecvInfo : public virtual ::apache::thrift::TBase {
  public:
 
-  Room_ChangeExtraInfo_RecvInfo(const Room_ChangeExtraInfo_RecvInfo&) noexcept;
-  Room_ChangeExtraInfo_RecvInfo& operator=(const Room_ChangeExtraInfo_RecvInfo&) noexcept;
+  Room_ChangeExtraInfo_RecvInfo(const Room_ChangeExtraInfo_RecvInfo&);
+  Room_ChangeExtraInfo_RecvInfo& operator=(const Room_ChangeExtraInfo_RecvInfo&);
   Room_ChangeExtraInfo_RecvInfo() noexcept
                                 : type(0),
                                   sendtime(0),
-                                  status(0) {
+                                  status(0),
+                                  info() {
   }
 
   virtual ~Room_ChangeExtraInfo_RecvInfo() noexcept;
   int32_t type;
   int32_t sendtime;
   int32_t status;
+  std::string info;
 
   _Room_ChangeExtraInfo_RecvInfo__isset __isset;
 
@@ -1111,6 +1142,8 @@ class Room_ChangeExtraInfo_RecvInfo : public virtual ::apache::thrift::TBase {
 
   void __set_status(const int32_t val);
 
+  void __set_info(const std::string& val);
+
   bool operator == (const Room_ChangeExtraInfo_RecvInfo & rhs) const
   {
     if (!(type == rhs.type))
@@ -1118,6 +1151,8 @@ class Room_ChangeExtraInfo_RecvInfo : public virtual ::apache::thrift::TBase {
     if (!(sendtime == rhs.sendtime))
       return false;
     if (!(status == rhs.status))
+      return false;
+    if (!(info == rhs.info))
       return false;
     return true;
   }
@@ -1202,27 +1237,30 @@ void swap(Room_ChangeDebatePos_SendInfo &a, Room_ChangeDebatePos_SendInfo &b);
 std::ostream& operator<<(std::ostream& out, const Room_ChangeDebatePos_SendInfo& obj);
 
 typedef struct _Room_ChangeDebatePos_RecvInfo__isset {
-  _Room_ChangeDebatePos_RecvInfo__isset() : type(false), sendtime(false), status(false) {}
+  _Room_ChangeDebatePos_RecvInfo__isset() : type(false), sendtime(false), status(false), info(false) {}
   bool type :1;
   bool sendtime :1;
   bool status :1;
+  bool info :1;
 } _Room_ChangeDebatePos_RecvInfo__isset;
 
 class Room_ChangeDebatePos_RecvInfo : public virtual ::apache::thrift::TBase {
  public:
 
-  Room_ChangeDebatePos_RecvInfo(const Room_ChangeDebatePos_RecvInfo&) noexcept;
-  Room_ChangeDebatePos_RecvInfo& operator=(const Room_ChangeDebatePos_RecvInfo&) noexcept;
+  Room_ChangeDebatePos_RecvInfo(const Room_ChangeDebatePos_RecvInfo&);
+  Room_ChangeDebatePos_RecvInfo& operator=(const Room_ChangeDebatePos_RecvInfo&);
   Room_ChangeDebatePos_RecvInfo() noexcept
                                 : type(0),
                                   sendtime(0),
-                                  status(0) {
+                                  status(0),
+                                  info() {
   }
 
   virtual ~Room_ChangeDebatePos_RecvInfo() noexcept;
   int32_t type;
   int32_t sendtime;
   int32_t status;
+  std::string info;
 
   _Room_ChangeDebatePos_RecvInfo__isset __isset;
 
@@ -1232,6 +1270,8 @@ class Room_ChangeDebatePos_RecvInfo : public virtual ::apache::thrift::TBase {
 
   void __set_status(const int32_t val);
 
+  void __set_info(const std::string& val);
+
   bool operator == (const Room_ChangeDebatePos_RecvInfo & rhs) const
   {
     if (!(type == rhs.type))
@@ -1239,6 +1279,8 @@ class Room_ChangeDebatePos_RecvInfo : public virtual ::apache::thrift::TBase {
     if (!(sendtime == rhs.sendtime))
       return false;
     if (!(status == rhs.status))
+      return false;
+    if (!(info == rhs.info))
       return false;
     return true;
   }
