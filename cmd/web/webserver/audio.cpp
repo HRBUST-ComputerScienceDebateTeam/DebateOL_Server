@@ -9,6 +9,7 @@
 #include "../rpc.hh"
 #include "../json.hh"
 #include "../../conf.hh"
+#include "../../../pkg/ChangeStr_Base64/ChangeStr_Base64_audio.h"
 
 using namespace std;
 using namespace apache::thrift;
@@ -49,8 +50,7 @@ namespace rpc{
         audio_transport->open();
         //get请求无需反序列化
         Audio_Download_SendInfo sendinfo ;
-        //cout << s <<endl;
-
+        //cout << s <<endl
         //拆解请求 - 正则优化
         bool Ok_flag = 1;
         sscanf(s.c_str() ,"%d-%d-%d-%d-%d-%d-%d" ,  &sendinfo.type ,

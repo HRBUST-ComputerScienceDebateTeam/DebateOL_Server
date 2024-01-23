@@ -140,7 +140,7 @@ RequestInfo::RequestInfo(std::string &s){
 
 // 处理HTTP请求
 std::string handleRequest(RequestInfo &reqinfo) {
-    
+    std::cout << reqinfo.body <<std::endl;
     /* 根据选项 确定connection标志位 */
     std::string response;
 
@@ -253,6 +253,213 @@ std::string handleRequest(RequestInfo &reqinfo) {
             response += "\r\n\r\n";
             response += s;
 
+        //路由选择路线7 :  用户reg注册
+        }else if(reqinfo.uri.path == "/userreg"){
+
+            std::cout << "\tuser tel reg" << std::endl;
+            std::string s = rpc::User_reg(reqinfo.body);
+            response += "Content-Length: ";
+            response += std::string( std::to_string(s.length()));
+            response += "\r\n\r\n";
+            response += s;
+        //路由选择路线8 :  用户num登陆
+        }else if(reqinfo.uri.path == "/usernumlogin"){
+
+            std::cout << "\tuser num reg" << std::endl;
+            std::string s = rpc::User_login_num(reqinfo.body);
+            response += "Content-Length: ";
+            response += std::string( std::to_string(s.length()));
+            response += "\r\n\r\n";
+            response += s;
+        //路由选择路线9 :  下载用户base信息
+        }else if(reqinfo.uri.path == "/usergetbaseinfo"){
+
+            std::cout << "\tUser_GetBaseInfo" << std::endl;
+            std::string s = rpc::User_GetBaseInfo(reqinfo.body);
+            response += "Content-Length: ";
+            response += std::string( std::to_string(s.length()));
+            response += "\r\n\r\n";
+            response += s;
+        //路由选择路线10 :  下载用户social信息
+        }else if(reqinfo.uri.path == "/usergetsocialinfo"){
+
+            std::cout << "\tUser_GetSocialInfo" << std::endl;
+            std::string s = rpc::User_GetSocialInfo(reqinfo.body);
+            response += "Content-Length: ";
+            response += std::string( std::to_string(s.length()));
+            response += "\r\n\r\n";
+            response += s;
+        //路由选择路线11 :  下载用户extra信息
+        }else if(reqinfo.uri.path == "/usergetexinfo"){
+
+            std::cout << "\tUser_GetExInfo" << std::endl;
+            std::string s = rpc::User_GetExInfo(reqinfo.body);
+            response += "Content-Length: ";
+            response += std::string( std::to_string(s.length()));
+            response += "\r\n\r\n";
+            response += s;
+        //路由选择路线12 :  User_logoff
+        }else if(reqinfo.uri.path == "/userlogoff"){
+
+            std::cout << "\tUser_logoff" << std::endl;
+            std::string s = rpc::User_logoff(reqinfo.body);
+            response += "Content-Length: ";
+            response += std::string( std::to_string(s.length()));
+            response += "\r\n\r\n";
+            response += s;
+        //路由选择路线13 :  User_refresh_jwt1
+        }else if(reqinfo.uri.path == "/userrefreshjwt1"){
+
+            std::cout << "\tUser_refresh_jwt1" << std::endl;
+            std::string s = rpc::User_refresh_jwt1(reqinfo.body);
+            response += "Content-Length: ";
+            response += std::string( std::to_string(s.length()));
+            response += "\r\n\r\n";
+            response += s;
+        //路由选择路线14 :  User_refresh_jwt2
+        }else if(reqinfo.uri.path == "/userrefreshjwt2"){
+
+            std::cout << "\tUser_refresh_jwt2" << std::endl;
+            std::string s = rpc::User_refresh_jwt2(reqinfo.body);
+            response += "Content-Length: ";
+            response += std::string( std::to_string(s.length()));
+            response += "\r\n\r\n";
+            response += s;
+        //路由选择路线15: User_ModifyBaseInfo
+        }else if(reqinfo.uri.path == "/usermodifybaseinfo"){
+
+            std::cout << "\tUser_ModifyBaseInfo" << std::endl;
+            std::string s = rpc::User_ModifyBaseInfo(reqinfo.body);
+            response += "Content-Length: ";
+            response += std::string( std::to_string(s.length()));
+            response += "\r\n\r\n";
+            response += s;
+        //路由选择路线16 :  User_ModifySocialInfo
+        }else if(reqinfo.uri.path == "/usermodifysocialinfo"){
+
+            std::cout << "\tUser_ModifySocialInfo" << std::endl;
+            std::string s = rpc::User_ModifySocialInfo(reqinfo.body);
+            response += "Content-Length: ";
+            response += std::string( std::to_string(s.length()));
+            response += "\r\n\r\n";
+            response += s;
+        //路由选择路线17 :  User_ModifyExInfo
+        }else if(reqinfo.uri.path == "/usermodifyexinfo"){
+
+            std::cout << "\tUser_ModifyExInfo" << std::endl;
+            std::string s = rpc::User_ModifyExInfo(reqinfo.body);
+            response += "Content-Length: ";
+            response += std::string( std::to_string(s.length()));
+            response += "\r\n\r\n";
+            response += s;
+        //路由选择路线18 :  User_follow
+        }else if(reqinfo.uri.path == "/userfollow"){
+
+            std::cout << "\tUser_follow" << std::endl;
+            std::string s = rpc::User_follow(reqinfo.body);
+            response += "Content-Length: ";
+            response += std::string( std::to_string(s.length()));
+            response += "\r\n\r\n";
+            response += s;
+        //路由选择路线19 :  User_followed
+        }else if(reqinfo.uri.path == "/userfollowed"){
+
+            std::cout << "\tUser_followed" << std::endl;
+            std::string s = rpc::User_followed(reqinfo.body);
+            response += "Content-Length: ";
+            response += std::string( std::to_string(s.length()));
+            response += "\r\n\r\n";
+            response += s;
+        //路由选择路线20 :  User_friend
+        }else if(reqinfo.uri.path == "/userfriend"){
+
+            std::cout << "\tUser_friend" << std::endl;
+            std::string s = rpc::User_friend(reqinfo.body);
+            response += "Content-Length: ";
+            response += std::string( std::to_string(s.length()));
+            response += "\r\n\r\n";
+            response += s;
+        //路由选择路线21 :  Room_ChangeDebatePos
+        }else if(reqinfo.uri.path == "/roomchangedebatepos"){
+
+            std::cout << "\tRoom_ChangeDebatePos" << std::endl;
+            std::string s = rpc::Room_ChangeDebatePos(reqinfo.body);
+            response += "Content-Length: ";
+            response += std::string( std::to_string(s.length()));
+            response += "\r\n\r\n";
+            response += s;
+        //路由选择路线22 :  Room_ChangeExtraInfo
+        }else if(reqinfo.uri.path == "/roomchangeextrainfo"){
+
+            std::cout << "\tRoom_ChangeExtraInfo" << std::endl;
+            std::string s = rpc::Room_ChangeExtraInfo(reqinfo.body);
+            response += "Content-Length: ";
+            response += std::string( std::to_string(s.length()));
+            response += "\r\n\r\n";
+            response += s;
+        //路由选择路线23 :  Room_ChangePasswd
+        }else if(reqinfo.uri.path == "/roomchangepasswd"){
+
+            std::cout << "\tRoom_ChangePasswd" << std::endl;
+            std::string s = rpc::Room_ChangePasswd(reqinfo.body);
+            response += "Content-Length: ";
+            response += std::string( std::to_string(s.length()));
+            response += "\r\n\r\n";
+            response += s;
+        //路由选择路线24 :  Room_Exitroom
+        }else if(reqinfo.uri.path == "/exitroom"){
+
+            std::cout << "\tRoom_Exitroom" << std::endl;
+            std::string s = rpc::Room_Exitroom(reqinfo.body);
+            response += "Content-Length: ";
+            response += std::string( std::to_string(s.length()));
+            response += "\r\n\r\n";
+            response += s;
+        //路由选择路线25 :  Room_Joinroom
+        }else if(reqinfo.uri.path == "/joinroom"){
+
+            std::cout << "\tRoom_Joinroom" << std::endl;
+            std::string s = rpc::Room_Joinroom(reqinfo.body);
+            response += "Content-Length: ";
+            response += std::string( std::to_string(s.length()));
+            response += "\r\n\r\n";
+            response += s;
+        //路由选择路线26 :  Room_Create
+        }else if(reqinfo.uri.path == "/creatroom"){
+
+            std::cout << "\tRoom_Create" << std::endl;
+            std::string s = rpc::Room_Create(reqinfo.body);
+            response += "Content-Length: ";
+            response += std::string( std::to_string(s.length()));
+            response += "\r\n\r\n";
+            response += s;
+        //路由选择路线27 :  Room_GetURrelation
+        }else if(reqinfo.uri.path == "/roomgeturrelation"){
+
+            std::cout << "\tRoom_GetURrelation" << std::endl;
+            std::string s = rpc::Room_GetURrelation(reqinfo.body);
+            response += "Content-Length: ";
+            response += std::string( std::to_string(s.length()));
+            response += "\r\n\r\n";
+            response += s;
+        //路由选择路线28 :  Room_GetExInfo
+        }else if(reqinfo.uri.path == "/roomgetexinfo"){
+
+            std::cout << "\tRoom_GetExInfo" << std::endl;
+            std::string s = rpc::Room_GetExInfo(reqinfo.body);
+            response += "Content-Length: ";
+            response += std::string( std::to_string(s.length()));
+            response += "\r\n\r\n";
+            response += s;
+        //路由选择路线29 :  Room_GetBaseInfo
+        }else if(reqinfo.uri.path == "/roomgetbaseinfo"){
+
+            std::cout << "\tRoom_GetBaseInfo" << std::endl;
+            std::string s = rpc::Room_GetBaseInfo(reqinfo.body);
+            response += "Content-Length: ";
+            response += std::string( std::to_string(s.length()));
+            response += "\r\n\r\n";
+            response += s;
         //路由选择路线 - 匹配失败
         }else{
             std::string s = "<html><head><title>POST Request</title></head><body><h1>POST Request Received!</h1></body></html>";

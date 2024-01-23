@@ -82,7 +82,8 @@ struct Room_Create_SendInfo {
 struct Room_Create_RecvInfo {
   1:i32 type,
   2:i32 sendtime,
-  3:i32 status
+  3:i32 status,
+  4:string info
 }
 
 
@@ -98,7 +99,8 @@ struct Room_Joinroom_SendInfo {
 struct Room_Joinroom_RecvInfo {
   1:i32 type,
   2:i32 sendtime,
-  3:i32 status
+  3:i32 status,
+  4:string info
 }
 
 //退出房间请求
@@ -111,7 +113,8 @@ struct Room_Exitroom_SendInfo {
 struct Room_Exitroom_RecvInfo {
   1:i32 type,
   2:i32 sendtime,
-  3:i32 status
+  3:i32 status,
+  4:string info
 }
 
 struct Room_ChangePasswd_SendInfo {
@@ -125,7 +128,8 @@ struct Room_ChangePasswd_SendInfo {
 struct Room_ChangePasswd_RecvInfo {
   1:i32 type,
   2:i32 sendtime,
-  3:i32 status
+  3:i32 status,
+  4:string info
 }
 
 struct Room_ChangeExtraInfo_SendInfo {
@@ -138,7 +142,8 @@ struct Room_ChangeExtraInfo_SendInfo {
 struct Room_ChangeExtraInfo_RecvInfo {
   1:i32 type,
   2:i32 sendtime,
-  3:i32 status
+  3:i32 status,
+  4:string info
 }
 
 struct Room_ChangeDebatePos_SendInfo {
@@ -150,7 +155,8 @@ struct Room_ChangeDebatePos_SendInfo {
 struct Room_ChangeDebatePos_RecvInfo {
   1:i32 type,
   2:i32 sendtime,
-  3:i32 status
+  3:i32 status,
+  4:string info
 }
 
 

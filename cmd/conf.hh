@@ -66,6 +66,7 @@
 #define ROOM_NoSuchRoomInfo      407
 #define ROOM_Create_Havethisnum  409
 #define ROOM_JOINROOM_ERRPASSWD  410
+#define ROOM_PlayerInotherRoom   411
 #define ROOM_Changepos_Havepeo   412
 #define ROOM_DAL_ERR             502
 
@@ -83,26 +84,26 @@ const int Video_Upload_SendInfo_TypeId = 101;
 const int Video_Upload_RecvInfo_TypeId = 102;
 const int Video_Download_SendInfo_TypeId = 103;
 const int Video_Download_RecvInfo_TypeId = 104;
-const int Video_Clean_SendInfo_TypeId = 105; 
+const int Video_Clean_SendInfo_TypeId = 105;
 
 const int Audio_Upload_SendInfo_TypeId = 201;
 const int Audio_Upload_RecvInfo_TypeId = 202;
 const int Audio_Download_SendInfo_TypeId = 203;
 const int Audio_Download_RecvInfo_TypeId = 204;
-const int Audio_Clean_SendInfo_TypeId = 205; 
+const int Audio_Clean_SendInfo_TypeId = 205;
 
 const int User_GetBaseInfo_SendInfo_TypeId   = 301;
 const int User_GetBaseInfo_RecvInfo_TypeId   = 302;
 const int User_GetSocialInfo_SendInfo_TypeId = 303;
 const int User_GetSocialInfo_RecvInfo_TypeId = 304;
 const int User_GetExtraInfo_SendInfo_TypeId  = 305;
-const int User_GetExtraInfo_RecvInfo_TypeId  = 306;
+const int User_GetExInfo_RecvInfo_TypeId  = 306;
 
-const int User_LoginNum_SendInfo_TypeId = 310;
-const int User_LoginTel_SendInfo_TypeId = 311;
-const int User_Login_RecvInfo_TypeId    = 312;
-const int User_Reg_SendInfo_TypeId      = 313;
-const int User_Reg_RecvInfo_TypeId      = 314;
+const int User_loginNum_SendInfo_TypeId = 310;
+const int User_loginTel_SendInfo_TypeId = 311;
+const int User_login_RecvInfo_TypeId    = 312;
+const int User_reg_SendInfo_TypeId      = 313;
+const int User_reg_RecvInfo_TypeId      = 314;
 
 const int User_logoff_SendInfo_TypeId          = 321;
 const int User_logoff_RecvInfo_TypeId          = 322;
@@ -124,23 +125,23 @@ const int User_ModifyExInfo_SendInfo_TypeId    = 345;
 const int User_ModifyExInfo_RecvInfo_TypeId    = 346;
 
 
-const int Room_GetBaseInfo_RecvInfo_TypeId      = 401;   
-const int Room_GetBaseInfo_SendInfo_TypeId      = 402;   
+const int Room_GetBaseInfo_RecvInfo_TypeId      = 401;
+const int Room_GetBaseInfo_SendInfo_TypeId      = 402;
 const int Room_GetExInfo_RecvInfo_TypeId        = 403;
 const int Room_GetExInfo_SendInfo_TypeId        = 404;
-const int Room_GetURrelation_RecvInfo_TypeId    = 405; 
-const int Room_GetURrelation_SendInfo_TypeId    = 406;  
-const int Room_Create_RecvInfo_TypeId           = 407; 
-const int Room_Create_SendInfo_TypeId           = 408;  
-const int Room_Joinroom_RecvInfo_TypeId         = 409; 
-const int Room_Joinroom_SendInfo_TypeId         = 410;   
-const int Room_Exitroom_RecvInfo_TypeId         = 411;   
+const int Room_GetURrelation_RecvInfo_TypeId    = 405;
+const int Room_GetURrelation_SendInfo_TypeId    = 406;
+const int Room_Create_RecvInfo_TypeId           = 407;
+const int Room_Create_SendInfo_TypeId           = 408;
+const int Room_Joinroom_RecvInfo_TypeId         = 409;
+const int Room_Joinroom_SendInfo_TypeId         = 410;
+const int Room_Exitroom_RecvInfo_TypeId         = 411;
 const int Room_Exitroom_SendInfo_TypeId         = 412;
-const int Room_ChangePasswd_RecvInfo_TypeId     = 413;  
-const int Room_ChangePasswd_SendInfo_TypeId     = 414;  
-const int Room_ChangeExtraInfo_RecvInfo_TypeId  = 415;                
-const int Room_ChangeExtraInfo_SendInfo_TypeId  = 416;                              
-const int Room_ChangeDebatePos_RecvInfo_TypeId  = 417; 
+const int Room_ChangePasswd_RecvInfo_TypeId     = 413;
+const int Room_ChangePasswd_SendInfo_TypeId     = 414;
+const int Room_ChangeExtraInfo_RecvInfo_TypeId  = 415;
+const int Room_ChangeExtraInfo_SendInfo_TypeId  = 416;
+const int Room_ChangeDebatePos_RecvInfo_TypeId  = 417;
 const int Room_ChangeDebatePos_SendInfo_TypeId  = 418; 
         
          
@@ -161,7 +162,7 @@ const int jwt_time         = 10*time_minute;
 const int refresh_jwt_time =  2*time_hour  ;
 
 //密码加密：
-// 1. 登陆申请提交的是 base64 + sha256 的passwd
+// 1. 登陆申请提交的是 base64 + sha256 又base64 的passwd
 // 2. 盐是            base64 + sha256 的存入数据库
 // 3. 数据库中的密码 是上述两个相加 之后 sha256 存入数据库
 //数据库

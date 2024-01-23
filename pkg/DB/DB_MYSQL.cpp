@@ -2,7 +2,7 @@
 #include <mysql/mysql.h>
 
 
-DB_MYSQL DB_MYSQL::DB_mysql;
+
 DB_MYSQL::DB_MYSQL(){
     mysql = new MYSQL;
     res = new DBRES;

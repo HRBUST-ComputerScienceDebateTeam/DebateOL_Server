@@ -2,6 +2,8 @@
 BigName    = Echo
 SmallName  = echo
 
+
+
 #路径
 Top_path     = ../../
 CMD_path     = $(Top_path)cmd/
@@ -22,9 +24,14 @@ Libflag      = -lssl -lpthread -lcrypto -lthrift
 Top_path  = ../../
 PKG_rootpath  = $(Top_path)pkg/
 PKG_LIB   = $(shell find $(PKG_rootpath) -maxdepth 3 -type d)
-PKG_FILE  = $(foreach dir, $(PKG_LIB), $(wildcard $(dir)/*.cpp))
+# PKG_FILE  = $(foreach dir, $(PKG_LIB), $(wildcard $(dir)/*.cpp))
 PKG_path  = $(foreach lib, $(PKG_LIB),  $(patsubst %, -I%, $(lib)))
-
+PKG_FILE =  $(PKG_rootpath)/DB/DB_MYSQL.cpp \
+			$(PKG_rootpath)/JsonChange/jsonchange.cpp \
+			$(PKG_rootpath)/JWT/jwt.cpp \
+			$(PKG_rootpath)/Openssl/opendssl.cpp \
+			$(PKG_rootpath)/pool/threadpool.cpp \
+			$(PKG_rootpath)/ChangeStr_Base64_$(SmallName).cpp
 #文件
 type_cpp   =  $(Ser_path)$(SmallName)_types.cpp $(Ser_path)$(BigName).cpp
 
@@ -41,7 +48,7 @@ ALLLIB   = 	-I$(Ser_path)\
 
 
 #行为
-$(SmallName)_server: $(server_cpp)
+$(SmallName)_server: $(server_cpp) $(PKG_FILE)
 	$(CPP) $(CFlag)  $(ALLLIB) $^ -o ./$(SmallName)_server $(Libflag)
 
 $(SmallName)_client: $(client_cpp)

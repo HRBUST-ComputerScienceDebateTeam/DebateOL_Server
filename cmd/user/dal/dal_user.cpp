@@ -370,7 +370,7 @@ string DB_MYSQL_OFUSER::get_UserSalt     (int uid){
 
     return res->v[0][0];
 };  //查询密码和盐
-string get_UserPasswd   (int uid){
+string DB_MYSQL_OFUSER::get_UserPasswd   (int uid){
     if(DB_MYSQL_OFUSER::DB_mysql.isinit()== false){
         cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
         return "";
@@ -853,7 +853,7 @@ bool DB_MYSQL_OFUSER::updata_UserLasttime (int uid , string s){
     }else{
         if(res->affected_rows == 0){
             cout <<__func__ << "没有这行 或者 数据没变" <<endl;
-            return false;
+            return true;
         }
         return true;
     }

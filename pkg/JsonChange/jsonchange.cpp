@@ -3,7 +3,7 @@
 std::map<std::string , std::string> JsonstringToMap(std::string s){
     //每一排切割
     //正则 非贪心 
-    std::regex reg("\"(.+?)\":\"(.+?)\"");
+    std::regex reg("\"(.+?)\":\"(.*?)\"");
     std::map<std::string , std::string >mpret;
     std::cmatch m;
     bool ret = 1;

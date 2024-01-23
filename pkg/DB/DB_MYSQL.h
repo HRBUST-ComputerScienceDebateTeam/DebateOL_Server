@@ -21,8 +21,7 @@ public:
     MYSQL * mysql;
     DBRES * res;
     bool initflag;
-public: 
-    static DB_MYSQL DB_mysql;
+
 public:
     DB_MYSQL();
     ~DB_MYSQL();
