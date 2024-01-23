@@ -437,7 +437,7 @@ class UserHandler : virtual public UserIf {
     string truesalt   = DB_MYSQL_OFUSER::get_UserSalt(uid);
     
     //密码核对
-    if(sha256(Base64Decode(info.passwd) + truesalt) == truepasswd){
+    if(sha256((info.passwd) + truesalt) == truepasswd){
       //成功
       time_t timnow;
       time(&timnow);
@@ -518,8 +518,8 @@ class UserHandler : virtual public UserIf {
     t1.Usernum        = info.usernum;
     t1.UserRegtime    = to_string((int64_t)timenow);
     t1.UserLasttime   = to_string((int64_t)timenow);
-    t1.Salt           = sha256(Base64Encode(to_string(rand())));
-    t1.Passwd         = sha256(Base64Decode(info.passwd) + t1.Salt); 
+    t1.Salt           = sha256((to_string(rand())));
+    t1.Passwd         = sha256((info.passwd) + t1.Salt); 
     t1.Tel = info.tel;
     DB_MYSQL_OFUSER::AddUser_t1(t1);
     _return.status = USER_ACTION_OK;

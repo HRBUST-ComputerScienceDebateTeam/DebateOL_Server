@@ -20,36 +20,8 @@ using namespace ::apache::thrift::transport;
 using namespace ::apache::thrift::server;
 
 #define SetAclevel(mpname , x ) mpname[#x]
-DAL_Room_Base::DAL_Room_Base(){
-  Roomid          = INT_DEFAULT;
-  Roomnum         = STR_DEFAULT;                            
-  Passwd          = STR_DEFAULT;           
-  RoomCreatetime  = STR_DEFAULT;                   
-  Salt            = STR_DEFAULT;         
-}
 
-//DB中Room Extra的结构体 - 对外展示的部分
-DAL_Room_Extra::DAL_Room_Extra(){
 
-  Roomid            =INT_DEFAULT;              
-  Islocking         =INT_DEFAULT;                 
-  Debate_posbitmap  =INT_DEFAULT;                        
-
-  Roomnum       =STR_DEFAULT;           
-  Roomname      =STR_DEFAULT;            
-  Signature     =STR_DEFAULT;             
-  Debate_name   =STR_DEFAULT;               
-
-};
-
-//DB中user - Room关系的结构体
-DAL_UR_relation::DAL_UR_relation(){
-  Userid       = INT_DEFAULT;          
-  Roomid       = INT_DEFAULT;          
-  Debate_pos   = INT_DEFAULT;              
-  Permissions  = INT_DEFAULT;               
-}
-    
 class RoomHandler : virtual public RoomIf {
  public:
   map<string, int>mp_Room_get_Room_base_level  ;
@@ -89,7 +61,6 @@ class RoomHandler : virtual public RoomIf {
         SetAclevel(mp_Room_Modify_Room_extra_level , Islocking        ) = level_root_ur;    
         SetAclevel(mp_Room_Modify_Room_extra_level , Debate_posbitmap)  = level_never_ur;   
         SetAclevel(mp_Room_Modify_Room_extra_level , Debate_name   )    = level_root_ur;   
-    
     DB_MYSQL_OFROOM::DB_mysql.DB_init(Room_host, Room_user, Room_passwd, Room_db, Room_port);  
     if(DB_MYSQL_OFROOM::DB_mysql.isinit()){
       if(DB_MYSQL_OFROOM::init_title() == false){
@@ -317,7 +288,7 @@ class RoomHandler : virtual public RoomIf {
     //对比密码
     //取盐 取密码
     DAL_Room_Base rb = DB_MYSQL_OFROOM::get_Room_base(roomid);
-    if(sha256(Base64Decode(info.Opasswd)+ rb.Salt) != rb.Passwd){
+    if(sha256((info.Opasswd)+ rb.Salt) != rb.Passwd){
       //不正确
       _return.status = ROOM_JOINROOM_ERRPASSWD; 
       _return.sendtime = info.sendtime;
@@ -326,7 +297,7 @@ class RoomHandler : virtual public RoomIf {
     }
     //新的密码
     DAL_Room_Base t;
-    t.Passwd = sha256(Base64Decode(info.Opasswd)+ rb.Salt);
+    t.Passwd = sha256((info.Opasswd)+ rb.Salt);
     bool err = DB_MYSQL_OFROOM::updata_Room_base(roomid,  t);
     if(!err){
       _return.sendtime = info.sendtime;
@@ -485,7 +456,7 @@ class RoomHandler : virtual public RoomIf {
     //对比密码
     //取盐 取密码
     DAL_Room_Base rb = DB_MYSQL_OFROOM::get_Room_base(roomid);
-    if(sha256(Base64Decode(info.passwd )+ rb.Salt) != rb.Passwd){
+    if(sha256((info.passwd )+ rb.Salt) != rb.Passwd){
       //不正确
       _return.status = ROOM_JOINROOM_ERRPASSWD; 
       _return.sendtime = info.sendtime;
@@ -584,7 +555,7 @@ class RoomHandler : virtual public RoomIf {
       t1.Passwd = "";
     else 
       t1.Passwd = Base64Decode(info.passwd);
-    t1.Salt = sha256(Base64Encode(to_string(rand())));
+    t1.Salt = sha256((to_string(rand())));
 
     t2.Roomid = roomid;
     t2.Roomnum = info.Roomnum;
@@ -609,7 +580,7 @@ class RoomHandler : virtual public RoomIf {
     _return.status = ROOM_ACTION_OK;
     _return.type = Room_Create_RecvInfo_TypeId;
     _return.sendtime = info.sendtime;
-    printf("Room_Create\n");
+    printf("[+]Room_Create Roomid: %d\n" , roomid);
     return;
   }
 

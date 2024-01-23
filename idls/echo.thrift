@@ -14,3 +14,4 @@ struct Echo_RecvInfo {
 service Echo{
   Echo_RecvInfo Echo_Send(1: Echo_SendInfo info)
 }
+

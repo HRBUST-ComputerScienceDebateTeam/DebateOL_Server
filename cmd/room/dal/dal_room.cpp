@@ -8,7 +8,7 @@ void SettoClass_getval(int &a    , string &s){a = stoi(s);}
 void SettoClass_getval(string& a , string &s){a =  s;};
 std::string to_string(string x){return x;};
 
-#define INT_DEFAULT "-1"
+#define INT_DEFAULT -1
 #define STR_DEFAULT ""
 
 //建立连接 - 数据库(TODO:redis)
@@ -39,13 +39,33 @@ vector<string> DAL_UR_relation::title_DAL_UR_relation;
 
 //初始化
 DAL_Room_Base::DAL_Room_Base(){
-    Roomid = -1;
+  Roomid          = INT_DEFAULT;
+  Roomnum         = STR_DEFAULT;                            
+  Passwd          = STR_DEFAULT;           
+  RoomCreatetime  = STR_DEFAULT;                   
+  Salt            = STR_DEFAULT;         
 }
+
+//DB中Room Extra的结构体 - 对外展示的部分
 DAL_Room_Extra::DAL_Room_Extra(){
-    Roomid = -1;
-}
+
+  Roomid            =INT_DEFAULT;              
+  Islocking         =INT_DEFAULT;                 
+  Debate_posbitmap  =INT_DEFAULT;                        
+
+  Roomnum       =STR_DEFAULT;           
+  Roomname      =STR_DEFAULT;            
+  Signature     =STR_DEFAULT;             
+  Debate_name   =STR_DEFAULT;               
+
+};
+
+//DB中user - Room关系的结构体
 DAL_UR_relation::DAL_UR_relation(){
-    Userid =Roomid =  -1;
+  Userid       = INT_DEFAULT;          
+  Roomid       = INT_DEFAULT;          
+  Debate_pos   = INT_DEFAULT;              
+  Permissions  = INT_DEFAULT;               
 }
 
 bool DB_MYSQL_OFROOM::init_title(){
@@ -84,7 +104,7 @@ bool DB_MYSQL_OFROOM::init_title(){
             DAL_UR_relation::title_DAL_UR_relation.push_back(res->v[i][0]);
         }
     }
-    
+
     return true;
 }
 
@@ -275,7 +295,7 @@ int DB_MYSQL_OFROOM::get_Roomid_fromUserid(int uid  ){
 
 }  //Userid  to roomid
 
-int  get_Debatepos_fromUserid  (int uid  ){
+int  DB_MYSQL_OFROOM::get_Debatepos_fromUserid  (int uid  ){
     if(DB_MYSQL_OFROOM::DB_mysql.isinit()== false){
         cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
         return -1;
@@ -615,7 +635,7 @@ bool DB_MYSQL_OFROOM::updata_Room_base       (int roomid , DAL_Room_Base   t){
 
     map<string , string >mp_modify = t.toMap();
     for(int i = 0;i<DAL_Room_Base::title_DAL_Room_Base.size();i++){
-        if(mp_modify[DAL_Room_Base::title_DAL_Room_Base[i]] == INT_DEFAULT\
+        if(mp_modify[DAL_Room_Base::title_DAL_Room_Base[i]] == to_string(INT_DEFAULT)\
          || mp_modify[DAL_Room_Base::title_DAL_Room_Base[i]] == STR_DEFAULT){
             //没被填写
             continue;          
@@ -641,7 +661,7 @@ bool DB_MYSQL_OFROOM::updata_Room_extra      (int roomid , DAL_Room_Extra  t){
 
     map<string , string >mp_modify = t.toMap();
     for(int i = 0;i<DAL_Room_Extra::title_DAL_Room_Extra.size();i++){
-        if(mp_modify[DAL_Room_Extra::title_DAL_Room_Extra[i]] == INT_DEFAULT\
+        if(mp_modify[DAL_Room_Extra::title_DAL_Room_Extra[i]] == to_string(INT_DEFAULT)\
          || mp_modify[DAL_Room_Extra::title_DAL_Room_Extra[i]] == STR_DEFAULT){
             //没被填写
             continue;          
@@ -661,12 +681,12 @@ bool DB_MYSQL_OFROOM::updata_RoomURrelation  (int uid    , int roomid , int pos 
         return false;
     }
     //取出原址
-    if(to_string(pos) == INT_DEFAULT){
+    if(to_string(pos) == to_string(INT_DEFAULT)){
         string rets = get_UserinRoom_Debatepos(roomid);
         map<string , string>mp  = JsonstringToMap(rets);
         pos = stoi(mp[to_string(uid)]);
     }
-    if(to_string(newlevel) != INT_DEFAULT){
+    if(to_string(newlevel) != to_string(INT_DEFAULT)){
         string rets = get_UserinRoom_Debatepos(roomid);
         map<string , string>mp  = JsonstringToMap(rets);
         newlevel = stoi(mp[to_string(uid)]);
