@@ -348,6 +348,25 @@ class RoomHandler : virtual public RoomIf {
       return;
     }
     bool err = false;
+    
+
+
+    //修改位图
+    DAL_Room_Extra t;
+    int nowbm = DB_MYSQL_OFROOM::get_Room_extra(roomid).Debate_posbitmap;
+    int debate_pos = DB_MYSQL_OFROOM::get_Debatepos_fromUserid(uidA);
+    cerr << nowbm << " " << debate_pos <<endl;
+    t.Debate_posbitmap =( nowbm - (1<<(8-debate_pos)) );
+    cerr << t.Debate_posbitmap<<endl;
+    err = DB_MYSQL_OFROOM::updata_Room_extra(roomid, t);
+    if(!err){
+      _return.sendtime = info.sendtime;
+      _return.status = ROOM_DAL_ERR;
+      _return.type = Room_Exitroom_RecvInfo_TypeId;
+      return;
+    }
+    
+    
     //删除 - t3
     //获取列表
     string pre = DB_MYSQL_OFROOM::get_UserinRoom_permissions(roomid);
@@ -396,20 +415,6 @@ class RoomHandler : virtual public RoomIf {
       }
     }
 
-
-
-    //修改位图
-    DAL_Room_Extra t;
-    int debate_pos;
-
-    t.Debate_posbitmap =( t.Debate_posbitmap - (1<<(8-debate_pos)) );
-    err = DB_MYSQL_OFROOM::updata_Room_extra(roomid, t);
-    if(!err){
-      _return.sendtime = info.sendtime;
-      _return.status = ROOM_DAL_ERR;
-      _return.type = Room_Exitroom_RecvInfo_TypeId;
-      return;
-    }
     _return.sendtime = info.sendtime;
     _return.status = ROOM_ACTION_OK;
     _return.type = Room_Exitroom_RecvInfo_TypeId;
