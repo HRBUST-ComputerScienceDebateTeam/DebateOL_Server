@@ -348,6 +348,25 @@ class RoomHandler : virtual public RoomIf {
       return;
     }
     bool err = false;
+    
+
+
+    //修改位图
+    DAL_Room_Extra t;
+    int nowbm = DB_MYSQL_OFROOM::get_Room_extra(roomid).Debate_posbitmap;
+    int debate_pos = DB_MYSQL_OFROOM::get_Debatepos_fromUserid(uidA);
+    cerr << nowbm << " " << debate_pos <<endl;
+    t.Debate_posbitmap =( nowbm - (1<<(8-debate_pos)) );
+    cerr << t.Debate_posbitmap<<endl;
+    err = DB_MYSQL_OFROOM::updata_Room_extra(roomid, t);
+    if(!err){
+      _return.sendtime = info.sendtime;
+      _return.status = ROOM_DAL_ERR;
+      _return.type = Room_Exitroom_RecvInfo_TypeId;
+      return;
+    }
+    
+    
     //删除 - t3
     //获取列表
     string pre = DB_MYSQL_OFROOM::get_UserinRoom_permissions(roomid);
@@ -396,19 +415,6 @@ class RoomHandler : virtual public RoomIf {
       }
     }
 
-
-
-    //修改位图
-    DAL_Room_Extra t;
-    int debate_pos;
-    t.Debate_posbitmap =( t.Debate_posbitmap ^ (1<<(8-debate_pos)) );
-    err = DB_MYSQL_OFROOM::updata_Room_extra(roomid, t);
-    if(!err){
-      _return.sendtime = info.sendtime;
-      _return.status = ROOM_DAL_ERR;
-      _return.type = Room_Exitroom_RecvInfo_TypeId;
-      return;
-    }
     _return.sendtime = info.sendtime;
     _return.status = ROOM_ACTION_OK;
     _return.type = Room_Exitroom_RecvInfo_TypeId;
@@ -421,6 +427,8 @@ class RoomHandler : virtual public RoomIf {
   void Room_Joinroom(Room_Joinroom_RecvInfo& _return, const Room_Joinroom_SendInfo& info) {
     _return.sendtime = info.sendtime;
     _return.type = Room_Joinroom_RecvInfo_TypeId;
+    _return.info = "";
+
     //检查哈希 - 哈希失败没有返回报文
     if(JWT_token::jwt_check_hash(jwt_secret , info.jwt_token) == JWT_HASHERR){
       //丢掉
@@ -438,12 +446,10 @@ class RoomHandler : virtual public RoomIf {
 
     
     
-
     bool err ;
     //获取uid
     map<string , string > jwt_payload_mp = JWT_token::jwt_decode(info.jwt_token).getpayloadmap();
     int uidA = stoi(jwt_payload_mp["aud"]);
-
     //获取目标房间号
     //获取房间id 
     int roomid = DB_MYSQL_OFROOM::get_Roomid_fromRoomnum(info.roomnum);
@@ -453,7 +459,6 @@ class RoomHandler : virtual public RoomIf {
     }
 
     //TODO 黑名单
-
     //对比密码
     //取盐 取密码
     DAL_Room_Base rb = DB_MYSQL_OFROOM::get_Room_base(roomid);
@@ -462,16 +467,14 @@ class RoomHandler : virtual public RoomIf {
       _return.status = ROOM_JOINROOM_ERRPASSWD;
       return;
     }
-
     //查询用户是否在任意一场比赛
     int depos = DB_MYSQL_OFROOM::get_Debatepos_fromUserid(uidA);
-    cout << depos <<endl;
+  
     if(depos != INT_DEFAULT){
       //不正确
       _return.status = ROOM_PlayerInotherRoom;     
       return;
     }
-
     //查询是否已经有这个辩位了
     DAL_Room_Extra dre = DB_MYSQL_OFROOM::get_Room_extra(roomid);
     if((dre.Debate_posbitmap & (1 << (8-info.Debate_pos))) != 0){
@@ -495,7 +498,7 @@ class RoomHandler : virtual public RoomIf {
     }
 
     
-
+  
     //修改位图
     dre.Debate_posbitmap =( dre.Debate_posbitmap | (1<<(8-info.Debate_pos)));
     err = DB_MYSQL_OFROOM::updata_Room_extra(roomid, dre);
@@ -504,20 +507,24 @@ class RoomHandler : virtual public RoomIf {
       return;
     }
     
+  
     //携带信息
     map<string ,string> mp; 
     mp["Roomid"] = to_string(roomid);
     mp["Roomnum"] = info.roomnum;
     mp["Userid"] = to_string(uidA);
     mp["Debate_pos"] = to_string(info.Debate_pos);
+
+
     string sendinfo_info =MapToJsonstring(mp);
 
+    _return.info =sendinfo_info;
     _return.status = ROOM_ACTION_OK;
     printf("[->]用户加入了房间 uid:%d ,  roomid:%d  \n" , uidA , roomid);
     return;
   }
 
-void Room_Create(Room_Create_RecvInfo& _return, const Room_Create_SendInfo& info) {
+  void Room_Create(Room_Create_RecvInfo& _return, const Room_Create_SendInfo& info) {
     //检查哈希 - 哈希失败没有返回报文
     if(JWT_token::jwt_check_hash(jwt_secret , info.jwt_token) == JWT_HASHERR){
       //丢掉
@@ -737,13 +744,13 @@ void Room_Create(Room_Create_RecvInfo& _return, const Room_Create_SendInfo& info
     }
     if(aimlevel == -1){
       _return.status=ROOM_ERR_REQINFO;
-      _return.type = Room_GetBaseInfo_RecvInfo_TypeId;
+      _return.type = User_GetExInfo_RecvInfo_TypeId;
       _return.sendtime = info.sendtime;
       return;
     }
     if(aimlevel<truelevel ){
       _return.status = ROOM_LOWACLevel;
-      _return.type = Room_GetBaseInfo_RecvInfo_TypeId;
+      _return.type = User_GetExInfo_RecvInfo_TypeId;
       _return.sendtime = info.sendtime;
       return;
     }
@@ -759,9 +766,9 @@ void Room_Create(Room_Create_RecvInfo& _return, const Room_Create_SendInfo& info
 
     _return.sendtime = info.sendtime;
     _return.status = ROOM_ACTION_OK;
-    _return.type = Room_GetBaseInfo_RecvInfo_TypeId;
+    _return.type = User_GetExInfo_RecvInfo_TypeId;
     _return.info = MapToJsonstring(ret);
-    cout << "RoomServer : Room_GetBaseInfo Success!\n" <<endl;
+    cout << "RoomServer : Room_GetExInfo Success!\n" <<endl;
     return;
 
     printf("Room_GetExInfo\n");

@@ -83,7 +83,7 @@ class VideoHandler : virtual public VideoIf {
       _return.roomId = info.roomId;
       _return.userId = info.userId;
       _return.type = Video_Download_RecvInfo_TypeId;
-      _return.sendtime = timeinfo;
+      _return.sendtime = info.sendtime;
       std::cout << "[↓]video 下载失败-没有元素：" << "\t房间号:"<<  info.roomId << "\t用户号:" << info.userId << "\t时间:" << timeinfo <<std::endl;
       return;
     }
@@ -102,7 +102,7 @@ class VideoHandler : virtual public VideoIf {
     _return.userId = info.userId;
     _return.type = Video_Download_RecvInfo_TypeId; 
     _return.info = it->second;
-    _return.sendtime = timeinfo;
+    _return.sendtime = info.sendtime;
     return;
   }
   

@@ -282,7 +282,7 @@ class UserHandler : virtual public UserIf {
     if(JWT_token::jwt_check_hash(jwt_secret , info.jwt_token) == JWT_HASHERR){
       //丢掉
       cout << "UserServer : 收到了异常的jwt鉴权 哈希未通过" <<endl;
-      _return.type = User_GetExtraInfo_RecvInfo_TypeId;
+      _return.type = User_GetExInfo_RecvInfo_TypeId;
       _return.sendtime = info.sendtime;
       return;
     }
@@ -292,7 +292,7 @@ class UserHandler : virtual public UserIf {
       //丢掉
       cout << "UserServer : 超时的jwt" <<endl;
       _return.status = USER_TIMEOUT_JWT;
-      _return.type = User_GetExtraInfo_RecvInfo_TypeId;
+      _return.type = User_GetExInfo_RecvInfo_TypeId;
       _return.sendtime = info.sendtime;
       return;
     }
@@ -305,7 +305,7 @@ class UserHandler : virtual public UserIf {
 
     if(uidA <=0 || uidA >= MAX_USER && uidB<=0 || uidB>=MAX_USER){//申请数据检查
       _return.status=USER_ERR_REQINFO;
-      _return.type = User_GetExtraInfo_RecvInfo_TypeId;
+      _return.type = User_GetExInfo_RecvInfo_TypeId;
       _return.sendtime = info.sendtime;
       return;
     }
@@ -313,7 +313,7 @@ class UserHandler : virtual public UserIf {
     //返回数据检查
     if(truelevel != -1){
       _return.status = USER_DAL_ERR;
-      _return.type = User_GetExtraInfo_RecvInfo_TypeId;
+      _return.type = User_GetExInfo_RecvInfo_TypeId;
       _return.sendtime = info.sendtime;
       return;
     }
@@ -329,13 +329,13 @@ class UserHandler : virtual public UserIf {
     }
     if(aimlevel == -1){
       _return.status=USER_ERR_REQINFO;
-      _return.type = User_GetExtraInfo_RecvInfo_TypeId;
+      _return.type = User_GetExInfo_RecvInfo_TypeId;
       _return.sendtime = info.sendtime;
       return;
     }
     if(aimlevel<truelevel ){
       _return.status = USER_LOWACLevel;
-      _return.type = User_GetExtraInfo_RecvInfo_TypeId;
+      _return.type = User_GetExInfo_RecvInfo_TypeId;
       _return.sendtime = info.sendtime;
       return;
     }
@@ -351,7 +351,7 @@ class UserHandler : virtual public UserIf {
 
     _return.sendtime = info.sendtime;
     _return.status = USER_ACTION_OK;
-    _return.type = User_GetExtraInfo_RecvInfo_TypeId;
+    _return.type = User_GetExInfo_RecvInfo_TypeId;
     _return.info = MapToJsonstring(ret);
     cout << "UserServer : User_GetExInfo Success!\n" <<endl;
   }
@@ -360,7 +360,7 @@ class UserHandler : virtual public UserIf {
     std::regex reg_Usernum("^[1-9]\\d{5,12}$");//6-13个数字
     if(regex_match(info.usernum,reg_Usernum) != true){
       _return.status = USER_ERR_REQINFO;
-      _return.type = User_Login_RecvInfo_TypeId;
+      _return.type = User_login_RecvInfo_TypeId;
       _return.sendtime = info.sendtime;
       return;
     }
@@ -369,7 +369,7 @@ class UserHandler : virtual public UserIf {
     int uid = DB_MYSQL_OFUSER::get_userid_fromUsernum(info.usernum);
     if(uid == INT_DEFAULT){
       _return.status = USER_LOGIN_ERRINFO ;
-      _return.type = User_Login_RecvInfo_TypeId;
+      _return.type = User_login_RecvInfo_TypeId;
       _return.sendtime = info.sendtime;
       return;
     }
@@ -387,14 +387,14 @@ class UserHandler : virtual public UserIf {
       //更新在线时间
       bool updatatime = DB_MYSQL_OFUSER::updata_UserLasttime(uid,to_string(0));
       if(updatatime == false){
-        _return.type              = User_Login_RecvInfo_TypeId;
+        _return.type              = User_login_RecvInfo_TypeId;
         _return.status            = USER_DAL_ERR;
-        _return.type = User_Login_RecvInfo_TypeId;
+        _return.type = User_login_RecvInfo_TypeId;
         _return.sendtime = info.sendtime;
         return;
       }
 
-      _return.type              = User_Login_RecvInfo_TypeId;
+      _return.type              = User_login_RecvInfo_TypeId;
       _return.status            = USER_ACTION_OK;
       _return.sendtime          = info.sendtime;
       _return.jwt_token         = JWT_token::jwt_create(jwt_secret,"ljy",to_string(uid), to_string((int64_t)timnow),to_string((int64_t)timnow + jwt_time) );
@@ -402,7 +402,7 @@ class UserHandler : virtual public UserIf {
       return;
     }else{
       _return.status            = USER_LOGIN_ERRINFO;
-      _return.type = User_Login_RecvInfo_TypeId;
+      _return.type = User_login_RecvInfo_TypeId;
       _return.sendtime = info.sendtime;
       return;
     }
@@ -417,7 +417,7 @@ class UserHandler : virtual public UserIf {
     std::regex reg_tel("^[1]+[3,8]+\\d{9}$");
     if(regex_match(info.tel,reg_tel) != true){
       _return.status = USER_ERR_REQINFO;
-      _return.type = User_Login_RecvInfo_TypeId;
+      _return.type = User_login_RecvInfo_TypeId;
       _return.sendtime = info.sendtime;
       return;
     }
@@ -426,7 +426,7 @@ class UserHandler : virtual public UserIf {
     int uid = DB_MYSQL_OFUSER::get_userid_fromTel(info.tel);
     if(uid == INT_DEFAULT){
       _return.status = USER_LOGIN_ERRINFO ;
-      _return.type = User_Login_RecvInfo_TypeId;
+      _return.type = User_login_RecvInfo_TypeId;
       _return.sendtime = info.sendtime;
       return;
     }
@@ -445,14 +445,14 @@ class UserHandler : virtual public UserIf {
       //更新在线时间
       bool updatatime = DB_MYSQL_OFUSER::updata_UserLasttime(uid,to_string(0));
       if(updatatime == false){
-        _return.type              = User_Login_RecvInfo_TypeId;
+        _return.type              = User_login_RecvInfo_TypeId;
         _return.status            = USER_DAL_ERR;
-      _return.type = User_Login_RecvInfo_TypeId;
+      _return.type = User_login_RecvInfo_TypeId;
       _return.sendtime = info.sendtime;
         return;
       }
       
-      _return.type              = User_Login_RecvInfo_TypeId;
+      _return.type              = User_login_RecvInfo_TypeId;
       _return.status            = USER_ACTION_OK;
       _return.sendtime          = info.sendtime;
       _return.jwt_token         = JWT_token::jwt_create(jwt_secret,"ljy",to_string(uid), to_string((int64_t)timnow),to_string((int64_t)timnow + jwt_time) );
@@ -461,7 +461,7 @@ class UserHandler : virtual public UserIf {
       return;
     }else{
       _return.status            = USER_LOGIN_ERRINFO;
-      _return.type = User_Login_RecvInfo_TypeId;
+      _return.type = User_login_RecvInfo_TypeId;
       _return.sendtime = info.sendtime;
       return;
     }
@@ -474,7 +474,7 @@ class UserHandler : virtual public UserIf {
     std::regex reg_tel("^[1]+[3,8]+\\d{9}$");
     if(regex_match(info.tel,reg_tel) != true){
       _return.status = USER_ERR_REQINFO;
-      _return.type = User_Reg_RecvInfo_TypeId;
+      _return.type = User_reg_RecvInfo_TypeId;
       _return.sendtime = info.sendtime;
       return;
     }
@@ -482,7 +482,7 @@ class UserHandler : virtual public UserIf {
     std::regex reg_Usernum("^[1-9]\\d{5,12}$");//6-13个数字
     if(regex_match(info.usernum,reg_Usernum) != true){
       _return.status = USER_ERR_REQINFO;
-      _return.type = User_Reg_RecvInfo_TypeId;
+      _return.type = User_reg_RecvInfo_TypeId;
       _return.sendtime = info.sendtime;
       return;
     }
@@ -497,13 +497,13 @@ class UserHandler : virtual public UserIf {
     //检测重复性
     if(DB_MYSQL_OFUSER::get_userid_fromTel(info.tel) != INT_DEFAULT){
       _return.status = User_Reg_Havethistel;
-      _return.type = User_Reg_RecvInfo_TypeId;
+      _return.type = User_reg_RecvInfo_TypeId;
       _return.sendtime = info.sendtime;
       return;
     }
     if(DB_MYSQL_OFUSER::get_userid_fromUsernum(info.usernum) != INT_DEFAULT){
       _return.status = User_Reg_Havethisnum;
-      _return.type = User_Reg_RecvInfo_TypeId;
+      _return.type = User_reg_RecvInfo_TypeId;
       _return.sendtime = info.sendtime;
       return;
     }
@@ -524,7 +524,7 @@ class UserHandler : virtual public UserIf {
     DB_MYSQL_OFUSER::AddUser_t1(t1);
     _return.status = USER_ACTION_OK;
     _return.sendtime = info.sendtime;
-    _return.type = User_Reg_RecvInfo_TypeId;
+    _return.type = User_reg_RecvInfo_TypeId;
     printf("[+]User_reg Success  Userid: %d !\n" , t1.Userid);
   }
 

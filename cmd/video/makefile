@@ -18,7 +18,7 @@ Conf_path    = $(CMD_path)
 CC           = CC
 CPP          = g++
 CFlag        = -g -Wall -std=c++11
-Libflag      = -lssl -lpthread -lcrypto -lthrift
+Libflag      = -lssl -lpthread -lcrypto -lthrift -lmysqlclient
 
 #pkg
 Top_path  = ../../
@@ -26,12 +26,12 @@ PKG_rootpath  = $(Top_path)pkg/
 PKG_LIB   = $(shell find $(PKG_rootpath) -maxdepth 3 -type d)
 # PKG_FILE  = $(foreach dir, $(PKG_LIB), $(wildcard $(dir)/*.cpp))
 PKG_path  = $(foreach lib, $(PKG_LIB),  $(patsubst %, -I%, $(lib)))
-PKG_FILE =  $(PKG_rootpath)/DB/DB_MYSQL.cpp \
-			$(PKG_rootpath)/JsonChange/jsonchange.cpp \
-			$(PKG_rootpath)/JWT/jwt.cpp \
-			$(PKG_rootpath)/Openssl/opendssl.cpp \
-			$(PKG_rootpath)/pool/threadpool.cpp \
-			$(PKG_rootpath)/ChangeStr_Base64_$(SmallName).cpp
+PKG_FILE =  $(PKG_rootpath)DB/DB_MYSQL.cpp \
+			$(PKG_rootpath)JsonChange/jsonchange.cpp \
+			$(PKG_rootpath)JWT/jwt.cpp \
+			$(PKG_rootpath)Openssl/openssl.cpp \
+			$(PKG_rootpath)pool/threadpool.cpp \
+			$(PKG_rootpath)ChangeStr_Base64/ChangeStr_Base64_$(SmallName).cpp
 #文件
 type_cpp   =  $(Ser_path)$(SmallName)_types.cpp $(Ser_path)$(BigName).cpp
 

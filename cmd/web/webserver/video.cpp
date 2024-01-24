@@ -48,39 +48,17 @@ namespace rpc{
         std::shared_ptr<TProtocol> video_protocol(new TBinaryProtocol(video_transport));
         VideoClient video_client(video_protocol);
         video_transport->open();
-        //get请求无需反序列化
-        Video_Download_SendInfo sendinfo ;
-
-        //拆解请求 - 正则优化
-        bool Ok_flag = 1;
-        sscanf(s.c_str() ,"%d-%d-%d-%d-%d-%d-%d" ,  &sendinfo.type ,
-                                                    &sendinfo.roomId,
-                                                    &sendinfo.userId,
-                                                    &sendinfo.min,
-                                                    &sendinfo.sec,
-                                                    &sendinfo.msec,
-                                                    &sendinfo.sendtime );
-        
-
-        if(sendinfo.min >60 || sendinfo.min <0) Ok_flag = 0;
-        if(sendinfo.sec >60 || sendinfo.sec <0) Ok_flag = 0;
-        if(sendinfo.msec >1000 || sendinfo.msec <0) Ok_flag = 0;
-        if(sendinfo.roomId > MAX_ROOM || sendinfo.roomId < 0) Ok_flag = 0;
-        if(sendinfo.userId > MAX_USER || sendinfo.userId < 0) Ok_flag = 0;
-        if(sendinfo.sendtime > 3600000 || sendinfo.sendtime < 0) Ok_flag = 0;
-
-        
+        //反序列化
+        // cout <<"-----0----"<< endl;
+        // cout << s <<endl;
+        Video_Download_SendInfo sendinfo = Deserialization<Video_Download_SendInfo>(s);
+        //  cout <<"-----1---"<< endl;
+        //  cout << sendinfo.info <<endl;
         Video_Download_RecvInfo recvinfo;
-        if(Ok_flag == 0){
-            recvinfo.status = VIDEO_WRONG_DOWNLOAD_TYPE;
-            return Serialization(recvinfo);    
-        }
-        
-
-
+        //  cout <<"-----2---"<< endl;  
         //调用微服务
         video_client.Video_Download(recvinfo, sendinfo);
-        //cout << recvinfo.msec <<endl;
+        // cout <<"-----3----"<<endl;
         video_transport->close();
         return Serialization(recvinfo);
     };

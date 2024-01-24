@@ -140,7 +140,7 @@ RequestInfo::RequestInfo(std::string &s){
 
 // 处理HTTP请求
 std::string handleRequest(RequestInfo &reqinfo) {
-    std::cout << reqinfo.body <<std::endl;
+    //std::cerr << reqinfo.body <<std::endl;
     /* 根据选项 确定connection标志位 */
     std::string response;
 
@@ -159,38 +159,38 @@ std::string handleRequest(RequestInfo &reqinfo) {
 
         /* 第二步 路由 */
 
-        //路由选择路线1 ： 视频下载
-        if(reqinfo.uri.path == "/videodownload/" ){
+        // //路由选择路线1 ： 视频下载
+        // if(reqinfo.uri.path == "/videodownload" ){
 
-            std::cout << "\tvideodownload" << std::endl;
-            if(reqinfo.uri.query.find("info")!= reqinfo.uri.query.end()){
-                std::string s = rpc::VideoDownload(reqinfo.uri.query["info"]);
-                response += "Content-Length: ";
-                response += std::string( std::to_string(s.length()));
-                response += "\r\n\r\n";
-                response += s;
-            }
+        //     std::cout << "\tvideodownload" << std::endl;
+        //     if(reqinfo.uri.query.find("info")!= reqinfo.uri.query.end()){
+        //         std::string s = rpc::VideoDownload(reqinfo.uri.query["info"]);
+        //         response += "Content-Length: ";
+        //         response += std::string( std::to_string(s.length()));
+        //         response += "\r\n\r\n";
+        //         response += s;
+        //     }
 
-        //路由选择路线2 ： 音频下载
-        }else if(reqinfo.uri.path == "/audiodownload/" ){
+        // //路由选择路线2 ： 音频下载
+        // }else if(reqinfo.uri.path == "/audiodownload/" ){
             
-            std::cout << "\taudiodownload" << std::endl;
-            if(reqinfo.uri.query.find("info")!= reqinfo.uri.query.end()){
-                std::string s = rpc::AudioDownload(reqinfo.uri.query["info"]);
-                response += "Content-Length: ";
-                response += std::string( std::to_string(s.length()));
-                response += "\r\n\r\n";
-                response += s;
-            }
+        //     std::cout << "\taudiodownload" << std::endl;
+        //     if(reqinfo.uri.query.find("info")!= reqinfo.uri.query.end()){
+        //         std::string s = rpc::AudioDownload(reqinfo.uri.query["info"]);
+        //         response += "Content-Length: ";
+        //         response += std::string( std::to_string(s.length()));
+        //         response += "\r\n\r\n";
+        //         response += s;
+        //     }
 
-        //路由选择路线 - 匹配失败
-        }else{
-            std::string s = "<html><head><title>Get Request</title></head><body><h1>Get Request Received!</h1></body></html>";
-            response += "Content-Length: ";
-            response += std::string( std::to_string(s.length()));
-            response += "\r\n\r\n";
-            response += s;
-        }
+        // //路由选择路线 - 匹配失败
+        // }else{
+        //     std::string s = "<html><head><title>Get Request</title></head><body><h1>Get Request Received!</h1></body></html>";
+        //     response += "Content-Length: ";
+        //     response += std::string( std::to_string(s.length()));
+        //     response += "\r\n\r\n";
+        //     response += s;
+        // }
 
     /* Post方法 */
     } else if (reqinfo.method  == "POST") {
@@ -456,6 +456,24 @@ std::string handleRequest(RequestInfo &reqinfo) {
 
             std::cout << "\tRoom_GetBaseInfo" << std::endl;
             std::string s = rpc::Room_GetBaseInfo(reqinfo.body);
+            response += "Content-Length: ";
+            response += std::string( std::to_string(s.length()));
+            response += "\r\n\r\n";
+            response += s;
+
+        //路由选择路线30 ： 视频下载
+        }else if(reqinfo.uri.path == "/videodownload"){
+            std::cout << "\videodownload" << std::endl;
+            std::string s = rpc::VideoDownload(reqinfo.body);
+            response += "Content-Length: ";
+            response += std::string( std::to_string(s.length()));
+            response += "\r\n\r\n";
+            response += s;
+
+        //路由选择路线30 ： 音频下载
+        }else if(reqinfo.uri.path == "/audiodownload"){
+            std::cout << "\tvideoupload" << std::endl;
+            std::string s = rpc::AudioDownload(reqinfo.body);
             response += "Content-Length: ";
             response += std::string( std::to_string(s.length()));
             response += "\r\n\r\n";
