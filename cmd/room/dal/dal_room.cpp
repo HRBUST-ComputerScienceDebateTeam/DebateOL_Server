@@ -296,10 +296,12 @@ int DB_MYSQL_OFROOM::get_Roomid_fromUserid(int uid  ){
 }  //Userid  to roomid
 
 int  DB_MYSQL_OFROOM::get_Debatepos_fromUserid  (int uid  ){
+    
     if(DB_MYSQL_OFROOM::DB_mysql.isinit()== false){
         cout <<__func__ <<  " DB_Mysql 没有初始化"<<endl;
         return -1;
     }
+    
     if(DAL_UR_relation::title_DAL_UR_relation.size() == 0){
         cout <<__func__ <<  " title 没有初始化" << endl;
         return -1;
@@ -315,12 +317,13 @@ int  DB_MYSQL_OFROOM::get_Debatepos_fromUserid  (int uid  ){
         return -1;
     }
     
-    if(res->num_fields != 1 ){
-        cout <<__func__ <<  " 找到的列数不符合" <<endl;
+    if(res->num_fields != 1 ||  res->num_row != 1){
+        cout <<__func__ <<  " 找到不符合" <<endl;
         return -1;
     }
 
     return stoi(res->v[0][0]);
+    
 };  //userid   to debatepos
 
 //Roomnum  to roomid
