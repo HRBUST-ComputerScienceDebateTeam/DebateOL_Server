@@ -560,7 +560,7 @@ bool DB_MYSQL_OFROOM::AddRoom (DAL_Room_Base    t1,DAL_Room_Extra   t2,DAL_UR_re
     bool flag3 = AddURrelation(urr);
     return flag1&&flag2&&flag3;
 }
-/* 删除 */
+/* 删除 */      
 //删除对应房间
 bool DB_MYSQL_OFROOM::DelRoom_t1          (int roomid){
     if(DB_MYSQL_OFROOM::DB_mysql.isinit()== false){

@@ -26,6 +26,17 @@ using namespace ::apache::thrift::server;
 
 #define SetAclevel(mpname , x ) mpname[#x]
 
+struct p_heart_node{
+  int userid;
+  time_t tim;
+  bool enableflag;
+  friend bool operator<(p_heart_node a,p_heart_node b)
+  {
+    return a.tim>b.tim;//按x从小到大排 
+  }
+};
+
+
 class UserHandler : virtual public UserIf {
  public:
   map<string, int>mp_User_GetBaseInfo_level  ;
@@ -35,6 +46,91 @@ class UserHandler : virtual public UserIf {
   map<string, int>mp_User_ModifyBaseInfo_level  ;
   map<string, int>mp_User_ModifySocialInfo_level;
   map<string, int>mp_User_ModifyExInfo_level    ;
+
+// 心跳相关
+ public:
+  static std::priority_queue<p_heart_node*>heart_queue;//心跳监控
+  static map<int , p_heart_node*>heart_mp;
+  static timer_t heart_timer;
+  static void TIME_deal_heart(){
+    //不合格处理
+    //删除
+    //直接调用底层
+    int uid = heart_queue.top()->userid;
+     //判断在线
+    if(stoi(DB_MYSQL_OFUSER::get_UserLasttime(uid))  != 0){
+      return;
+    }
+
+    //在线
+    time_t timenow;
+    time(&timenow);
+    if(DB_MYSQL_OFUSER::updata_UserLasttime(uid,to_string((int64_t)timenow)) == false){
+      cout << "[X]用户 检查。。心跳下线失败 "<<endl;
+      return;
+    }
+    cout << "[S]用户 检查。。下线用户 ：" <<uid <<endl;
+    delete (heart_mp[uid]);
+    heart_mp.erase(uid);
+    heart_queue.pop();
+  }
+  //true代表之前没有
+  static bool Cheak_and_UpdataUserToHeart(int uid){
+    time_t timnow;
+    time(&timnow);
+    if(heart_mp.find(uid) !=heart_mp.end() ){
+      //已经有了
+      (heart_mp[uid])->tim = timnow;
+      cout << "[S]用户心跳更新"<<endl;
+      return false;
+    }else{
+      heart_mp[uid] = new p_heart_node({uid , timnow , true});
+      heart_queue.push(heart_mp[uid]);
+      cout << "[S]用户心跳添加"<<endl;
+      return true;
+    }
+  }
+  static void DelUserToHeart(int uid){
+    time_t timnow;
+    time(&timnow);
+    if(heart_mp.find(uid) !=heart_mp.end() ){
+      //已经有了
+      (heart_mp[uid])->enableflag = false;
+      cout << "[S]用户心跳移除"<<endl;
+      return;
+    }
+  }
+
+  
+// 定时时间处理
+  static void timedeal(sigval_t arg){
+      switch(arg.sival_int){
+        case 1:{ //时钟心跳事件
+          time_t timnow;
+          time(&timnow);
+          while(!heart_queue.empty()){
+            if(heart_queue.top()->enableflag == false){
+              //主动释放
+              delete heart_queue.top();
+              heart_queue.pop();
+              continue;
+            }
+            if(timnow - heart_queue.top()->tim <= heart_outtime){//合格跳出
+              break;
+            }
+            TIME_deal_heart();//不合格执行处理
+          }
+          //结束处理
+          cout << "[S]本轮用户心跳检查结束" <<endl;
+        }
+        break;
+
+        default:{
+          cerr<< "[x]错误的未知定时信号" <<endl;
+          break;
+        }
+      } 
+  }
 
   void AcLevel_Init_user(){ // Ac 等级设定 
     SetAclevel(mp_User_GetBaseInfo_level ,Userid)         = level_black_uu;        
@@ -87,7 +183,13 @@ class UserHandler : virtual public UserIf {
     SetAclevel(mp_User_ModifyExInfo_level ,ThreePosNum)      = level_never_uu;              
     SetAclevel(mp_User_ModifyExInfo_level ,FourPosNum)       = level_never_uu;    
 
-    //初始化mysql
+   
+    
+  }
+ public:
+  UserHandler() {
+    AcLevel_Init_user();
+     //初始化mysql
 
     DB_MYSQL_OFUSER::DB_mysql.DB_init(User_host, User_user, User_passwd, User_db, User_port);  
     if(DB_MYSQL_OFUSER::DB_mysql.isinit()){
@@ -99,11 +201,26 @@ class UserHandler : virtual public UserIf {
     }else{
       cout << "[x]user服务没有开启 - 数据库连接出现问题 " << endl;
     }
-    
-  }
- public:
-  UserHandler() {
-    AcLevel_Init_user();
+    //时钟初始化
+    //初始化时钟
+    struct sigevent sev; 
+    bzero(&sev , sizeof(sev));
+    sev.sigev_notify = SIGEV_THREAD;
+    sev.sigev_notify_function = UserHandler::timedeal;
+    sev.sigev_value.sival_ptr = &UserHandler::heart_timer;
+    sev.sigev_value.sival_int = 1;
+
+    int err;
+    err = timer_create(CLOCK_REALTIME, &sev, &UserHandler::heart_timer);
+    if(err) perror("timer_create");
+    struct itimerspec itc;
+    itc.it_interval.tv_sec = heart_jgtime;
+    itc.it_interval.tv_nsec = 0;
+    itc.it_value.tv_sec = heart_jgtime;
+    itc.it_value.tv_nsec = 0;
+
+    err = timer_settime(UserHandler::heart_timer, TIMER_ABSTIME, &itc,NULL);
+    if(err) perror("timer_setting");
   }
 
   //获取部分BaseInfo
@@ -131,6 +248,7 @@ class UserHandler : virtual public UserIf {
 
     //获取好友关系
     int uidA = stoi(jwt_payload_mp["aud"]);
+    Cheak_and_UpdataUserToHeart(uidA);
     int uidB = DB_MYSQL_OFUSER::get_userid_fromUsernum(info.Aim_usernum);
     int truelevel = -1;
     int aimlevel = level_black_uu;
@@ -216,6 +334,7 @@ class UserHandler : virtual public UserIf {
 
     //获取好友关系
     int uidA = stoi(jwt_payload_mp["aud"]);
+    Cheak_and_UpdataUserToHeart(uidA);
     int uidB = DB_MYSQL_OFUSER::get_userid_fromUsernum(info.Aim_usernum);
     int truelevel = -1;
     int aimlevel = level_black_uu;
@@ -299,6 +418,7 @@ class UserHandler : virtual public UserIf {
 
     //获取好友关系
     int uidA = stoi(jwt_payload_mp["aud"]);
+    Cheak_and_UpdataUserToHeart(uidA);
     int uidB = DB_MYSQL_OFUSER::get_userid_fromUsernum(info.Aim_usernum);
     int truelevel = -1;
     int aimlevel = level_black_uu;
@@ -374,6 +494,14 @@ class UserHandler : virtual public UserIf {
       return;
     }
 
+    //校验是否在线
+    if(Cheak_and_UpdataUserToHeart(uid) == false){
+      //在线
+      _return.status = USER_HAVELOGGINNOW;
+      _return.type = User_login_RecvInfo_TypeId;
+      _return.sendtime = info.sendtime;
+      return;
+    }
     //取出对应的信息 进行校验
     string truepasswd = DB_MYSQL_OFUSER::get_UserPasswd(uid);
     string truesalt   = DB_MYSQL_OFUSER::get_UserSalt(uid);
@@ -432,6 +560,15 @@ class UserHandler : virtual public UserIf {
     }
     
 
+    //校验是否在线
+    if(Cheak_and_UpdataUserToHeart(uid) == false){
+      //在线
+      _return.status = USER_HAVELOGGINNOW;
+      _return.type = User_login_RecvInfo_TypeId;
+      _return.sendtime = info.sendtime;
+      return;
+    }
+
     //取出对应的信息 进行校验
     string truepasswd = DB_MYSQL_OFUSER::get_UserPasswd(uid);
     string truesalt   = DB_MYSQL_OFUSER::get_UserSalt(uid);
@@ -447,8 +584,7 @@ class UserHandler : virtual public UserIf {
       if(updatatime == false){
         _return.type              = User_login_RecvInfo_TypeId;
         _return.status            = USER_DAL_ERR;
-      _return.type = User_login_RecvInfo_TypeId;
-      _return.sendtime = info.sendtime;
+        _return.sendtime = info.sendtime;
         return;
       }
       
@@ -553,6 +689,7 @@ class UserHandler : virtual public UserIf {
     // }
 
 
+
     /* 第二步 处理逻辑 */
 
     //获取id
@@ -580,6 +717,8 @@ class UserHandler : virtual public UserIf {
     _return.status = USER_ACTION_OK;
     _return.sendtime = info.sendtime;
 
+    //主动下线成功
+    DelUserToHeart(uid);
     printf("[←]User_logoff Success  Userid: %d !\n" , uid);
   }
 
@@ -710,6 +849,8 @@ class UserHandler : virtual public UserIf {
 
     //获取好友关系
     int uidA = stoi(jwt_payload_mp["aud"]);
+    //校验是否在线
+    Cheak_and_UpdataUserToHeart(uidA);
     int truelevel = 0;
     int aimlevel = level_black_uu;
 
@@ -791,6 +932,8 @@ class UserHandler : virtual public UserIf {
 
     //获取好友关系
     int uidA = stoi(jwt_payload_mp["aud"]);
+    //校验是否在线
+    Cheak_and_UpdataUserToHeart(uidA);
     int truelevel = 0;
     int aimlevel = level_black_uu;
 
@@ -872,6 +1015,8 @@ class UserHandler : virtual public UserIf {
 
     //获取好友关系
     int uidA = stoi(jwt_payload_mp["aud"]);
+    //校验是否在线
+    Cheak_and_UpdataUserToHeart(uidA);
     int truelevel = 0;
     int aimlevel = level_black_uu;
 
@@ -950,6 +1095,7 @@ class UserHandler : virtual public UserIf {
       return;
     }
     int uid = stoi(jwt_payload_mp["aud"]);
+    Cheak_and_UpdataUserToHeart(uid);
 
     string dbinfo = DB_MYSQL_OFUSER::get_UUrelation(uid);
     map<string , string> dbmp = JsonstringToMap(dbinfo);
@@ -991,6 +1137,7 @@ class UserHandler : virtual public UserIf {
       return;
     }
     int uid = stoi(jwt_payload_mp["aud"]);
+    Cheak_and_UpdataUserToHeart(uid);
 
     string dbinfo = DB_MYSQL_OFUSER::get_UUrelation(uid);
     map<string , string> dbmp = JsonstringToMap(dbinfo);
@@ -1031,6 +1178,7 @@ class UserHandler : virtual public UserIf {
       return;
     }
     int uid = stoi(jwt_payload_mp["aud"]);
+    Cheak_and_UpdataUserToHeart(uid);
 
     string dbinfo = DB_MYSQL_OFUSER::get_UUrelation(uid);
     map<string , string> dbmp = JsonstringToMap(dbinfo);
@@ -1047,6 +1195,11 @@ class UserHandler : virtual public UserIf {
     printf("User_friend\n");
   }
 };
+
+std::priority_queue<p_heart_node*> UserHandler::heart_queue;//心跳监控
+map<int ,p_heart_node *  > UserHandler::heart_mp;
+timer_t UserHandler::heart_timer;
+
 
 int main(int argc, char **argv) {
   int port = USER_PORT;

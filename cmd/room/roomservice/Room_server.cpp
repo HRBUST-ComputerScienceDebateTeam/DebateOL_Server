@@ -2,12 +2,26 @@
 // You should copy it to another filename to avoid overwriting it.
 
 #include "Room.h"
+#include <bits/stdc++.h>
+#include <bits/types/siginfo_t.h>
+#include <bits/types/sigset_t.h>
+#include <bits/types/struct_itimerspec.h>
+#include <bits/types/time_t.h>
+#include <csignal>
+#include <cstdlib>
+#include <ctime>
+#include <mqueue.h>
+#include <unistd.h>
+#include <sys/wait.h>
+#include <signal.h>
 #include "../../conf.hh"
 #include "../dal/dal_room.h"
 #include "../dal/dal_roomconfig.h"
 #include "../../../pkg/JsonChange/jsonchange.h"
 #include "../../../pkg/JWT/jwt.h"
 #include "../../../pkg/Openssl/openssl.h"
+#include <bits/types/sigevent_t.h>
+#include <queue>
 #include <string>
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/server/TSimpleServer.h>
@@ -21,13 +35,136 @@ using namespace ::apache::thrift::server;
 
 #define SetAclevel(mpname , x ) mpname[#x]
 
+struct p_heart_node{
+  int userid;
+  time_t tim;
+  friend bool operator<(p_heart_node a,p_heart_node b)
+  {
+    return a.tim>b.tim;//按x从小到大排 
+  }
+};
+
 
 class RoomHandler : virtual public RoomIf {
  public:
   map<string, int>mp_Room_get_Room_base_level  ;
   map<string, int>mp_Room_get_Room_extra_level  ;
   map<string, int>mp_Room_Modify_Room_base_level  ;
-  map<string, int>mp_Room_Modify_Room_extra_level;
+  map<string, int>mp_Room_Modify_Room_extra_level  ;
+
+// 心跳相关
+ public:
+  static std::priority_queue<p_heart_node*>heart_queue;//心跳监控
+  static map<int , p_heart_node*>heart_mp;
+  static timer_t heart_timer;
+  static void TIME_deal_heart(){
+    //不合格处理
+    //删除
+    //直接调用底层
+    int id = heart_queue.top()->userid;
+    
+    int roomid = DB_MYSQL_OFROOM::get_Roomid_fromUserid(id);
+    if(roomid == INT_DEFAULT){
+      cout << "[x]用户-房间系统异常 - 没有正确强制下线" <<endl;
+      return;
+    }
+    //1. 修改位图
+    bool err ;
+    DAL_Room_Extra t;
+    int nowbm = DB_MYSQL_OFROOM::get_Room_extra(roomid).Debate_posbitmap;
+    int debate_pos = DB_MYSQL_OFROOM::get_Debatepos_fromUserid(id);
+    t.Debate_posbitmap =( nowbm - (1<<(8-debate_pos)) );
+    err = DB_MYSQL_OFROOM::updata_Room_extra(roomid, t);
+    if(!err){
+      cout << "[x]用户-房间系统异常 - 没有正确强制下线" <<endl;
+      return;
+    }
+    
+    //2. UR删除用户
+    string pre = DB_MYSQL_OFROOM::get_UserinRoom_permissions(roomid);
+    if(pre == STR_DEFAULT){
+      cout << "[x]用户-房间系统异常 - 没有正确强制下线" <<endl;
+      return;
+    }
+    map<string, string>mp_pre = JsonstringToMap(pre);
+    err = DB_MYSQL_OFROOM::DelURrelation(id, roomid);
+    if(!err){
+      cout << "[x]用户-房间系统异常 - 没有正确强制下线" <<endl;
+      return;
+    }
+    //如果是房主要转移权力
+    if(mp_pre.size() == 1){
+      //关闭房间 
+    }else{
+      if(mp_pre[to_string(id)] == "1"){//是房主
+        //移交权力
+        int aim_peo = INT_DEFAULT;
+        for(auto it : mp_pre){
+          if(it.first != to_string(id)){
+              aim_peo = stoi(it.first);
+          }
+        }
+        if(aim_peo == INT_DEFAULT){
+          cout << "[x]用户-房间系统异常 - 没有正确强制下线" <<endl;
+        return;
+        }else{
+          err = DB_MYSQL_OFROOM::updata_RoomURrelation(aim_peo , roomid , INT_DEFAULT , 1);
+          if(!err){
+            cout << "[x]用户-房间系统异常 - 没有正确强制下线" <<endl;
+            return;
+          }
+        }
+      }
+    }
+    cout << "[S]用户-房间 检查。。下线用户 ：" <<id <<endl;
+    delete (heart_mp[id]);
+    heart_mp.erase(id);
+    heart_queue.pop();
+
+  }
+  //true代表之前没有
+  static bool Cheak_and_UpdataUserToHeart(int uid){
+    time_t timnow;
+    time(&timnow);
+    if(heart_mp.find(uid) !=heart_mp.end() ){
+      //已经有了
+      (heart_mp[uid])->tim = timnow;
+      cout << "[S]用户-房间心跳更新"<<endl;
+      return false;
+    }else{
+      heart_mp[uid] = new p_heart_node({uid , timnow});
+      heart_queue.push(heart_mp[uid]);
+      cout << "[S]用户-房间心跳添加"<<endl;
+      return true;
+    }
+  }
+
+  
+// 定时时间处理
+  static void timedeal(sigval_t arg){
+      switch(arg.sival_int){
+        case 1:{ //时钟心跳事件
+          time_t timnow;
+          time(&timnow);
+          while(!heart_queue.empty()){
+            if(timnow - heart_queue.top()->tim <= heart_outtime){//合格跳出
+              break;
+            }
+            TIME_deal_heart();//不合格执行处理
+          }
+          //结束处理
+          cout << "[S]本轮用户-房间心跳检查结束" <<endl;
+        }
+        break;
+
+        default:{
+          cerr<< "[x]错误的未知定时信号" <<endl;
+          break;
+        }
+      } 
+  }
+
+
  public:
   RoomHandler() {
     // Your initialization goes here
@@ -62,6 +199,10 @@ class RoomHandler : virtual public RoomIf {
         SetAclevel(mp_Room_Modify_Room_extra_level , Debate_posbitmap)  = level_never_ur;   
         SetAclevel(mp_Room_Modify_Room_extra_level , Debate_name   )    = level_root_ur;   
     DB_MYSQL_OFROOM::DB_mysql.DB_init(Room_host, Room_user, Room_passwd, Room_db, Room_port);  
+    
+    
+    
+    //初始化数据
     if(DB_MYSQL_OFROOM::DB_mysql.isinit()){
       if(DB_MYSQL_OFROOM::init_title() == false){
         cout << "[x]Room服务没有开启 - title初始化有误 " << endl;
@@ -71,6 +212,27 @@ class RoomHandler : virtual public RoomIf {
     }else{
       cout << "[x]Room服务没有开启 - 数据库连接出现问题 " << endl;
     }
+
+    //初始化时钟
+    struct sigevent sev; 
+    bzero(&sev , sizeof(sev));
+    sev.sigev_notify = SIGEV_THREAD;
+    sev.sigev_notify_function = RoomHandler::timedeal;
+    sev.sigev_value.sival_ptr = &RoomHandler::heart_timer;
+    sev.sigev_value.sival_int = 1;
+
+    int err;
+    err = timer_create(CLOCK_REALTIME, &sev, &RoomHandler::heart_timer);
+    if(err) perror("timer_create");
+    struct itimerspec itc;
+    itc.it_interval.tv_sec = heart_jgtime;
+    itc.it_interval.tv_nsec = 0;
+    itc.it_value.tv_sec = heart_jgtime;
+    itc.it_value.tv_nsec = 0;
+
+    err = timer_settime(RoomHandler::heart_timer, TIMER_ABSTIME, &itc,NULL);
+    if(err) perror("timer_setting");
+
   }
 
   void Room_ChangeDebatePos(Room_ChangeDebatePos_RecvInfo& _return, const Room_ChangeDebatePos_SendInfo& info) {
@@ -94,6 +256,9 @@ class RoomHandler : virtual public RoomIf {
     //获取uid
     map<string , string > jwt_payload_mp = JWT_token::jwt_decode(info.jwt_token).getpayloadmap();
     int uidA = stoi(jwt_payload_mp["aud"]);
+
+    //添加定时
+    Cheak_and_UpdataUserToHeart(uidA);
 
     bool err;
     //获取在的房间
@@ -188,6 +353,9 @@ class RoomHandler : virtual public RoomIf {
     //获取用户在房间里面的权限
     int uidA = stoi(jwt_payload_mp["aud"]);
 
+    //添加定时
+    Cheak_and_UpdataUserToHeart(uidA);
+
     if(modifyinfo.find("Roomid") == modifyinfo.end()){
       _return.status = ROOM_ERR_REQINFO;
       _return.sendtime = info.sendtime;
@@ -272,7 +440,8 @@ class RoomHandler : virtual public RoomIf {
     //获取uid
     map<string , string > jwt_payload_mp = JWT_token::jwt_decode(info.jwt_token).getpayloadmap();
     int uidA = stoi(jwt_payload_mp["aud"]);
-
+    //添加定时
+    Cheak_and_UpdataUserToHeart(uidA);
     //获取目标房间号
     //获取房间id 
     int roomid = DB_MYSQL_OFROOM::get_Roomid_fromRoomnum(info.roomnum);
@@ -355,9 +524,7 @@ class RoomHandler : virtual public RoomIf {
     DAL_Room_Extra t;
     int nowbm = DB_MYSQL_OFROOM::get_Room_extra(roomid).Debate_posbitmap;
     int debate_pos = DB_MYSQL_OFROOM::get_Debatepos_fromUserid(uidA);
-    cerr << nowbm << " " << debate_pos <<endl;
     t.Debate_posbitmap =( nowbm - (1<<(8-debate_pos)) );
-    cerr << t.Debate_posbitmap<<endl;
     err = DB_MYSQL_OFROOM::updata_Room_extra(roomid, t);
     if(!err){
       _return.sendtime = info.sendtime;
@@ -415,13 +582,13 @@ class RoomHandler : virtual public RoomIf {
       }
     }
 
+    printf("[<-]用户离开了房间 uid:%d ,  roomid:%d  \n" , uidA , roomid);
     _return.sendtime = info.sendtime;
     _return.status = ROOM_ACTION_OK;
     _return.type = Room_Exitroom_RecvInfo_TypeId;
     return;
 
 
-    printf("Room_Exitroom\n");
   }
 
   void Room_Joinroom(Room_Joinroom_RecvInfo& _return, const Room_Joinroom_SendInfo& info) {
@@ -450,6 +617,9 @@ class RoomHandler : virtual public RoomIf {
     //获取uid
     map<string , string > jwt_payload_mp = JWT_token::jwt_decode(info.jwt_token).getpayloadmap();
     int uidA = stoi(jwt_payload_mp["aud"]);
+
+    //添加定时
+    Cheak_and_UpdataUserToHeart(uidA);
     //获取目标房间号
     //获取房间id 
     int roomid = DB_MYSQL_OFROOM::get_Roomid_fromRoomnum(info.roomnum);
@@ -632,7 +802,7 @@ class RoomHandler : virtual public RoomIf {
   }
 
   void Room_GetURrelation(Room_GetURrelation_RecvInfo& _return, const Room_GetURrelation_SendInfo& info) {
-     //拆包
+    //拆包
     map<string , string > jwt_payload_mp = JWT_token::jwt_decode(info.jwt_token).getpayloadmap();
     //检查哈希 - 哈希失败没有返回报文
     if(JWT_token::jwt_check_hash(jwt_secret , info.jwt_token) == JWT_HASHERR){
@@ -650,6 +820,11 @@ class RoomHandler : virtual public RoomIf {
       _return.sendtime = info.sendtime;
       return;
     }
+
+    //添加定时
+    //获取用户在房间里面的权限
+    int uidA = stoi(jwt_payload_mp["aud"]);
+    Cheak_and_UpdataUserToHeart(uidA);
 
     //获取房间id 
     int roomid = DB_MYSQL_OFROOM::get_Roomid_fromRoomnum(info.Aim_Roomnum);
@@ -715,6 +890,7 @@ class RoomHandler : virtual public RoomIf {
 
     //获取用户在房间里面的权限
     int uidA = stoi(jwt_payload_mp["aud"]);
+    Cheak_and_UpdataUserToHeart(uidA);
     //获取房间id 
     int roomid = DB_MYSQL_OFROOM::get_Roomid_fromRoomnum(info.Aim_Roomnum);
     if(roomid == INT_DEFAULT){
@@ -798,6 +974,7 @@ class RoomHandler : virtual public RoomIf {
 
     //获取用户在房间里面的权限
     int uidA = stoi(jwt_payload_mp["aud"]);
+    Cheak_and_UpdataUserToHeart(uidA);
     //获取房间id 
     int roomid = DB_MYSQL_OFROOM::get_Roomid_fromRoomnum(info.Aim_Roomnum);
     if(roomid == INT_DEFAULT){
@@ -859,6 +1036,11 @@ class RoomHandler : virtual public RoomIf {
 
 };
 
+//心跳
+std::priority_queue<p_heart_node*> RoomHandler::heart_queue;//心跳监控
+map<int ,p_heart_node *  > RoomHandler::heart_mp;
+timer_t RoomHandler::heart_timer;
+
 int main(int argc, char **argv) {
   int port = ROOM_PORT;
   ::std::shared_ptr<RoomHandler> handler(new RoomHandler());
@@ -871,4 +1053,5 @@ int main(int argc, char **argv) {
   server.serve();
   return 0;
 }
+
 
