@@ -21,6 +21,7 @@ public:
     MYSQL * mysql;
     DBRES * res;
     bool initflag;
+    bool trxflag;
 
 public:
     DB_MYSQL();
@@ -28,4 +29,8 @@ public:
     bool isinit();
     DBRES * DB_init(const char* host, const char * user , const  char * passwd ,const char * db,unsigned int port);
     DBRES * exec(std::string s);
+    bool start_transaction();//开启事务
+    bool commit_transaction();//提交事务
+    bool rollback_transaction();//回滚事务
+    bool Is_transactioning();//是否在事务中
 };

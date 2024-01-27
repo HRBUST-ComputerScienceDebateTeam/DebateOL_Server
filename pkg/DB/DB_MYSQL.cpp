@@ -102,3 +102,53 @@ DBRES * DB_MYSQL::exec(std::string sql)
 
 }
 
+bool DB_MYSQL::Is_transactioning(){
+    return trxflag;
+}
+
+bool DB_MYSQL::start_transaction(){
+    /* 执行exec  */
+    exec("start transaction with consistent snapshot;");
+     if(this->res->OKflag == false){
+        cout << "事务开启失败"<<endl;
+        cout<< "mysql err:"<< this->res->errinfo << endl;
+        return false;
+    }else{
+
+        /* 设置标志位 */
+        this->trxflag = 1;
+
+        return true;
+
+    }
+}
+
+//提交事务
+bool DB_MYSQL::commit_transaction(){
+    exec("commit;");
+     if(this->res->OKflag == false){
+        cout << "提交失败"<<endl;
+        cout<< "mysql err:"<< this->res->errinfo << endl;
+        return false;
+    }else{
+
+        /* 设置标志位 */
+        this->trxflag = 0;
+        return true;
+    }
+}
+
+
+//回滚事务
+bool DB_MYSQL::rollback_transaction(){
+    exec("rollback;");
+     if(this->res->OKflag == false){
+        cout << "回滚失败"<<endl;
+        cout<< "mysql err:"<< this->res->errinfo << endl;
+        return false;
+    }else{
+        /* 设置标志位 */
+        this->trxflag = 0;
+        return true;
+    }
+}
