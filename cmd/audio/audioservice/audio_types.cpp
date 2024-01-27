@@ -11,1086 +11,1073 @@
 
 #include <thrift/TToString.h>
 
+Audio_Upload_SendInfo::~Audio_Upload_SendInfo() noexcept {}
 
-
-
-Audio_Upload_SendInfo::~Audio_Upload_SendInfo() noexcept {
+void Audio_Upload_SendInfo::__set_type( const int32_t val ) {
+    this->type = val;
 }
 
-
-void Audio_Upload_SendInfo::__set_type(const int32_t val) {
-  this->type = val;
+void Audio_Upload_SendInfo::__set_userId( const int32_t val ) {
+    this->userId = val;
 }
 
-void Audio_Upload_SendInfo::__set_userId(const int32_t val) {
-  this->userId = val;
+void Audio_Upload_SendInfo::__set_roomId( const int32_t val ) {
+    this->roomId = val;
 }
 
-void Audio_Upload_SendInfo::__set_roomId(const int32_t val) {
-  this->roomId = val;
+void Audio_Upload_SendInfo::__set_min( const int32_t val ) {
+    this->min = val;
 }
 
-void Audio_Upload_SendInfo::__set_min(const int32_t val) {
-  this->min = val;
+void Audio_Upload_SendInfo::__set_sec( const int32_t val ) {
+    this->sec = val;
 }
 
-void Audio_Upload_SendInfo::__set_sec(const int32_t val) {
-  this->sec = val;
+void Audio_Upload_SendInfo::__set_msec( const int32_t val ) {
+    this->msec = val;
 }
 
-void Audio_Upload_SendInfo::__set_msec(const int32_t val) {
-  this->msec = val;
+void Audio_Upload_SendInfo::__set_info( const std::string& val ) {
+    this->info = val;
 }
 
-void Audio_Upload_SendInfo::__set_info(const std::string& val) {
-  this->info = val;
+void Audio_Upload_SendInfo::__set_sendtime( const int32_t val ) {
+    this->sendtime = val;
+}
+std::ostream& operator<<( std::ostream& out, const Audio_Upload_SendInfo& obj ) {
+    obj.printTo( out );
+    return out;
 }
 
-void Audio_Upload_SendInfo::__set_sendtime(const int32_t val) {
-  this->sendtime = val;
-}
-std::ostream& operator<<(std::ostream& out, const Audio_Upload_SendInfo& obj)
-{
-  obj.printTo(out);
-  return out;
-}
+uint32_t Audio_Upload_SendInfo::read( ::apache::thrift::protocol::TProtocol* iprot ) {
 
+    ::apache::thrift::protocol::TInputRecursionTracker tracker( *iprot );
+    uint32_t                                           xfer = 0;
+    std::string                                        fname;
+    ::apache::thrift::protocol::TType                  ftype;
+    int16_t                                            fid;
 
-uint32_t Audio_Upload_SendInfo::read(::apache::thrift::protocol::TProtocol* iprot) {
+    xfer += iprot->readStructBegin( fname );
 
-  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
+    using ::apache::thrift::protocol::TProtocolException;
 
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
+    while ( true ) {
+        xfer += iprot->readFieldBegin( fname, ftype, fid );
+        if ( ftype == ::apache::thrift::protocol::T_STOP ) {
+            break;
+        }
+        switch ( fid ) {
+        case 1:
+            if ( ftype == ::apache::thrift::protocol::T_I32 ) {
+                xfer += iprot->readI32( this->type );
+                this->__isset.type = true;
+            } else {
+                xfer += iprot->skip( ftype );
+            }
+            break;
+        case 2:
+            if ( ftype == ::apache::thrift::protocol::T_I32 ) {
+                xfer += iprot->readI32( this->userId );
+                this->__isset.userId = true;
+            } else {
+                xfer += iprot->skip( ftype );
+            }
+            break;
+        case 3:
+            if ( ftype == ::apache::thrift::protocol::T_I32 ) {
+                xfer += iprot->readI32( this->roomId );
+                this->__isset.roomId = true;
+            } else {
+                xfer += iprot->skip( ftype );
+            }
+            break;
+        case 4:
+            if ( ftype == ::apache::thrift::protocol::T_I32 ) {
+                xfer += iprot->readI32( this->min );
+                this->__isset.min = true;
+            } else {
+                xfer += iprot->skip( ftype );
+            }
+            break;
+        case 5:
+            if ( ftype == ::apache::thrift::protocol::T_I32 ) {
+                xfer += iprot->readI32( this->sec );
+                this->__isset.sec = true;
+            } else {
+                xfer += iprot->skip( ftype );
+            }
+            break;
+        case 6:
+            if ( ftype == ::apache::thrift::protocol::T_I32 ) {
+                xfer += iprot->readI32( this->msec );
+                this->__isset.msec = true;
+            } else {
+                xfer += iprot->skip( ftype );
+            }
+            break;
+        case 7:
+            if ( ftype == ::apache::thrift::protocol::T_STRING ) {
+                xfer += iprot->readString( this->info );
+                this->__isset.info = true;
+            } else {
+                xfer += iprot->skip( ftype );
+            }
+            break;
+        case 8:
+            if ( ftype == ::apache::thrift::protocol::T_I32 ) {
+                xfer += iprot->readI32( this->sendtime );
+                this->__isset.sendtime = true;
+            } else {
+                xfer += iprot->skip( ftype );
+            }
+            break;
+        default:
+            xfer += iprot->skip( ftype );
+            break;
+        }
+        xfer += iprot->readFieldEnd();
     }
-    switch (fid)
-    {
-      case 1:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->type);
-          this->__isset.type = true;
-        } else {
-          xfer += iprot->skip(ftype);
+
+    xfer += iprot->readStructEnd();
+
+    return xfer;
+}
+
+uint32_t Audio_Upload_SendInfo::write( ::apache::thrift::protocol::TProtocol* oprot ) const {
+    uint32_t                                            xfer = 0;
+    ::apache::thrift::protocol::TOutputRecursionTracker tracker( *oprot );
+    xfer += oprot->writeStructBegin( "Audio_Upload_SendInfo" );
+
+    xfer += oprot->writeFieldBegin( "type", ::apache::thrift::protocol::T_I32, 1 );
+    xfer += oprot->writeI32( this->type );
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin( "userId", ::apache::thrift::protocol::T_I32, 2 );
+    xfer += oprot->writeI32( this->userId );
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin( "roomId", ::apache::thrift::protocol::T_I32, 3 );
+    xfer += oprot->writeI32( this->roomId );
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin( "min", ::apache::thrift::protocol::T_I32, 4 );
+    xfer += oprot->writeI32( this->min );
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin( "sec", ::apache::thrift::protocol::T_I32, 5 );
+    xfer += oprot->writeI32( this->sec );
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin( "msec", ::apache::thrift::protocol::T_I32, 6 );
+    xfer += oprot->writeI32( this->msec );
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin( "info", ::apache::thrift::protocol::T_STRING, 7 );
+    xfer += oprot->writeString( this->info );
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin( "sendtime", ::apache::thrift::protocol::T_I32, 8 );
+    xfer += oprot->writeI32( this->sendtime );
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldStop();
+    xfer += oprot->writeStructEnd();
+    return xfer;
+}
+
+void swap( Audio_Upload_SendInfo& a, Audio_Upload_SendInfo& b ) {
+    using ::std::swap;
+    swap( a.type, b.type );
+    swap( a.userId, b.userId );
+    swap( a.roomId, b.roomId );
+    swap( a.min, b.min );
+    swap( a.sec, b.sec );
+    swap( a.msec, b.msec );
+    swap( a.info, b.info );
+    swap( a.sendtime, b.sendtime );
+    swap( a.__isset, b.__isset );
+}
+
+Audio_Upload_SendInfo::Audio_Upload_SendInfo( const Audio_Upload_SendInfo& other0 ) {
+    type     = other0.type;
+    userId   = other0.userId;
+    roomId   = other0.roomId;
+    min      = other0.min;
+    sec      = other0.sec;
+    msec     = other0.msec;
+    info     = other0.info;
+    sendtime = other0.sendtime;
+    __isset  = other0.__isset;
+}
+Audio_Upload_SendInfo& Audio_Upload_SendInfo::operator=( const Audio_Upload_SendInfo& other1 ) {
+    type     = other1.type;
+    userId   = other1.userId;
+    roomId   = other1.roomId;
+    min      = other1.min;
+    sec      = other1.sec;
+    msec     = other1.msec;
+    info     = other1.info;
+    sendtime = other1.sendtime;
+    __isset  = other1.__isset;
+    return *this;
+}
+void Audio_Upload_SendInfo::printTo( std::ostream& out ) const {
+    using ::apache::thrift::to_string;
+    out << "Audio_Upload_SendInfo(";
+    out << "type=" << to_string( type );
+    out << ", "
+        << "userId=" << to_string( userId );
+    out << ", "
+        << "roomId=" << to_string( roomId );
+    out << ", "
+        << "min=" << to_string( min );
+    out << ", "
+        << "sec=" << to_string( sec );
+    out << ", "
+        << "msec=" << to_string( msec );
+    out << ", "
+        << "info=" << to_string( info );
+    out << ", "
+        << "sendtime=" << to_string( sendtime );
+    out << ")";
+}
+
+Audio_Upload_RecvInfo::~Audio_Upload_RecvInfo() noexcept {}
+
+void Audio_Upload_RecvInfo::__set_type( const int32_t val ) {
+    this->type = val;
+}
+
+void Audio_Upload_RecvInfo::__set_userId( const int32_t val ) {
+    this->userId = val;
+}
+
+void Audio_Upload_RecvInfo::__set_roomId( const int32_t val ) {
+    this->roomId = val;
+}
+
+void Audio_Upload_RecvInfo::__set_min( const int32_t val ) {
+    this->min = val;
+}
+
+void Audio_Upload_RecvInfo::__set_sec( const int32_t val ) {
+    this->sec = val;
+}
+
+void Audio_Upload_RecvInfo::__set_msec( const int32_t val ) {
+    this->msec = val;
+}
+
+void Audio_Upload_RecvInfo::__set_status( const int32_t val ) {
+    this->status = val;
+}
+
+void Audio_Upload_RecvInfo::__set_sendtime( const int32_t val ) {
+    this->sendtime = val;
+}
+std::ostream& operator<<( std::ostream& out, const Audio_Upload_RecvInfo& obj ) {
+    obj.printTo( out );
+    return out;
+}
+
+uint32_t Audio_Upload_RecvInfo::read( ::apache::thrift::protocol::TProtocol* iprot ) {
+
+    ::apache::thrift::protocol::TInputRecursionTracker tracker( *iprot );
+    uint32_t                                           xfer = 0;
+    std::string                                        fname;
+    ::apache::thrift::protocol::TType                  ftype;
+    int16_t                                            fid;
+
+    xfer += iprot->readStructBegin( fname );
+
+    using ::apache::thrift::protocol::TProtocolException;
+
+    while ( true ) {
+        xfer += iprot->readFieldBegin( fname, ftype, fid );
+        if ( ftype == ::apache::thrift::protocol::T_STOP ) {
+            break;
         }
-        break;
-      case 2:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->userId);
-          this->__isset.userId = true;
-        } else {
-          xfer += iprot->skip(ftype);
+        switch ( fid ) {
+        case 1:
+            if ( ftype == ::apache::thrift::protocol::T_I32 ) {
+                xfer += iprot->readI32( this->type );
+                this->__isset.type = true;
+            } else {
+                xfer += iprot->skip( ftype );
+            }
+            break;
+        case 2:
+            if ( ftype == ::apache::thrift::protocol::T_I32 ) {
+                xfer += iprot->readI32( this->userId );
+                this->__isset.userId = true;
+            } else {
+                xfer += iprot->skip( ftype );
+            }
+            break;
+        case 3:
+            if ( ftype == ::apache::thrift::protocol::T_I32 ) {
+                xfer += iprot->readI32( this->roomId );
+                this->__isset.roomId = true;
+            } else {
+                xfer += iprot->skip( ftype );
+            }
+            break;
+        case 4:
+            if ( ftype == ::apache::thrift::protocol::T_I32 ) {
+                xfer += iprot->readI32( this->min );
+                this->__isset.min = true;
+            } else {
+                xfer += iprot->skip( ftype );
+            }
+            break;
+        case 5:
+            if ( ftype == ::apache::thrift::protocol::T_I32 ) {
+                xfer += iprot->readI32( this->sec );
+                this->__isset.sec = true;
+            } else {
+                xfer += iprot->skip( ftype );
+            }
+            break;
+        case 6:
+            if ( ftype == ::apache::thrift::protocol::T_I32 ) {
+                xfer += iprot->readI32( this->msec );
+                this->__isset.msec = true;
+            } else {
+                xfer += iprot->skip( ftype );
+            }
+            break;
+        case 7:
+            if ( ftype == ::apache::thrift::protocol::T_I32 ) {
+                xfer += iprot->readI32( this->status );
+                this->__isset.status = true;
+            } else {
+                xfer += iprot->skip( ftype );
+            }
+            break;
+        case 8:
+            if ( ftype == ::apache::thrift::protocol::T_I32 ) {
+                xfer += iprot->readI32( this->sendtime );
+                this->__isset.sendtime = true;
+            } else {
+                xfer += iprot->skip( ftype );
+            }
+            break;
+        default:
+            xfer += iprot->skip( ftype );
+            break;
         }
-        break;
-      case 3:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->roomId);
-          this->__isset.roomId = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 4:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->min);
-          this->__isset.min = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 5:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->sec);
-          this->__isset.sec = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 6:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->msec);
-          this->__isset.msec = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 7:
-        if (ftype == ::apache::thrift::protocol::T_STRING) {
-          xfer += iprot->readString(this->info);
-          this->__isset.info = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 8:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->sendtime);
-          this->__isset.sendtime = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      default:
-        xfer += iprot->skip(ftype);
-        break;
+        xfer += iprot->readFieldEnd();
     }
-    xfer += iprot->readFieldEnd();
-  }
 
-  xfer += iprot->readStructEnd();
+    xfer += iprot->readStructEnd();
 
-  return xfer;
+    return xfer;
 }
 
-uint32_t Audio_Upload_SendInfo::write(::apache::thrift::protocol::TProtocol* oprot) const {
-  uint32_t xfer = 0;
-  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("Audio_Upload_SendInfo");
+uint32_t Audio_Upload_RecvInfo::write( ::apache::thrift::protocol::TProtocol* oprot ) const {
+    uint32_t                                            xfer = 0;
+    ::apache::thrift::protocol::TOutputRecursionTracker tracker( *oprot );
+    xfer += oprot->writeStructBegin( "Audio_Upload_RecvInfo" );
 
-  xfer += oprot->writeFieldBegin("type", ::apache::thrift::protocol::T_I32, 1);
-  xfer += oprot->writeI32(this->type);
-  xfer += oprot->writeFieldEnd();
+    xfer += oprot->writeFieldBegin( "type", ::apache::thrift::protocol::T_I32, 1 );
+    xfer += oprot->writeI32( this->type );
+    xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("userId", ::apache::thrift::protocol::T_I32, 2);
-  xfer += oprot->writeI32(this->userId);
-  xfer += oprot->writeFieldEnd();
+    xfer += oprot->writeFieldBegin( "userId", ::apache::thrift::protocol::T_I32, 2 );
+    xfer += oprot->writeI32( this->userId );
+    xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("roomId", ::apache::thrift::protocol::T_I32, 3);
-  xfer += oprot->writeI32(this->roomId);
-  xfer += oprot->writeFieldEnd();
+    xfer += oprot->writeFieldBegin( "roomId", ::apache::thrift::protocol::T_I32, 3 );
+    xfer += oprot->writeI32( this->roomId );
+    xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("min", ::apache::thrift::protocol::T_I32, 4);
-  xfer += oprot->writeI32(this->min);
-  xfer += oprot->writeFieldEnd();
+    xfer += oprot->writeFieldBegin( "min", ::apache::thrift::protocol::T_I32, 4 );
+    xfer += oprot->writeI32( this->min );
+    xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("sec", ::apache::thrift::protocol::T_I32, 5);
-  xfer += oprot->writeI32(this->sec);
-  xfer += oprot->writeFieldEnd();
+    xfer += oprot->writeFieldBegin( "sec", ::apache::thrift::protocol::T_I32, 5 );
+    xfer += oprot->writeI32( this->sec );
+    xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("msec", ::apache::thrift::protocol::T_I32, 6);
-  xfer += oprot->writeI32(this->msec);
-  xfer += oprot->writeFieldEnd();
+    xfer += oprot->writeFieldBegin( "msec", ::apache::thrift::protocol::T_I32, 6 );
+    xfer += oprot->writeI32( this->msec );
+    xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("info", ::apache::thrift::protocol::T_STRING, 7);
-  xfer += oprot->writeString(this->info);
-  xfer += oprot->writeFieldEnd();
+    xfer += oprot->writeFieldBegin( "status", ::apache::thrift::protocol::T_I32, 7 );
+    xfer += oprot->writeI32( this->status );
+    xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("sendtime", ::apache::thrift::protocol::T_I32, 8);
-  xfer += oprot->writeI32(this->sendtime);
-  xfer += oprot->writeFieldEnd();
+    xfer += oprot->writeFieldBegin( "sendtime", ::apache::thrift::protocol::T_I32, 8 );
+    xfer += oprot->writeI32( this->sendtime );
+    xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  return xfer;
+    xfer += oprot->writeFieldStop();
+    xfer += oprot->writeStructEnd();
+    return xfer;
 }
 
-void swap(Audio_Upload_SendInfo &a, Audio_Upload_SendInfo &b) {
-  using ::std::swap;
-  swap(a.type, b.type);
-  swap(a.userId, b.userId);
-  swap(a.roomId, b.roomId);
-  swap(a.min, b.min);
-  swap(a.sec, b.sec);
-  swap(a.msec, b.msec);
-  swap(a.info, b.info);
-  swap(a.sendtime, b.sendtime);
-  swap(a.__isset, b.__isset);
+void swap( Audio_Upload_RecvInfo& a, Audio_Upload_RecvInfo& b ) {
+    using ::std::swap;
+    swap( a.type, b.type );
+    swap( a.userId, b.userId );
+    swap( a.roomId, b.roomId );
+    swap( a.min, b.min );
+    swap( a.sec, b.sec );
+    swap( a.msec, b.msec );
+    swap( a.status, b.status );
+    swap( a.sendtime, b.sendtime );
+    swap( a.__isset, b.__isset );
 }
 
-Audio_Upload_SendInfo::Audio_Upload_SendInfo(const Audio_Upload_SendInfo& other0) {
-  type = other0.type;
-  userId = other0.userId;
-  roomId = other0.roomId;
-  min = other0.min;
-  sec = other0.sec;
-  msec = other0.msec;
-  info = other0.info;
-  sendtime = other0.sendtime;
-  __isset = other0.__isset;
+Audio_Upload_RecvInfo::Audio_Upload_RecvInfo( const Audio_Upload_RecvInfo& other2 ) noexcept {
+    type     = other2.type;
+    userId   = other2.userId;
+    roomId   = other2.roomId;
+    min      = other2.min;
+    sec      = other2.sec;
+    msec     = other2.msec;
+    status   = other2.status;
+    sendtime = other2.sendtime;
+    __isset  = other2.__isset;
 }
-Audio_Upload_SendInfo& Audio_Upload_SendInfo::operator=(const Audio_Upload_SendInfo& other1) {
-  type = other1.type;
-  userId = other1.userId;
-  roomId = other1.roomId;
-  min = other1.min;
-  sec = other1.sec;
-  msec = other1.msec;
-  info = other1.info;
-  sendtime = other1.sendtime;
-  __isset = other1.__isset;
-  return *this;
+Audio_Upload_RecvInfo& Audio_Upload_RecvInfo::operator=( const Audio_Upload_RecvInfo& other3 ) noexcept {
+    type     = other3.type;
+    userId   = other3.userId;
+    roomId   = other3.roomId;
+    min      = other3.min;
+    sec      = other3.sec;
+    msec     = other3.msec;
+    status   = other3.status;
+    sendtime = other3.sendtime;
+    __isset  = other3.__isset;
+    return *this;
 }
-void Audio_Upload_SendInfo::printTo(std::ostream& out) const {
-  using ::apache::thrift::to_string;
-  out << "Audio_Upload_SendInfo(";
-  out << "type=" << to_string(type);
-  out << ", " << "userId=" << to_string(userId);
-  out << ", " << "roomId=" << to_string(roomId);
-  out << ", " << "min=" << to_string(min);
-  out << ", " << "sec=" << to_string(sec);
-  out << ", " << "msec=" << to_string(msec);
-  out << ", " << "info=" << to_string(info);
-  out << ", " << "sendtime=" << to_string(sendtime);
-  out << ")";
-}
-
-
-Audio_Upload_RecvInfo::~Audio_Upload_RecvInfo() noexcept {
-}
-
-
-void Audio_Upload_RecvInfo::__set_type(const int32_t val) {
-  this->type = val;
+void Audio_Upload_RecvInfo::printTo( std::ostream& out ) const {
+    using ::apache::thrift::to_string;
+    out << "Audio_Upload_RecvInfo(";
+    out << "type=" << to_string( type );
+    out << ", "
+        << "userId=" << to_string( userId );
+    out << ", "
+        << "roomId=" << to_string( roomId );
+    out << ", "
+        << "min=" << to_string( min );
+    out << ", "
+        << "sec=" << to_string( sec );
+    out << ", "
+        << "msec=" << to_string( msec );
+    out << ", "
+        << "status=" << to_string( status );
+    out << ", "
+        << "sendtime=" << to_string( sendtime );
+    out << ")";
 }
 
-void Audio_Upload_RecvInfo::__set_userId(const int32_t val) {
-  this->userId = val;
+Audio_Download_SendInfo::~Audio_Download_SendInfo() noexcept {}
+
+void Audio_Download_SendInfo::__set_type( const int32_t val ) {
+    this->type = val;
 }
 
-void Audio_Upload_RecvInfo::__set_roomId(const int32_t val) {
-  this->roomId = val;
+void Audio_Download_SendInfo::__set_userId( const int32_t val ) {
+    this->userId = val;
 }
 
-void Audio_Upload_RecvInfo::__set_min(const int32_t val) {
-  this->min = val;
+void Audio_Download_SendInfo::__set_roomId( const int32_t val ) {
+    this->roomId = val;
 }
 
-void Audio_Upload_RecvInfo::__set_sec(const int32_t val) {
-  this->sec = val;
+void Audio_Download_SendInfo::__set_min( const int32_t val ) {
+    this->min = val;
 }
 
-void Audio_Upload_RecvInfo::__set_msec(const int32_t val) {
-  this->msec = val;
+void Audio_Download_SendInfo::__set_sec( const int32_t val ) {
+    this->sec = val;
 }
 
-void Audio_Upload_RecvInfo::__set_status(const int32_t val) {
-  this->status = val;
+void Audio_Download_SendInfo::__set_msec( const int32_t val ) {
+    this->msec = val;
 }
 
-void Audio_Upload_RecvInfo::__set_sendtime(const int32_t val) {
-  this->sendtime = val;
+void Audio_Download_SendInfo::__set_sendtime( const int32_t val ) {
+    this->sendtime = val;
 }
-std::ostream& operator<<(std::ostream& out, const Audio_Upload_RecvInfo& obj)
-{
-  obj.printTo(out);
-  return out;
+std::ostream& operator<<( std::ostream& out, const Audio_Download_SendInfo& obj ) {
+    obj.printTo( out );
+    return out;
 }
 
+uint32_t Audio_Download_SendInfo::read( ::apache::thrift::protocol::TProtocol* iprot ) {
 
-uint32_t Audio_Upload_RecvInfo::read(::apache::thrift::protocol::TProtocol* iprot) {
+    ::apache::thrift::protocol::TInputRecursionTracker tracker( *iprot );
+    uint32_t                                           xfer = 0;
+    std::string                                        fname;
+    ::apache::thrift::protocol::TType                  ftype;
+    int16_t                                            fid;
 
-  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
+    xfer += iprot->readStructBegin( fname );
 
-  xfer += iprot->readStructBegin(fname);
+    using ::apache::thrift::protocol::TProtocolException;
 
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
+    while ( true ) {
+        xfer += iprot->readFieldBegin( fname, ftype, fid );
+        if ( ftype == ::apache::thrift::protocol::T_STOP ) {
+            break;
+        }
+        switch ( fid ) {
+        case 1:
+            if ( ftype == ::apache::thrift::protocol::T_I32 ) {
+                xfer += iprot->readI32( this->type );
+                this->__isset.type = true;
+            } else {
+                xfer += iprot->skip( ftype );
+            }
+            break;
+        case 2:
+            if ( ftype == ::apache::thrift::protocol::T_I32 ) {
+                xfer += iprot->readI32( this->userId );
+                this->__isset.userId = true;
+            } else {
+                xfer += iprot->skip( ftype );
+            }
+            break;
+        case 3:
+            if ( ftype == ::apache::thrift::protocol::T_I32 ) {
+                xfer += iprot->readI32( this->roomId );
+                this->__isset.roomId = true;
+            } else {
+                xfer += iprot->skip( ftype );
+            }
+            break;
+        case 4:
+            if ( ftype == ::apache::thrift::protocol::T_I32 ) {
+                xfer += iprot->readI32( this->min );
+                this->__isset.min = true;
+            } else {
+                xfer += iprot->skip( ftype );
+            }
+            break;
+        case 5:
+            if ( ftype == ::apache::thrift::protocol::T_I32 ) {
+                xfer += iprot->readI32( this->sec );
+                this->__isset.sec = true;
+            } else {
+                xfer += iprot->skip( ftype );
+            }
+            break;
+        case 6:
+            if ( ftype == ::apache::thrift::protocol::T_I32 ) {
+                xfer += iprot->readI32( this->msec );
+                this->__isset.msec = true;
+            } else {
+                xfer += iprot->skip( ftype );
+            }
+            break;
+        case 7:
+            if ( ftype == ::apache::thrift::protocol::T_I32 ) {
+                xfer += iprot->readI32( this->sendtime );
+                this->__isset.sendtime = true;
+            } else {
+                xfer += iprot->skip( ftype );
+            }
+            break;
+        default:
+            xfer += iprot->skip( ftype );
+            break;
+        }
+        xfer += iprot->readFieldEnd();
     }
-    switch (fid)
-    {
-      case 1:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->type);
-          this->__isset.type = true;
-        } else {
-          xfer += iprot->skip(ftype);
+
+    xfer += iprot->readStructEnd();
+
+    return xfer;
+}
+
+uint32_t Audio_Download_SendInfo::write( ::apache::thrift::protocol::TProtocol* oprot ) const {
+    uint32_t                                            xfer = 0;
+    ::apache::thrift::protocol::TOutputRecursionTracker tracker( *oprot );
+    xfer += oprot->writeStructBegin( "Audio_Download_SendInfo" );
+
+    xfer += oprot->writeFieldBegin( "type", ::apache::thrift::protocol::T_I32, 1 );
+    xfer += oprot->writeI32( this->type );
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin( "userId", ::apache::thrift::protocol::T_I32, 2 );
+    xfer += oprot->writeI32( this->userId );
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin( "roomId", ::apache::thrift::protocol::T_I32, 3 );
+    xfer += oprot->writeI32( this->roomId );
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin( "min", ::apache::thrift::protocol::T_I32, 4 );
+    xfer += oprot->writeI32( this->min );
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin( "sec", ::apache::thrift::protocol::T_I32, 5 );
+    xfer += oprot->writeI32( this->sec );
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin( "msec", ::apache::thrift::protocol::T_I32, 6 );
+    xfer += oprot->writeI32( this->msec );
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldBegin( "sendtime", ::apache::thrift::protocol::T_I32, 7 );
+    xfer += oprot->writeI32( this->sendtime );
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldStop();
+    xfer += oprot->writeStructEnd();
+    return xfer;
+}
+
+void swap( Audio_Download_SendInfo& a, Audio_Download_SendInfo& b ) {
+    using ::std::swap;
+    swap( a.type, b.type );
+    swap( a.userId, b.userId );
+    swap( a.roomId, b.roomId );
+    swap( a.min, b.min );
+    swap( a.sec, b.sec );
+    swap( a.msec, b.msec );
+    swap( a.sendtime, b.sendtime );
+    swap( a.__isset, b.__isset );
+}
+
+Audio_Download_SendInfo::Audio_Download_SendInfo( const Audio_Download_SendInfo& other4 ) noexcept {
+    type     = other4.type;
+    userId   = other4.userId;
+    roomId   = other4.roomId;
+    min      = other4.min;
+    sec      = other4.sec;
+    msec     = other4.msec;
+    sendtime = other4.sendtime;
+    __isset  = other4.__isset;
+}
+Audio_Download_SendInfo& Audio_Download_SendInfo::operator=( const Audio_Download_SendInfo& other5 ) noexcept {
+    type     = other5.type;
+    userId   = other5.userId;
+    roomId   = other5.roomId;
+    min      = other5.min;
+    sec      = other5.sec;
+    msec     = other5.msec;
+    sendtime = other5.sendtime;
+    __isset  = other5.__isset;
+    return *this;
+}
+void Audio_Download_SendInfo::printTo( std::ostream& out ) const {
+    using ::apache::thrift::to_string;
+    out << "Audio_Download_SendInfo(";
+    out << "type=" << to_string( type );
+    out << ", "
+        << "userId=" << to_string( userId );
+    out << ", "
+        << "roomId=" << to_string( roomId );
+    out << ", "
+        << "min=" << to_string( min );
+    out << ", "
+        << "sec=" << to_string( sec );
+    out << ", "
+        << "msec=" << to_string( msec );
+    out << ", "
+        << "sendtime=" << to_string( sendtime );
+    out << ")";
+}
+
+Audio_Download_RecvInfo::~Audio_Download_RecvInfo() noexcept {}
+
+void Audio_Download_RecvInfo::__set_type( const int32_t val ) {
+    this->type = val;
+}
+
+void Audio_Download_RecvInfo::__set_userId( const int32_t val ) {
+    this->userId = val;
+}
+
+void Audio_Download_RecvInfo::__set_roomId( const int32_t val ) {
+    this->roomId = val;
+}
+
+void Audio_Download_RecvInfo::__set_min( const int32_t val ) {
+    this->min = val;
+}
+
+void Audio_Download_RecvInfo::__set_sec( const int32_t val ) {
+    this->sec = val;
+}
+
+void Audio_Download_RecvInfo::__set_msec( const int32_t val ) {
+    this->msec = val;
+}
+
+void Audio_Download_RecvInfo::__set_status( const int32_t val ) {
+    this->status = val;
+}
+
+void Audio_Download_RecvInfo::__set_info( const std::string& val ) {
+    this->info = val;
+}
+
+void Audio_Download_RecvInfo::__set_sendtime( const int32_t val ) {
+    this->sendtime = val;
+}
+std::ostream& operator<<( std::ostream& out, const Audio_Download_RecvInfo& obj ) {
+    obj.printTo( out );
+    return out;
+}
+
+uint32_t Audio_Download_RecvInfo::read( ::apache::thrift::protocol::TProtocol* iprot ) {
+
+    ::apache::thrift::protocol::TInputRecursionTracker tracker( *iprot );
+    uint32_t                                           xfer = 0;
+    std::string                                        fname;
+    ::apache::thrift::protocol::TType                  ftype;
+    int16_t                                            fid;
+
+    xfer += iprot->readStructBegin( fname );
+
+    using ::apache::thrift::protocol::TProtocolException;
+
+    while ( true ) {
+        xfer += iprot->readFieldBegin( fname, ftype, fid );
+        if ( ftype == ::apache::thrift::protocol::T_STOP ) {
+            break;
         }
-        break;
-      case 2:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->userId);
-          this->__isset.userId = true;
-        } else {
-          xfer += iprot->skip(ftype);
+        switch ( fid ) {
+        case 1:
+            if ( ftype == ::apache::thrift::protocol::T_I32 ) {
+                xfer += iprot->readI32( this->type );
+                this->__isset.type = true;
+            } else {
+                xfer += iprot->skip( ftype );
+            }
+            break;
+        case 2:
+            if ( ftype == ::apache::thrift::protocol::T_I32 ) {
+                xfer += iprot->readI32( this->userId );
+                this->__isset.userId = true;
+            } else {
+                xfer += iprot->skip( ftype );
+            }
+            break;
+        case 3:
+            if ( ftype == ::apache::thrift::protocol::T_I32 ) {
+                xfer += iprot->readI32( this->roomId );
+                this->__isset.roomId = true;
+            } else {
+                xfer += iprot->skip( ftype );
+            }
+            break;
+        case 4:
+            if ( ftype == ::apache::thrift::protocol::T_I32 ) {
+                xfer += iprot->readI32( this->min );
+                this->__isset.min = true;
+            } else {
+                xfer += iprot->skip( ftype );
+            }
+            break;
+        case 5:
+            if ( ftype == ::apache::thrift::protocol::T_I32 ) {
+                xfer += iprot->readI32( this->sec );
+                this->__isset.sec = true;
+            } else {
+                xfer += iprot->skip( ftype );
+            }
+            break;
+        case 6:
+            if ( ftype == ::apache::thrift::protocol::T_I32 ) {
+                xfer += iprot->readI32( this->msec );
+                this->__isset.msec = true;
+            } else {
+                xfer += iprot->skip( ftype );
+            }
+            break;
+        case 7:
+            if ( ftype == ::apache::thrift::protocol::T_I32 ) {
+                xfer += iprot->readI32( this->status );
+                this->__isset.status = true;
+            } else {
+                xfer += iprot->skip( ftype );
+            }
+            break;
+        case 8:
+            if ( ftype == ::apache::thrift::protocol::T_STRING ) {
+                xfer += iprot->readString( this->info );
+                this->__isset.info = true;
+            } else {
+                xfer += iprot->skip( ftype );
+            }
+            break;
+        case 9:
+            if ( ftype == ::apache::thrift::protocol::T_I32 ) {
+                xfer += iprot->readI32( this->sendtime );
+                this->__isset.sendtime = true;
+            } else {
+                xfer += iprot->skip( ftype );
+            }
+            break;
+        default:
+            xfer += iprot->skip( ftype );
+            break;
         }
-        break;
-      case 3:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->roomId);
-          this->__isset.roomId = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 4:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->min);
-          this->__isset.min = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 5:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->sec);
-          this->__isset.sec = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 6:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->msec);
-          this->__isset.msec = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 7:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->status);
-          this->__isset.status = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 8:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->sendtime);
-          this->__isset.sendtime = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      default:
-        xfer += iprot->skip(ftype);
-        break;
+        xfer += iprot->readFieldEnd();
     }
-    xfer += iprot->readFieldEnd();
-  }
 
-  xfer += iprot->readStructEnd();
+    xfer += iprot->readStructEnd();
 
-  return xfer;
+    return xfer;
 }
 
-uint32_t Audio_Upload_RecvInfo::write(::apache::thrift::protocol::TProtocol* oprot) const {
-  uint32_t xfer = 0;
-  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("Audio_Upload_RecvInfo");
+uint32_t Audio_Download_RecvInfo::write( ::apache::thrift::protocol::TProtocol* oprot ) const {
+    uint32_t                                            xfer = 0;
+    ::apache::thrift::protocol::TOutputRecursionTracker tracker( *oprot );
+    xfer += oprot->writeStructBegin( "Audio_Download_RecvInfo" );
 
-  xfer += oprot->writeFieldBegin("type", ::apache::thrift::protocol::T_I32, 1);
-  xfer += oprot->writeI32(this->type);
-  xfer += oprot->writeFieldEnd();
+    xfer += oprot->writeFieldBegin( "type", ::apache::thrift::protocol::T_I32, 1 );
+    xfer += oprot->writeI32( this->type );
+    xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("userId", ::apache::thrift::protocol::T_I32, 2);
-  xfer += oprot->writeI32(this->userId);
-  xfer += oprot->writeFieldEnd();
+    xfer += oprot->writeFieldBegin( "userId", ::apache::thrift::protocol::T_I32, 2 );
+    xfer += oprot->writeI32( this->userId );
+    xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("roomId", ::apache::thrift::protocol::T_I32, 3);
-  xfer += oprot->writeI32(this->roomId);
-  xfer += oprot->writeFieldEnd();
+    xfer += oprot->writeFieldBegin( "roomId", ::apache::thrift::protocol::T_I32, 3 );
+    xfer += oprot->writeI32( this->roomId );
+    xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("min", ::apache::thrift::protocol::T_I32, 4);
-  xfer += oprot->writeI32(this->min);
-  xfer += oprot->writeFieldEnd();
+    xfer += oprot->writeFieldBegin( "min", ::apache::thrift::protocol::T_I32, 4 );
+    xfer += oprot->writeI32( this->min );
+    xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("sec", ::apache::thrift::protocol::T_I32, 5);
-  xfer += oprot->writeI32(this->sec);
-  xfer += oprot->writeFieldEnd();
+    xfer += oprot->writeFieldBegin( "sec", ::apache::thrift::protocol::T_I32, 5 );
+    xfer += oprot->writeI32( this->sec );
+    xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("msec", ::apache::thrift::protocol::T_I32, 6);
-  xfer += oprot->writeI32(this->msec);
-  xfer += oprot->writeFieldEnd();
+    xfer += oprot->writeFieldBegin( "msec", ::apache::thrift::protocol::T_I32, 6 );
+    xfer += oprot->writeI32( this->msec );
+    xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("status", ::apache::thrift::protocol::T_I32, 7);
-  xfer += oprot->writeI32(this->status);
-  xfer += oprot->writeFieldEnd();
+    xfer += oprot->writeFieldBegin( "status", ::apache::thrift::protocol::T_I32, 7 );
+    xfer += oprot->writeI32( this->status );
+    xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("sendtime", ::apache::thrift::protocol::T_I32, 8);
-  xfer += oprot->writeI32(this->sendtime);
-  xfer += oprot->writeFieldEnd();
+    xfer += oprot->writeFieldBegin( "info", ::apache::thrift::protocol::T_STRING, 8 );
+    xfer += oprot->writeString( this->info );
+    xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  return xfer;
+    xfer += oprot->writeFieldBegin( "sendtime", ::apache::thrift::protocol::T_I32, 9 );
+    xfer += oprot->writeI32( this->sendtime );
+    xfer += oprot->writeFieldEnd();
+
+    xfer += oprot->writeFieldStop();
+    xfer += oprot->writeStructEnd();
+    return xfer;
 }
 
-void swap(Audio_Upload_RecvInfo &a, Audio_Upload_RecvInfo &b) {
-  using ::std::swap;
-  swap(a.type, b.type);
-  swap(a.userId, b.userId);
-  swap(a.roomId, b.roomId);
-  swap(a.min, b.min);
-  swap(a.sec, b.sec);
-  swap(a.msec, b.msec);
-  swap(a.status, b.status);
-  swap(a.sendtime, b.sendtime);
-  swap(a.__isset, b.__isset);
+void swap( Audio_Download_RecvInfo& a, Audio_Download_RecvInfo& b ) {
+    using ::std::swap;
+    swap( a.type, b.type );
+    swap( a.userId, b.userId );
+    swap( a.roomId, b.roomId );
+    swap( a.min, b.min );
+    swap( a.sec, b.sec );
+    swap( a.msec, b.msec );
+    swap( a.status, b.status );
+    swap( a.info, b.info );
+    swap( a.sendtime, b.sendtime );
+    swap( a.__isset, b.__isset );
 }
 
-Audio_Upload_RecvInfo::Audio_Upload_RecvInfo(const Audio_Upload_RecvInfo& other2) noexcept {
-  type = other2.type;
-  userId = other2.userId;
-  roomId = other2.roomId;
-  min = other2.min;
-  sec = other2.sec;
-  msec = other2.msec;
-  status = other2.status;
-  sendtime = other2.sendtime;
-  __isset = other2.__isset;
+Audio_Download_RecvInfo::Audio_Download_RecvInfo( const Audio_Download_RecvInfo& other6 ) {
+    type     = other6.type;
+    userId   = other6.userId;
+    roomId   = other6.roomId;
+    min      = other6.min;
+    sec      = other6.sec;
+    msec     = other6.msec;
+    status   = other6.status;
+    info     = other6.info;
+    sendtime = other6.sendtime;
+    __isset  = other6.__isset;
 }
-Audio_Upload_RecvInfo& Audio_Upload_RecvInfo::operator=(const Audio_Upload_RecvInfo& other3) noexcept {
-  type = other3.type;
-  userId = other3.userId;
-  roomId = other3.roomId;
-  min = other3.min;
-  sec = other3.sec;
-  msec = other3.msec;
-  status = other3.status;
-  sendtime = other3.sendtime;
-  __isset = other3.__isset;
-  return *this;
+Audio_Download_RecvInfo& Audio_Download_RecvInfo::operator=( const Audio_Download_RecvInfo& other7 ) {
+    type     = other7.type;
+    userId   = other7.userId;
+    roomId   = other7.roomId;
+    min      = other7.min;
+    sec      = other7.sec;
+    msec     = other7.msec;
+    status   = other7.status;
+    info     = other7.info;
+    sendtime = other7.sendtime;
+    __isset  = other7.__isset;
+    return *this;
 }
-void Audio_Upload_RecvInfo::printTo(std::ostream& out) const {
-  using ::apache::thrift::to_string;
-  out << "Audio_Upload_RecvInfo(";
-  out << "type=" << to_string(type);
-  out << ", " << "userId=" << to_string(userId);
-  out << ", " << "roomId=" << to_string(roomId);
-  out << ", " << "min=" << to_string(min);
-  out << ", " << "sec=" << to_string(sec);
-  out << ", " << "msec=" << to_string(msec);
-  out << ", " << "status=" << to_string(status);
-  out << ", " << "sendtime=" << to_string(sendtime);
-  out << ")";
-}
-
-
-Audio_Download_SendInfo::~Audio_Download_SendInfo() noexcept {
-}
-
-
-void Audio_Download_SendInfo::__set_type(const int32_t val) {
-  this->type = val;
-}
-
-void Audio_Download_SendInfo::__set_userId(const int32_t val) {
-  this->userId = val;
+void Audio_Download_RecvInfo::printTo( std::ostream& out ) const {
+    using ::apache::thrift::to_string;
+    out << "Audio_Download_RecvInfo(";
+    out << "type=" << to_string( type );
+    out << ", "
+        << "userId=" << to_string( userId );
+    out << ", "
+        << "roomId=" << to_string( roomId );
+    out << ", "
+        << "min=" << to_string( min );
+    out << ", "
+        << "sec=" << to_string( sec );
+    out << ", "
+        << "msec=" << to_string( msec );
+    out << ", "
+        << "status=" << to_string( status );
+    out << ", "
+        << "info=" << to_string( info );
+    out << ", "
+        << "sendtime=" << to_string( sendtime );
+    out << ")";
 }
 
-void Audio_Download_SendInfo::__set_roomId(const int32_t val) {
-  this->roomId = val;
+Audio_Clean_SendInfo::~Audio_Clean_SendInfo() noexcept {}
+
+void Audio_Clean_SendInfo::__set_type( const int32_t val ) {
+    this->type = val;
 }
 
-void Audio_Download_SendInfo::__set_min(const int32_t val) {
-  this->min = val;
+void Audio_Clean_SendInfo::__set_userId( const int32_t val ) {
+    this->userId = val;
 }
 
-void Audio_Download_SendInfo::__set_sec(const int32_t val) {
-  this->sec = val;
+void Audio_Clean_SendInfo::__set_roomId( const int32_t val ) {
+    this->roomId = val;
 }
 
-void Audio_Download_SendInfo::__set_msec(const int32_t val) {
-  this->msec = val;
+void Audio_Clean_SendInfo::__set_sendtime( const int32_t val ) {
+    this->sendtime = val;
+}
+std::ostream& operator<<( std::ostream& out, const Audio_Clean_SendInfo& obj ) {
+    obj.printTo( out );
+    return out;
 }
 
-void Audio_Download_SendInfo::__set_sendtime(const int32_t val) {
-  this->sendtime = val;
-}
-std::ostream& operator<<(std::ostream& out, const Audio_Download_SendInfo& obj)
-{
-  obj.printTo(out);
-  return out;
-}
+uint32_t Audio_Clean_SendInfo::read( ::apache::thrift::protocol::TProtocol* iprot ) {
 
+    ::apache::thrift::protocol::TInputRecursionTracker tracker( *iprot );
+    uint32_t                                           xfer = 0;
+    std::string                                        fname;
+    ::apache::thrift::protocol::TType                  ftype;
+    int16_t                                            fid;
 
-uint32_t Audio_Download_SendInfo::read(::apache::thrift::protocol::TProtocol* iprot) {
+    xfer += iprot->readStructBegin( fname );
 
-  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
+    using ::apache::thrift::protocol::TProtocolException;
 
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
+    while ( true ) {
+        xfer += iprot->readFieldBegin( fname, ftype, fid );
+        if ( ftype == ::apache::thrift::protocol::T_STOP ) {
+            break;
+        }
+        switch ( fid ) {
+        case 1:
+            if ( ftype == ::apache::thrift::protocol::T_I32 ) {
+                xfer += iprot->readI32( this->type );
+                this->__isset.type = true;
+            } else {
+                xfer += iprot->skip( ftype );
+            }
+            break;
+        case 2:
+            if ( ftype == ::apache::thrift::protocol::T_I32 ) {
+                xfer += iprot->readI32( this->userId );
+                this->__isset.userId = true;
+            } else {
+                xfer += iprot->skip( ftype );
+            }
+            break;
+        case 3:
+            if ( ftype == ::apache::thrift::protocol::T_I32 ) {
+                xfer += iprot->readI32( this->roomId );
+                this->__isset.roomId = true;
+            } else {
+                xfer += iprot->skip( ftype );
+            }
+            break;
+        case 4:
+            if ( ftype == ::apache::thrift::protocol::T_I32 ) {
+                xfer += iprot->readI32( this->sendtime );
+                this->__isset.sendtime = true;
+            } else {
+                xfer += iprot->skip( ftype );
+            }
+            break;
+        default:
+            xfer += iprot->skip( ftype );
+            break;
+        }
+        xfer += iprot->readFieldEnd();
     }
-    switch (fid)
-    {
-      case 1:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->type);
-          this->__isset.type = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 2:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->userId);
-          this->__isset.userId = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 3:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->roomId);
-          this->__isset.roomId = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 4:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->min);
-          this->__isset.min = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 5:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->sec);
-          this->__isset.sec = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 6:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->msec);
-          this->__isset.msec = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 7:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->sendtime);
-          this->__isset.sendtime = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      default:
-        xfer += iprot->skip(ftype);
-        break;
-    }
-    xfer += iprot->readFieldEnd();
-  }
 
-  xfer += iprot->readStructEnd();
+    xfer += iprot->readStructEnd();
 
-  return xfer;
+    return xfer;
 }
 
-uint32_t Audio_Download_SendInfo::write(::apache::thrift::protocol::TProtocol* oprot) const {
-  uint32_t xfer = 0;
-  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("Audio_Download_SendInfo");
+uint32_t Audio_Clean_SendInfo::write( ::apache::thrift::protocol::TProtocol* oprot ) const {
+    uint32_t                                            xfer = 0;
+    ::apache::thrift::protocol::TOutputRecursionTracker tracker( *oprot );
+    xfer += oprot->writeStructBegin( "Audio_Clean_SendInfo" );
 
-  xfer += oprot->writeFieldBegin("type", ::apache::thrift::protocol::T_I32, 1);
-  xfer += oprot->writeI32(this->type);
-  xfer += oprot->writeFieldEnd();
+    xfer += oprot->writeFieldBegin( "type", ::apache::thrift::protocol::T_I32, 1 );
+    xfer += oprot->writeI32( this->type );
+    xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("userId", ::apache::thrift::protocol::T_I32, 2);
-  xfer += oprot->writeI32(this->userId);
-  xfer += oprot->writeFieldEnd();
+    xfer += oprot->writeFieldBegin( "userId", ::apache::thrift::protocol::T_I32, 2 );
+    xfer += oprot->writeI32( this->userId );
+    xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("roomId", ::apache::thrift::protocol::T_I32, 3);
-  xfer += oprot->writeI32(this->roomId);
-  xfer += oprot->writeFieldEnd();
+    xfer += oprot->writeFieldBegin( "roomId", ::apache::thrift::protocol::T_I32, 3 );
+    xfer += oprot->writeI32( this->roomId );
+    xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("min", ::apache::thrift::protocol::T_I32, 4);
-  xfer += oprot->writeI32(this->min);
-  xfer += oprot->writeFieldEnd();
+    xfer += oprot->writeFieldBegin( "sendtime", ::apache::thrift::protocol::T_I32, 4 );
+    xfer += oprot->writeI32( this->sendtime );
+    xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("sec", ::apache::thrift::protocol::T_I32, 5);
-  xfer += oprot->writeI32(this->sec);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("msec", ::apache::thrift::protocol::T_I32, 6);
-  xfer += oprot->writeI32(this->msec);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("sendtime", ::apache::thrift::protocol::T_I32, 7);
-  xfer += oprot->writeI32(this->sendtime);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  return xfer;
+    xfer += oprot->writeFieldStop();
+    xfer += oprot->writeStructEnd();
+    return xfer;
 }
 
-void swap(Audio_Download_SendInfo &a, Audio_Download_SendInfo &b) {
-  using ::std::swap;
-  swap(a.type, b.type);
-  swap(a.userId, b.userId);
-  swap(a.roomId, b.roomId);
-  swap(a.min, b.min);
-  swap(a.sec, b.sec);
-  swap(a.msec, b.msec);
-  swap(a.sendtime, b.sendtime);
-  swap(a.__isset, b.__isset);
+void swap( Audio_Clean_SendInfo& a, Audio_Clean_SendInfo& b ) {
+    using ::std::swap;
+    swap( a.type, b.type );
+    swap( a.userId, b.userId );
+    swap( a.roomId, b.roomId );
+    swap( a.sendtime, b.sendtime );
+    swap( a.__isset, b.__isset );
 }
 
-Audio_Download_SendInfo::Audio_Download_SendInfo(const Audio_Download_SendInfo& other4) noexcept {
-  type = other4.type;
-  userId = other4.userId;
-  roomId = other4.roomId;
-  min = other4.min;
-  sec = other4.sec;
-  msec = other4.msec;
-  sendtime = other4.sendtime;
-  __isset = other4.__isset;
+Audio_Clean_SendInfo::Audio_Clean_SendInfo( const Audio_Clean_SendInfo& other8 ) noexcept {
+    type     = other8.type;
+    userId   = other8.userId;
+    roomId   = other8.roomId;
+    sendtime = other8.sendtime;
+    __isset  = other8.__isset;
 }
-Audio_Download_SendInfo& Audio_Download_SendInfo::operator=(const Audio_Download_SendInfo& other5) noexcept {
-  type = other5.type;
-  userId = other5.userId;
-  roomId = other5.roomId;
-  min = other5.min;
-  sec = other5.sec;
-  msec = other5.msec;
-  sendtime = other5.sendtime;
-  __isset = other5.__isset;
-  return *this;
+Audio_Clean_SendInfo& Audio_Clean_SendInfo::operator=( const Audio_Clean_SendInfo& other9 ) noexcept {
+    type     = other9.type;
+    userId   = other9.userId;
+    roomId   = other9.roomId;
+    sendtime = other9.sendtime;
+    __isset  = other9.__isset;
+    return *this;
 }
-void Audio_Download_SendInfo::printTo(std::ostream& out) const {
-  using ::apache::thrift::to_string;
-  out << "Audio_Download_SendInfo(";
-  out << "type=" << to_string(type);
-  out << ", " << "userId=" << to_string(userId);
-  out << ", " << "roomId=" << to_string(roomId);
-  out << ", " << "min=" << to_string(min);
-  out << ", " << "sec=" << to_string(sec);
-  out << ", " << "msec=" << to_string(msec);
-  out << ", " << "sendtime=" << to_string(sendtime);
-  out << ")";
+void Audio_Clean_SendInfo::printTo( std::ostream& out ) const {
+    using ::apache::thrift::to_string;
+    out << "Audio_Clean_SendInfo(";
+    out << "type=" << to_string( type );
+    out << ", "
+        << "userId=" << to_string( userId );
+    out << ", "
+        << "roomId=" << to_string( roomId );
+    out << ", "
+        << "sendtime=" << to_string( sendtime );
+    out << ")";
 }
-
-
-Audio_Download_RecvInfo::~Audio_Download_RecvInfo() noexcept {
-}
-
-
-void Audio_Download_RecvInfo::__set_type(const int32_t val) {
-  this->type = val;
-}
-
-void Audio_Download_RecvInfo::__set_userId(const int32_t val) {
-  this->userId = val;
-}
-
-void Audio_Download_RecvInfo::__set_roomId(const int32_t val) {
-  this->roomId = val;
-}
-
-void Audio_Download_RecvInfo::__set_min(const int32_t val) {
-  this->min = val;
-}
-
-void Audio_Download_RecvInfo::__set_sec(const int32_t val) {
-  this->sec = val;
-}
-
-void Audio_Download_RecvInfo::__set_msec(const int32_t val) {
-  this->msec = val;
-}
-
-void Audio_Download_RecvInfo::__set_status(const int32_t val) {
-  this->status = val;
-}
-
-void Audio_Download_RecvInfo::__set_info(const std::string& val) {
-  this->info = val;
-}
-
-void Audio_Download_RecvInfo::__set_sendtime(const int32_t val) {
-  this->sendtime = val;
-}
-std::ostream& operator<<(std::ostream& out, const Audio_Download_RecvInfo& obj)
-{
-  obj.printTo(out);
-  return out;
-}
-
-
-uint32_t Audio_Download_RecvInfo::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 1:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->type);
-          this->__isset.type = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 2:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->userId);
-          this->__isset.userId = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 3:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->roomId);
-          this->__isset.roomId = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 4:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->min);
-          this->__isset.min = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 5:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->sec);
-          this->__isset.sec = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 6:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->msec);
-          this->__isset.msec = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 7:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->status);
-          this->__isset.status = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 8:
-        if (ftype == ::apache::thrift::protocol::T_STRING) {
-          xfer += iprot->readString(this->info);
-          this->__isset.info = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 9:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->sendtime);
-          this->__isset.sendtime = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      default:
-        xfer += iprot->skip(ftype);
-        break;
-    }
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  return xfer;
-}
-
-uint32_t Audio_Download_RecvInfo::write(::apache::thrift::protocol::TProtocol* oprot) const {
-  uint32_t xfer = 0;
-  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("Audio_Download_RecvInfo");
-
-  xfer += oprot->writeFieldBegin("type", ::apache::thrift::protocol::T_I32, 1);
-  xfer += oprot->writeI32(this->type);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("userId", ::apache::thrift::protocol::T_I32, 2);
-  xfer += oprot->writeI32(this->userId);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("roomId", ::apache::thrift::protocol::T_I32, 3);
-  xfer += oprot->writeI32(this->roomId);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("min", ::apache::thrift::protocol::T_I32, 4);
-  xfer += oprot->writeI32(this->min);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("sec", ::apache::thrift::protocol::T_I32, 5);
-  xfer += oprot->writeI32(this->sec);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("msec", ::apache::thrift::protocol::T_I32, 6);
-  xfer += oprot->writeI32(this->msec);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("status", ::apache::thrift::protocol::T_I32, 7);
-  xfer += oprot->writeI32(this->status);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("info", ::apache::thrift::protocol::T_STRING, 8);
-  xfer += oprot->writeString(this->info);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("sendtime", ::apache::thrift::protocol::T_I32, 9);
-  xfer += oprot->writeI32(this->sendtime);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  return xfer;
-}
-
-void swap(Audio_Download_RecvInfo &a, Audio_Download_RecvInfo &b) {
-  using ::std::swap;
-  swap(a.type, b.type);
-  swap(a.userId, b.userId);
-  swap(a.roomId, b.roomId);
-  swap(a.min, b.min);
-  swap(a.sec, b.sec);
-  swap(a.msec, b.msec);
-  swap(a.status, b.status);
-  swap(a.info, b.info);
-  swap(a.sendtime, b.sendtime);
-  swap(a.__isset, b.__isset);
-}
-
-Audio_Download_RecvInfo::Audio_Download_RecvInfo(const Audio_Download_RecvInfo& other6) {
-  type = other6.type;
-  userId = other6.userId;
-  roomId = other6.roomId;
-  min = other6.min;
-  sec = other6.sec;
-  msec = other6.msec;
-  status = other6.status;
-  info = other6.info;
-  sendtime = other6.sendtime;
-  __isset = other6.__isset;
-}
-Audio_Download_RecvInfo& Audio_Download_RecvInfo::operator=(const Audio_Download_RecvInfo& other7) {
-  type = other7.type;
-  userId = other7.userId;
-  roomId = other7.roomId;
-  min = other7.min;
-  sec = other7.sec;
-  msec = other7.msec;
-  status = other7.status;
-  info = other7.info;
-  sendtime = other7.sendtime;
-  __isset = other7.__isset;
-  return *this;
-}
-void Audio_Download_RecvInfo::printTo(std::ostream& out) const {
-  using ::apache::thrift::to_string;
-  out << "Audio_Download_RecvInfo(";
-  out << "type=" << to_string(type);
-  out << ", " << "userId=" << to_string(userId);
-  out << ", " << "roomId=" << to_string(roomId);
-  out << ", " << "min=" << to_string(min);
-  out << ", " << "sec=" << to_string(sec);
-  out << ", " << "msec=" << to_string(msec);
-  out << ", " << "status=" << to_string(status);
-  out << ", " << "info=" << to_string(info);
-  out << ", " << "sendtime=" << to_string(sendtime);
-  out << ")";
-}
-
-
-Audio_Clean_SendInfo::~Audio_Clean_SendInfo() noexcept {
-}
-
-
-void Audio_Clean_SendInfo::__set_type(const int32_t val) {
-  this->type = val;
-}
-
-void Audio_Clean_SendInfo::__set_userId(const int32_t val) {
-  this->userId = val;
-}
-
-void Audio_Clean_SendInfo::__set_roomId(const int32_t val) {
-  this->roomId = val;
-}
-
-void Audio_Clean_SendInfo::__set_sendtime(const int32_t val) {
-  this->sendtime = val;
-}
-std::ostream& operator<<(std::ostream& out, const Audio_Clean_SendInfo& obj)
-{
-  obj.printTo(out);
-  return out;
-}
-
-
-uint32_t Audio_Clean_SendInfo::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 1:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->type);
-          this->__isset.type = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 2:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->userId);
-          this->__isset.userId = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 3:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->roomId);
-          this->__isset.roomId = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 4:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->sendtime);
-          this->__isset.sendtime = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      default:
-        xfer += iprot->skip(ftype);
-        break;
-    }
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  return xfer;
-}
-
-uint32_t Audio_Clean_SendInfo::write(::apache::thrift::protocol::TProtocol* oprot) const {
-  uint32_t xfer = 0;
-  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("Audio_Clean_SendInfo");
-
-  xfer += oprot->writeFieldBegin("type", ::apache::thrift::protocol::T_I32, 1);
-  xfer += oprot->writeI32(this->type);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("userId", ::apache::thrift::protocol::T_I32, 2);
-  xfer += oprot->writeI32(this->userId);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("roomId", ::apache::thrift::protocol::T_I32, 3);
-  xfer += oprot->writeI32(this->roomId);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("sendtime", ::apache::thrift::protocol::T_I32, 4);
-  xfer += oprot->writeI32(this->sendtime);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  return xfer;
-}
-
-void swap(Audio_Clean_SendInfo &a, Audio_Clean_SendInfo &b) {
-  using ::std::swap;
-  swap(a.type, b.type);
-  swap(a.userId, b.userId);
-  swap(a.roomId, b.roomId);
-  swap(a.sendtime, b.sendtime);
-  swap(a.__isset, b.__isset);
-}
-
-Audio_Clean_SendInfo::Audio_Clean_SendInfo(const Audio_Clean_SendInfo& other8) noexcept {
-  type = other8.type;
-  userId = other8.userId;
-  roomId = other8.roomId;
-  sendtime = other8.sendtime;
-  __isset = other8.__isset;
-}
-Audio_Clean_SendInfo& Audio_Clean_SendInfo::operator=(const Audio_Clean_SendInfo& other9) noexcept {
-  type = other9.type;
-  userId = other9.userId;
-  roomId = other9.roomId;
-  sendtime = other9.sendtime;
-  __isset = other9.__isset;
-  return *this;
-}
-void Audio_Clean_SendInfo::printTo(std::ostream& out) const {
-  using ::apache::thrift::to_string;
-  out << "Audio_Clean_SendInfo(";
-  out << "type=" << to_string(type);
-  out << ", " << "userId=" << to_string(userId);
-  out << ", " << "roomId=" << to_string(roomId);
-  out << ", " << "sendtime=" << to_string(sendtime);
-  out << ")";
-}
-
-

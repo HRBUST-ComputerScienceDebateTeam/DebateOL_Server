@@ -9,17 +9,14 @@
 
 #include <iosfwd>
 
-#include <thrift/Thrift.h>
 #include <thrift/TApplicationException.h>
 #include <thrift/TBase.h>
+#include <thrift/Thrift.h>
 #include <thrift/protocol/TProtocol.h>
 #include <thrift/transport/TTransport.h>
 
 #include <functional>
 #include <memory>
-
-
-
 
 class User_GetBaseInfo_SendInfo;
 
@@ -80,1840 +77,1638 @@ class User_ModifyExInfo_SendInfo;
 class User_ModifyExInfo_RecvInfo;
 
 typedef struct _User_GetBaseInfo_SendInfo__isset {
-  _User_GetBaseInfo_SendInfo__isset() : type(false), jwt_token(false), sendtime(false), Aim_usernum(false), info(false) {}
-  bool type :1;
-  bool jwt_token :1;
-  bool sendtime :1;
-  bool Aim_usernum :1;
-  bool info :1;
+    _User_GetBaseInfo_SendInfo__isset() : type( false ), jwt_token( false ), sendtime( false ), Aim_usernum( false ), info( false ) {}
+    bool type : 1;
+    bool jwt_token : 1;
+    bool sendtime : 1;
+    bool Aim_usernum : 1;
+    bool info : 1;
 } _User_GetBaseInfo_SendInfo__isset;
 
 class User_GetBaseInfo_SendInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    User_GetBaseInfo_SendInfo( const User_GetBaseInfo_SendInfo& );
+    User_GetBaseInfo_SendInfo& operator=( const User_GetBaseInfo_SendInfo& );
+    User_GetBaseInfo_SendInfo() noexcept : type( 0 ), jwt_token(), sendtime( 0 ), Aim_usernum(), info() {}
 
-  User_GetBaseInfo_SendInfo(const User_GetBaseInfo_SendInfo&);
-  User_GetBaseInfo_SendInfo& operator=(const User_GetBaseInfo_SendInfo&);
-  User_GetBaseInfo_SendInfo() noexcept
-                            : type(0),
-                              jwt_token(),
-                              sendtime(0),
-                              Aim_usernum(),
-                              info() {
-  }
+    virtual ~User_GetBaseInfo_SendInfo() noexcept;
+    int32_t     type;
+    std::string jwt_token;
+    int32_t     sendtime;
+    std::string Aim_usernum;
+    std::string info;
 
-  virtual ~User_GetBaseInfo_SendInfo() noexcept;
-  int32_t type;
-  std::string jwt_token;
-  int32_t sendtime;
-  std::string Aim_usernum;
-  std::string info;
+    _User_GetBaseInfo_SendInfo__isset __isset;
 
-  _User_GetBaseInfo_SendInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_jwt_token( const std::string& val );
 
-  void __set_jwt_token(const std::string& val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    void __set_Aim_usernum( const std::string& val );
 
-  void __set_Aim_usernum(const std::string& val);
+    void __set_info( const std::string& val );
 
-  void __set_info(const std::string& val);
+    bool operator==( const User_GetBaseInfo_SendInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( jwt_token == rhs.jwt_token ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        if ( !( Aim_usernum == rhs.Aim_usernum ) )
+            return false;
+        if ( !( info == rhs.info ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const User_GetBaseInfo_SendInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const User_GetBaseInfo_SendInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(jwt_token == rhs.jwt_token))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    if (!(Aim_usernum == rhs.Aim_usernum))
-      return false;
-    if (!(info == rhs.info))
-      return false;
-    return true;
-  }
-  bool operator != (const User_GetBaseInfo_SendInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const User_GetBaseInfo_SendInfo& ) const;
 
-  bool operator < (const User_GetBaseInfo_SendInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(User_GetBaseInfo_SendInfo &a, User_GetBaseInfo_SendInfo &b);
+void swap( User_GetBaseInfo_SendInfo& a, User_GetBaseInfo_SendInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const User_GetBaseInfo_SendInfo& obj);
+std::ostream& operator<<( std::ostream& out, const User_GetBaseInfo_SendInfo& obj );
 
 typedef struct _User_GetBaseInfo_RecvInfo__isset {
-  _User_GetBaseInfo_RecvInfo__isset() : type(false), sendtime(false), status(false), info(false) {}
-  bool type :1;
-  bool sendtime :1;
-  bool status :1;
-  bool info :1;
+    _User_GetBaseInfo_RecvInfo__isset() : type( false ), sendtime( false ), status( false ), info( false ) {}
+    bool type : 1;
+    bool sendtime : 1;
+    bool status : 1;
+    bool info : 1;
 } _User_GetBaseInfo_RecvInfo__isset;
 
 class User_GetBaseInfo_RecvInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    User_GetBaseInfo_RecvInfo( const User_GetBaseInfo_RecvInfo& );
+    User_GetBaseInfo_RecvInfo& operator=( const User_GetBaseInfo_RecvInfo& );
+    User_GetBaseInfo_RecvInfo() noexcept : type( 0 ), sendtime( 0 ), status( 0 ), info() {}
 
-  User_GetBaseInfo_RecvInfo(const User_GetBaseInfo_RecvInfo&);
-  User_GetBaseInfo_RecvInfo& operator=(const User_GetBaseInfo_RecvInfo&);
-  User_GetBaseInfo_RecvInfo() noexcept
-                            : type(0),
-                              sendtime(0),
-                              status(0),
-                              info() {
-  }
+    virtual ~User_GetBaseInfo_RecvInfo() noexcept;
+    int32_t     type;
+    int32_t     sendtime;
+    int32_t     status;
+    std::string info;
 
-  virtual ~User_GetBaseInfo_RecvInfo() noexcept;
-  int32_t type;
-  int32_t sendtime;
-  int32_t status;
-  std::string info;
+    _User_GetBaseInfo_RecvInfo__isset __isset;
 
-  _User_GetBaseInfo_RecvInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    void __set_status( const int32_t val );
 
-  void __set_status(const int32_t val);
+    void __set_info( const std::string& val );
 
-  void __set_info(const std::string& val);
+    bool operator==( const User_GetBaseInfo_RecvInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        if ( !( status == rhs.status ) )
+            return false;
+        if ( !( info == rhs.info ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const User_GetBaseInfo_RecvInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const User_GetBaseInfo_RecvInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    if (!(status == rhs.status))
-      return false;
-    if (!(info == rhs.info))
-      return false;
-    return true;
-  }
-  bool operator != (const User_GetBaseInfo_RecvInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const User_GetBaseInfo_RecvInfo& ) const;
 
-  bool operator < (const User_GetBaseInfo_RecvInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(User_GetBaseInfo_RecvInfo &a, User_GetBaseInfo_RecvInfo &b);
+void swap( User_GetBaseInfo_RecvInfo& a, User_GetBaseInfo_RecvInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const User_GetBaseInfo_RecvInfo& obj);
+std::ostream& operator<<( std::ostream& out, const User_GetBaseInfo_RecvInfo& obj );
 
 typedef struct _User_GetSocialInfo_SendInfo__isset {
-  _User_GetSocialInfo_SendInfo__isset() : type(false), jwt_token(false), sendtime(false), Aim_usernum(false), info(false) {}
-  bool type :1;
-  bool jwt_token :1;
-  bool sendtime :1;
-  bool Aim_usernum :1;
-  bool info :1;
+    _User_GetSocialInfo_SendInfo__isset() : type( false ), jwt_token( false ), sendtime( false ), Aim_usernum( false ), info( false ) {}
+    bool type : 1;
+    bool jwt_token : 1;
+    bool sendtime : 1;
+    bool Aim_usernum : 1;
+    bool info : 1;
 } _User_GetSocialInfo_SendInfo__isset;
 
 class User_GetSocialInfo_SendInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    User_GetSocialInfo_SendInfo( const User_GetSocialInfo_SendInfo& );
+    User_GetSocialInfo_SendInfo& operator=( const User_GetSocialInfo_SendInfo& );
+    User_GetSocialInfo_SendInfo() noexcept : type( 0 ), jwt_token(), sendtime( 0 ), Aim_usernum(), info() {}
 
-  User_GetSocialInfo_SendInfo(const User_GetSocialInfo_SendInfo&);
-  User_GetSocialInfo_SendInfo& operator=(const User_GetSocialInfo_SendInfo&);
-  User_GetSocialInfo_SendInfo() noexcept
-                              : type(0),
-                                jwt_token(),
-                                sendtime(0),
-                                Aim_usernum(),
-                                info() {
-  }
+    virtual ~User_GetSocialInfo_SendInfo() noexcept;
+    int32_t     type;
+    std::string jwt_token;
+    int32_t     sendtime;
+    std::string Aim_usernum;
+    std::string info;
 
-  virtual ~User_GetSocialInfo_SendInfo() noexcept;
-  int32_t type;
-  std::string jwt_token;
-  int32_t sendtime;
-  std::string Aim_usernum;
-  std::string info;
+    _User_GetSocialInfo_SendInfo__isset __isset;
 
-  _User_GetSocialInfo_SendInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_jwt_token( const std::string& val );
 
-  void __set_jwt_token(const std::string& val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    void __set_Aim_usernum( const std::string& val );
 
-  void __set_Aim_usernum(const std::string& val);
+    void __set_info( const std::string& val );
 
-  void __set_info(const std::string& val);
+    bool operator==( const User_GetSocialInfo_SendInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( jwt_token == rhs.jwt_token ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        if ( !( Aim_usernum == rhs.Aim_usernum ) )
+            return false;
+        if ( !( info == rhs.info ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const User_GetSocialInfo_SendInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const User_GetSocialInfo_SendInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(jwt_token == rhs.jwt_token))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    if (!(Aim_usernum == rhs.Aim_usernum))
-      return false;
-    if (!(info == rhs.info))
-      return false;
-    return true;
-  }
-  bool operator != (const User_GetSocialInfo_SendInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const User_GetSocialInfo_SendInfo& ) const;
 
-  bool operator < (const User_GetSocialInfo_SendInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(User_GetSocialInfo_SendInfo &a, User_GetSocialInfo_SendInfo &b);
+void swap( User_GetSocialInfo_SendInfo& a, User_GetSocialInfo_SendInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const User_GetSocialInfo_SendInfo& obj);
+std::ostream& operator<<( std::ostream& out, const User_GetSocialInfo_SendInfo& obj );
 
 typedef struct _User_GetSocialInfo_RecvInfo__isset {
-  _User_GetSocialInfo_RecvInfo__isset() : type(false), sendtime(false), status(false), info(false) {}
-  bool type :1;
-  bool sendtime :1;
-  bool status :1;
-  bool info :1;
+    _User_GetSocialInfo_RecvInfo__isset() : type( false ), sendtime( false ), status( false ), info( false ) {}
+    bool type : 1;
+    bool sendtime : 1;
+    bool status : 1;
+    bool info : 1;
 } _User_GetSocialInfo_RecvInfo__isset;
 
 class User_GetSocialInfo_RecvInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    User_GetSocialInfo_RecvInfo( const User_GetSocialInfo_RecvInfo& );
+    User_GetSocialInfo_RecvInfo& operator=( const User_GetSocialInfo_RecvInfo& );
+    User_GetSocialInfo_RecvInfo() noexcept : type( 0 ), sendtime( 0 ), status( 0 ), info() {}
 
-  User_GetSocialInfo_RecvInfo(const User_GetSocialInfo_RecvInfo&);
-  User_GetSocialInfo_RecvInfo& operator=(const User_GetSocialInfo_RecvInfo&);
-  User_GetSocialInfo_RecvInfo() noexcept
-                              : type(0),
-                                sendtime(0),
-                                status(0),
-                                info() {
-  }
+    virtual ~User_GetSocialInfo_RecvInfo() noexcept;
+    int32_t     type;
+    int32_t     sendtime;
+    int32_t     status;
+    std::string info;
 
-  virtual ~User_GetSocialInfo_RecvInfo() noexcept;
-  int32_t type;
-  int32_t sendtime;
-  int32_t status;
-  std::string info;
+    _User_GetSocialInfo_RecvInfo__isset __isset;
 
-  _User_GetSocialInfo_RecvInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    void __set_status( const int32_t val );
 
-  void __set_status(const int32_t val);
+    void __set_info( const std::string& val );
 
-  void __set_info(const std::string& val);
+    bool operator==( const User_GetSocialInfo_RecvInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        if ( !( status == rhs.status ) )
+            return false;
+        if ( !( info == rhs.info ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const User_GetSocialInfo_RecvInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const User_GetSocialInfo_RecvInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    if (!(status == rhs.status))
-      return false;
-    if (!(info == rhs.info))
-      return false;
-    return true;
-  }
-  bool operator != (const User_GetSocialInfo_RecvInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const User_GetSocialInfo_RecvInfo& ) const;
 
-  bool operator < (const User_GetSocialInfo_RecvInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(User_GetSocialInfo_RecvInfo &a, User_GetSocialInfo_RecvInfo &b);
+void swap( User_GetSocialInfo_RecvInfo& a, User_GetSocialInfo_RecvInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const User_GetSocialInfo_RecvInfo& obj);
+std::ostream& operator<<( std::ostream& out, const User_GetSocialInfo_RecvInfo& obj );
 
 typedef struct _User_GetExInfo_SendInfo__isset {
-  _User_GetExInfo_SendInfo__isset() : type(false), jwt_token(false), sendtime(false), Aim_usernum(false), info(false) {}
-  bool type :1;
-  bool jwt_token :1;
-  bool sendtime :1;
-  bool Aim_usernum :1;
-  bool info :1;
+    _User_GetExInfo_SendInfo__isset() : type( false ), jwt_token( false ), sendtime( false ), Aim_usernum( false ), info( false ) {}
+    bool type : 1;
+    bool jwt_token : 1;
+    bool sendtime : 1;
+    bool Aim_usernum : 1;
+    bool info : 1;
 } _User_GetExInfo_SendInfo__isset;
 
 class User_GetExInfo_SendInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    User_GetExInfo_SendInfo( const User_GetExInfo_SendInfo& );
+    User_GetExInfo_SendInfo& operator=( const User_GetExInfo_SendInfo& );
+    User_GetExInfo_SendInfo() noexcept : type( 0 ), jwt_token(), sendtime( 0 ), Aim_usernum(), info() {}
 
-  User_GetExInfo_SendInfo(const User_GetExInfo_SendInfo&);
-  User_GetExInfo_SendInfo& operator=(const User_GetExInfo_SendInfo&);
-  User_GetExInfo_SendInfo() noexcept
-                          : type(0),
-                            jwt_token(),
-                            sendtime(0),
-                            Aim_usernum(),
-                            info() {
-  }
+    virtual ~User_GetExInfo_SendInfo() noexcept;
+    int32_t     type;
+    std::string jwt_token;
+    int32_t     sendtime;
+    std::string Aim_usernum;
+    std::string info;
 
-  virtual ~User_GetExInfo_SendInfo() noexcept;
-  int32_t type;
-  std::string jwt_token;
-  int32_t sendtime;
-  std::string Aim_usernum;
-  std::string info;
+    _User_GetExInfo_SendInfo__isset __isset;
 
-  _User_GetExInfo_SendInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_jwt_token( const std::string& val );
 
-  void __set_jwt_token(const std::string& val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    void __set_Aim_usernum( const std::string& val );
 
-  void __set_Aim_usernum(const std::string& val);
+    void __set_info( const std::string& val );
 
-  void __set_info(const std::string& val);
+    bool operator==( const User_GetExInfo_SendInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( jwt_token == rhs.jwt_token ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        if ( !( Aim_usernum == rhs.Aim_usernum ) )
+            return false;
+        if ( !( info == rhs.info ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const User_GetExInfo_SendInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const User_GetExInfo_SendInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(jwt_token == rhs.jwt_token))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    if (!(Aim_usernum == rhs.Aim_usernum))
-      return false;
-    if (!(info == rhs.info))
-      return false;
-    return true;
-  }
-  bool operator != (const User_GetExInfo_SendInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const User_GetExInfo_SendInfo& ) const;
 
-  bool operator < (const User_GetExInfo_SendInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(User_GetExInfo_SendInfo &a, User_GetExInfo_SendInfo &b);
+void swap( User_GetExInfo_SendInfo& a, User_GetExInfo_SendInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const User_GetExInfo_SendInfo& obj);
+std::ostream& operator<<( std::ostream& out, const User_GetExInfo_SendInfo& obj );
 
 typedef struct _User_GetExInfo_RecvInfo__isset {
-  _User_GetExInfo_RecvInfo__isset() : type(false), sendtime(false), status(false), info(false) {}
-  bool type :1;
-  bool sendtime :1;
-  bool status :1;
-  bool info :1;
+    _User_GetExInfo_RecvInfo__isset() : type( false ), sendtime( false ), status( false ), info( false ) {}
+    bool type : 1;
+    bool sendtime : 1;
+    bool status : 1;
+    bool info : 1;
 } _User_GetExInfo_RecvInfo__isset;
 
 class User_GetExInfo_RecvInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    User_GetExInfo_RecvInfo( const User_GetExInfo_RecvInfo& );
+    User_GetExInfo_RecvInfo& operator=( const User_GetExInfo_RecvInfo& );
+    User_GetExInfo_RecvInfo() noexcept : type( 0 ), sendtime( 0 ), status( 0 ), info() {}
 
-  User_GetExInfo_RecvInfo(const User_GetExInfo_RecvInfo&);
-  User_GetExInfo_RecvInfo& operator=(const User_GetExInfo_RecvInfo&);
-  User_GetExInfo_RecvInfo() noexcept
-                          : type(0),
-                            sendtime(0),
-                            status(0),
-                            info() {
-  }
+    virtual ~User_GetExInfo_RecvInfo() noexcept;
+    int32_t     type;
+    int32_t     sendtime;
+    int32_t     status;
+    std::string info;
 
-  virtual ~User_GetExInfo_RecvInfo() noexcept;
-  int32_t type;
-  int32_t sendtime;
-  int32_t status;
-  std::string info;
+    _User_GetExInfo_RecvInfo__isset __isset;
 
-  _User_GetExInfo_RecvInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    void __set_status( const int32_t val );
 
-  void __set_status(const int32_t val);
+    void __set_info( const std::string& val );
 
-  void __set_info(const std::string& val);
+    bool operator==( const User_GetExInfo_RecvInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        if ( !( status == rhs.status ) )
+            return false;
+        if ( !( info == rhs.info ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const User_GetExInfo_RecvInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const User_GetExInfo_RecvInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    if (!(status == rhs.status))
-      return false;
-    if (!(info == rhs.info))
-      return false;
-    return true;
-  }
-  bool operator != (const User_GetExInfo_RecvInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const User_GetExInfo_RecvInfo& ) const;
 
-  bool operator < (const User_GetExInfo_RecvInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(User_GetExInfo_RecvInfo &a, User_GetExInfo_RecvInfo &b);
+void swap( User_GetExInfo_RecvInfo& a, User_GetExInfo_RecvInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const User_GetExInfo_RecvInfo& obj);
+std::ostream& operator<<( std::ostream& out, const User_GetExInfo_RecvInfo& obj );
 
 typedef struct _User_reg_SendInfo__isset {
-  _User_reg_SendInfo__isset() : type(false), sendtime(false), tel(false), usernum(false), passwd(false) {}
-  bool type :1;
-  bool sendtime :1;
-  bool tel :1;
-  bool usernum :1;
-  bool passwd :1;
+    _User_reg_SendInfo__isset() : type( false ), sendtime( false ), tel( false ), usernum( false ), passwd( false ) {}
+    bool type : 1;
+    bool sendtime : 1;
+    bool tel : 1;
+    bool usernum : 1;
+    bool passwd : 1;
 } _User_reg_SendInfo__isset;
 
 class User_reg_SendInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    User_reg_SendInfo( const User_reg_SendInfo& );
+    User_reg_SendInfo& operator=( const User_reg_SendInfo& );
+    User_reg_SendInfo() noexcept : type( 0 ), sendtime( 0 ), tel(), usernum(), passwd() {}
 
-  User_reg_SendInfo(const User_reg_SendInfo&);
-  User_reg_SendInfo& operator=(const User_reg_SendInfo&);
-  User_reg_SendInfo() noexcept
-                    : type(0),
-                      sendtime(0),
-                      tel(),
-                      usernum(),
-                      passwd() {
-  }
+    virtual ~User_reg_SendInfo() noexcept;
+    int32_t     type;
+    int32_t     sendtime;
+    std::string tel;
+    std::string usernum;
+    std::string passwd;
 
-  virtual ~User_reg_SendInfo() noexcept;
-  int32_t type;
-  int32_t sendtime;
-  std::string tel;
-  std::string usernum;
-  std::string passwd;
+    _User_reg_SendInfo__isset __isset;
 
-  _User_reg_SendInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    void __set_tel( const std::string& val );
 
-  void __set_tel(const std::string& val);
+    void __set_usernum( const std::string& val );
 
-  void __set_usernum(const std::string& val);
+    void __set_passwd( const std::string& val );
 
-  void __set_passwd(const std::string& val);
+    bool operator==( const User_reg_SendInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        if ( !( tel == rhs.tel ) )
+            return false;
+        if ( !( usernum == rhs.usernum ) )
+            return false;
+        if ( !( passwd == rhs.passwd ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const User_reg_SendInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const User_reg_SendInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    if (!(tel == rhs.tel))
-      return false;
-    if (!(usernum == rhs.usernum))
-      return false;
-    if (!(passwd == rhs.passwd))
-      return false;
-    return true;
-  }
-  bool operator != (const User_reg_SendInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const User_reg_SendInfo& ) const;
 
-  bool operator < (const User_reg_SendInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(User_reg_SendInfo &a, User_reg_SendInfo &b);
+void swap( User_reg_SendInfo& a, User_reg_SendInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const User_reg_SendInfo& obj);
+std::ostream& operator<<( std::ostream& out, const User_reg_SendInfo& obj );
 
 typedef struct _User_reg_RecvInfo__isset {
-  _User_reg_RecvInfo__isset() : type(false), sendtime(false), status(false) {}
-  bool type :1;
-  bool sendtime :1;
-  bool status :1;
+    _User_reg_RecvInfo__isset() : type( false ), sendtime( false ), status( false ) {}
+    bool type : 1;
+    bool sendtime : 1;
+    bool status : 1;
 } _User_reg_RecvInfo__isset;
 
 class User_reg_RecvInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    User_reg_RecvInfo( const User_reg_RecvInfo& ) noexcept;
+    User_reg_RecvInfo& operator=( const User_reg_RecvInfo& ) noexcept;
+    User_reg_RecvInfo() noexcept : type( 0 ), sendtime( 0 ), status( 0 ) {}
 
-  User_reg_RecvInfo(const User_reg_RecvInfo&) noexcept;
-  User_reg_RecvInfo& operator=(const User_reg_RecvInfo&) noexcept;
-  User_reg_RecvInfo() noexcept
-                    : type(0),
-                      sendtime(0),
-                      status(0) {
-  }
+    virtual ~User_reg_RecvInfo() noexcept;
+    int32_t type;
+    int32_t sendtime;
+    int32_t status;
 
-  virtual ~User_reg_RecvInfo() noexcept;
-  int32_t type;
-  int32_t sendtime;
-  int32_t status;
+    _User_reg_RecvInfo__isset __isset;
 
-  _User_reg_RecvInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    void __set_status( const int32_t val );
 
-  void __set_status(const int32_t val);
+    bool operator==( const User_reg_RecvInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        if ( !( status == rhs.status ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const User_reg_RecvInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const User_reg_RecvInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    if (!(status == rhs.status))
-      return false;
-    return true;
-  }
-  bool operator != (const User_reg_RecvInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const User_reg_RecvInfo& ) const;
 
-  bool operator < (const User_reg_RecvInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(User_reg_RecvInfo &a, User_reg_RecvInfo &b);
+void swap( User_reg_RecvInfo& a, User_reg_RecvInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const User_reg_RecvInfo& obj);
+std::ostream& operator<<( std::ostream& out, const User_reg_RecvInfo& obj );
 
 typedef struct _User_login_Tel_SendInfo__isset {
-  _User_login_Tel_SendInfo__isset() : type(false), sendtime(false), tel(false), passwd(false) {}
-  bool type :1;
-  bool sendtime :1;
-  bool tel :1;
-  bool passwd :1;
+    _User_login_Tel_SendInfo__isset() : type( false ), sendtime( false ), tel( false ), passwd( false ) {}
+    bool type : 1;
+    bool sendtime : 1;
+    bool tel : 1;
+    bool passwd : 1;
 } _User_login_Tel_SendInfo__isset;
 
 class User_login_Tel_SendInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    User_login_Tel_SendInfo( const User_login_Tel_SendInfo& );
+    User_login_Tel_SendInfo& operator=( const User_login_Tel_SendInfo& );
+    User_login_Tel_SendInfo() noexcept : type( 0 ), sendtime( 0 ), tel(), passwd() {}
 
-  User_login_Tel_SendInfo(const User_login_Tel_SendInfo&);
-  User_login_Tel_SendInfo& operator=(const User_login_Tel_SendInfo&);
-  User_login_Tel_SendInfo() noexcept
-                          : type(0),
-                            sendtime(0),
-                            tel(),
-                            passwd() {
-  }
+    virtual ~User_login_Tel_SendInfo() noexcept;
+    int32_t     type;
+    int32_t     sendtime;
+    std::string tel;
+    std::string passwd;
 
-  virtual ~User_login_Tel_SendInfo() noexcept;
-  int32_t type;
-  int32_t sendtime;
-  std::string tel;
-  std::string passwd;
+    _User_login_Tel_SendInfo__isset __isset;
 
-  _User_login_Tel_SendInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    void __set_tel( const std::string& val );
 
-  void __set_tel(const std::string& val);
+    void __set_passwd( const std::string& val );
 
-  void __set_passwd(const std::string& val);
+    bool operator==( const User_login_Tel_SendInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        if ( !( tel == rhs.tel ) )
+            return false;
+        if ( !( passwd == rhs.passwd ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const User_login_Tel_SendInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const User_login_Tel_SendInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    if (!(tel == rhs.tel))
-      return false;
-    if (!(passwd == rhs.passwd))
-      return false;
-    return true;
-  }
-  bool operator != (const User_login_Tel_SendInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const User_login_Tel_SendInfo& ) const;
 
-  bool operator < (const User_login_Tel_SendInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(User_login_Tel_SendInfo &a, User_login_Tel_SendInfo &b);
+void swap( User_login_Tel_SendInfo& a, User_login_Tel_SendInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const User_login_Tel_SendInfo& obj);
+std::ostream& operator<<( std::ostream& out, const User_login_Tel_SendInfo& obj );
 
 typedef struct _User_login_num_SendInfo__isset {
-  _User_login_num_SendInfo__isset() : type(false), sendtime(false), usernum(false), passwd(false) {}
-  bool type :1;
-  bool sendtime :1;
-  bool usernum :1;
-  bool passwd :1;
+    _User_login_num_SendInfo__isset() : type( false ), sendtime( false ), usernum( false ), passwd( false ) {}
+    bool type : 1;
+    bool sendtime : 1;
+    bool usernum : 1;
+    bool passwd : 1;
 } _User_login_num_SendInfo__isset;
 
 class User_login_num_SendInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    User_login_num_SendInfo( const User_login_num_SendInfo& );
+    User_login_num_SendInfo& operator=( const User_login_num_SendInfo& );
+    User_login_num_SendInfo() noexcept : type( 0 ), sendtime( 0 ), usernum(), passwd() {}
 
-  User_login_num_SendInfo(const User_login_num_SendInfo&);
-  User_login_num_SendInfo& operator=(const User_login_num_SendInfo&);
-  User_login_num_SendInfo() noexcept
-                          : type(0),
-                            sendtime(0),
-                            usernum(),
-                            passwd() {
-  }
+    virtual ~User_login_num_SendInfo() noexcept;
+    int32_t     type;
+    int32_t     sendtime;
+    std::string usernum;
+    std::string passwd;
 
-  virtual ~User_login_num_SendInfo() noexcept;
-  int32_t type;
-  int32_t sendtime;
-  std::string usernum;
-  std::string passwd;
+    _User_login_num_SendInfo__isset __isset;
 
-  _User_login_num_SendInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    void __set_usernum( const std::string& val );
 
-  void __set_usernum(const std::string& val);
+    void __set_passwd( const std::string& val );
 
-  void __set_passwd(const std::string& val);
+    bool operator==( const User_login_num_SendInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        if ( !( usernum == rhs.usernum ) )
+            return false;
+        if ( !( passwd == rhs.passwd ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const User_login_num_SendInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const User_login_num_SendInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    if (!(usernum == rhs.usernum))
-      return false;
-    if (!(passwd == rhs.passwd))
-      return false;
-    return true;
-  }
-  bool operator != (const User_login_num_SendInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const User_login_num_SendInfo& ) const;
 
-  bool operator < (const User_login_num_SendInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(User_login_num_SendInfo &a, User_login_num_SendInfo &b);
+void swap( User_login_num_SendInfo& a, User_login_num_SendInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const User_login_num_SendInfo& obj);
+std::ostream& operator<<( std::ostream& out, const User_login_num_SendInfo& obj );
 
 typedef struct _User_login_RecvInfo__isset {
-  _User_login_RecvInfo__isset() : type(false), sendtime(false), status(false), jwt_token(false), refresh_jwt_token(false) {}
-  bool type :1;
-  bool sendtime :1;
-  bool status :1;
-  bool jwt_token :1;
-  bool refresh_jwt_token :1;
+    _User_login_RecvInfo__isset() : type( false ), sendtime( false ), status( false ), jwt_token( false ), refresh_jwt_token( false ) {}
+    bool type : 1;
+    bool sendtime : 1;
+    bool status : 1;
+    bool jwt_token : 1;
+    bool refresh_jwt_token : 1;
 } _User_login_RecvInfo__isset;
 
 class User_login_RecvInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    User_login_RecvInfo( const User_login_RecvInfo& );
+    User_login_RecvInfo& operator=( const User_login_RecvInfo& );
+    User_login_RecvInfo() noexcept : type( 0 ), sendtime( 0 ), status( 0 ), jwt_token(), refresh_jwt_token() {}
 
-  User_login_RecvInfo(const User_login_RecvInfo&);
-  User_login_RecvInfo& operator=(const User_login_RecvInfo&);
-  User_login_RecvInfo() noexcept
-                      : type(0),
-                        sendtime(0),
-                        status(0),
-                        jwt_token(),
-                        refresh_jwt_token() {
-  }
+    virtual ~User_login_RecvInfo() noexcept;
+    int32_t     type;
+    int32_t     sendtime;
+    int32_t     status;
+    std::string jwt_token;
+    std::string refresh_jwt_token;
 
-  virtual ~User_login_RecvInfo() noexcept;
-  int32_t type;
-  int32_t sendtime;
-  int32_t status;
-  std::string jwt_token;
-  std::string refresh_jwt_token;
+    _User_login_RecvInfo__isset __isset;
 
-  _User_login_RecvInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    void __set_status( const int32_t val );
 
-  void __set_status(const int32_t val);
+    void __set_jwt_token( const std::string& val );
 
-  void __set_jwt_token(const std::string& val);
+    void __set_refresh_jwt_token( const std::string& val );
 
-  void __set_refresh_jwt_token(const std::string& val);
+    bool operator==( const User_login_RecvInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        if ( !( status == rhs.status ) )
+            return false;
+        if ( !( jwt_token == rhs.jwt_token ) )
+            return false;
+        if ( !( refresh_jwt_token == rhs.refresh_jwt_token ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const User_login_RecvInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const User_login_RecvInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    if (!(status == rhs.status))
-      return false;
-    if (!(jwt_token == rhs.jwt_token))
-      return false;
-    if (!(refresh_jwt_token == rhs.refresh_jwt_token))
-      return false;
-    return true;
-  }
-  bool operator != (const User_login_RecvInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const User_login_RecvInfo& ) const;
 
-  bool operator < (const User_login_RecvInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(User_login_RecvInfo &a, User_login_RecvInfo &b);
+void swap( User_login_RecvInfo& a, User_login_RecvInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const User_login_RecvInfo& obj);
+std::ostream& operator<<( std::ostream& out, const User_login_RecvInfo& obj );
 
 typedef struct _User_logoff_SendInfo__isset {
-  _User_logoff_SendInfo__isset() : type(false), jwt_token(false), sendtime(false) {}
-  bool type :1;
-  bool jwt_token :1;
-  bool sendtime :1;
+    _User_logoff_SendInfo__isset() : type( false ), jwt_token( false ), sendtime( false ) {}
+    bool type : 1;
+    bool jwt_token : 1;
+    bool sendtime : 1;
 } _User_logoff_SendInfo__isset;
 
 class User_logoff_SendInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    User_logoff_SendInfo( const User_logoff_SendInfo& );
+    User_logoff_SendInfo& operator=( const User_logoff_SendInfo& );
+    User_logoff_SendInfo() noexcept : type( 0 ), jwt_token(), sendtime( 0 ) {}
 
-  User_logoff_SendInfo(const User_logoff_SendInfo&);
-  User_logoff_SendInfo& operator=(const User_logoff_SendInfo&);
-  User_logoff_SendInfo() noexcept
-                       : type(0),
-                         jwt_token(),
-                         sendtime(0) {
-  }
+    virtual ~User_logoff_SendInfo() noexcept;
+    int32_t     type;
+    std::string jwt_token;
+    int32_t     sendtime;
 
-  virtual ~User_logoff_SendInfo() noexcept;
-  int32_t type;
-  std::string jwt_token;
-  int32_t sendtime;
+    _User_logoff_SendInfo__isset __isset;
 
-  _User_logoff_SendInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_jwt_token( const std::string& val );
 
-  void __set_jwt_token(const std::string& val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    bool operator==( const User_logoff_SendInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( jwt_token == rhs.jwt_token ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const User_logoff_SendInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const User_logoff_SendInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(jwt_token == rhs.jwt_token))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    return true;
-  }
-  bool operator != (const User_logoff_SendInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const User_logoff_SendInfo& ) const;
 
-  bool operator < (const User_logoff_SendInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(User_logoff_SendInfo &a, User_logoff_SendInfo &b);
+void swap( User_logoff_SendInfo& a, User_logoff_SendInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const User_logoff_SendInfo& obj);
+std::ostream& operator<<( std::ostream& out, const User_logoff_SendInfo& obj );
 
 typedef struct _User_logoff_RecvInfo__isset {
-  _User_logoff_RecvInfo__isset() : type(false), sendtime(false), status(false) {}
-  bool type :1;
-  bool sendtime :1;
-  bool status :1;
+    _User_logoff_RecvInfo__isset() : type( false ), sendtime( false ), status( false ) {}
+    bool type : 1;
+    bool sendtime : 1;
+    bool status : 1;
 } _User_logoff_RecvInfo__isset;
 
 class User_logoff_RecvInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    User_logoff_RecvInfo( const User_logoff_RecvInfo& ) noexcept;
+    User_logoff_RecvInfo& operator=( const User_logoff_RecvInfo& ) noexcept;
+    User_logoff_RecvInfo() noexcept : type( 0 ), sendtime( 0 ), status( 0 ) {}
 
-  User_logoff_RecvInfo(const User_logoff_RecvInfo&) noexcept;
-  User_logoff_RecvInfo& operator=(const User_logoff_RecvInfo&) noexcept;
-  User_logoff_RecvInfo() noexcept
-                       : type(0),
-                         sendtime(0),
-                         status(0) {
-  }
+    virtual ~User_logoff_RecvInfo() noexcept;
+    int32_t type;
+    int32_t sendtime;
+    int32_t status;
 
-  virtual ~User_logoff_RecvInfo() noexcept;
-  int32_t type;
-  int32_t sendtime;
-  int32_t status;
+    _User_logoff_RecvInfo__isset __isset;
 
-  _User_logoff_RecvInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    void __set_status( const int32_t val );
 
-  void __set_status(const int32_t val);
+    bool operator==( const User_logoff_RecvInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        if ( !( status == rhs.status ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const User_logoff_RecvInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const User_logoff_RecvInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    if (!(status == rhs.status))
-      return false;
-    return true;
-  }
-  bool operator != (const User_logoff_RecvInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const User_logoff_RecvInfo& ) const;
 
-  bool operator < (const User_logoff_RecvInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(User_logoff_RecvInfo &a, User_logoff_RecvInfo &b);
+void swap( User_logoff_RecvInfo& a, User_logoff_RecvInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const User_logoff_RecvInfo& obj);
+std::ostream& operator<<( std::ostream& out, const User_logoff_RecvInfo& obj );
 
 typedef struct _User_refresh_jwt1_SendInfo__isset {
-  _User_refresh_jwt1_SendInfo__isset() : type(false), sendtime(false), jwt_token(false), refresh_jwt_token(false) {}
-  bool type :1;
-  bool sendtime :1;
-  bool jwt_token :1;
-  bool refresh_jwt_token :1;
+    _User_refresh_jwt1_SendInfo__isset() : type( false ), sendtime( false ), jwt_token( false ), refresh_jwt_token( false ) {}
+    bool type : 1;
+    bool sendtime : 1;
+    bool jwt_token : 1;
+    bool refresh_jwt_token : 1;
 } _User_refresh_jwt1_SendInfo__isset;
 
 class User_refresh_jwt1_SendInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    User_refresh_jwt1_SendInfo( const User_refresh_jwt1_SendInfo& );
+    User_refresh_jwt1_SendInfo& operator=( const User_refresh_jwt1_SendInfo& );
+    User_refresh_jwt1_SendInfo() noexcept : type( 0 ), sendtime( 0 ), jwt_token(), refresh_jwt_token() {}
 
-  User_refresh_jwt1_SendInfo(const User_refresh_jwt1_SendInfo&);
-  User_refresh_jwt1_SendInfo& operator=(const User_refresh_jwt1_SendInfo&);
-  User_refresh_jwt1_SendInfo() noexcept
-                             : type(0),
-                               sendtime(0),
-                               jwt_token(),
-                               refresh_jwt_token() {
-  }
+    virtual ~User_refresh_jwt1_SendInfo() noexcept;
+    int32_t     type;
+    int32_t     sendtime;
+    std::string jwt_token;
+    std::string refresh_jwt_token;
 
-  virtual ~User_refresh_jwt1_SendInfo() noexcept;
-  int32_t type;
-  int32_t sendtime;
-  std::string jwt_token;
-  std::string refresh_jwt_token;
+    _User_refresh_jwt1_SendInfo__isset __isset;
 
-  _User_refresh_jwt1_SendInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    void __set_jwt_token( const std::string& val );
 
-  void __set_jwt_token(const std::string& val);
+    void __set_refresh_jwt_token( const std::string& val );
 
-  void __set_refresh_jwt_token(const std::string& val);
+    bool operator==( const User_refresh_jwt1_SendInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        if ( !( jwt_token == rhs.jwt_token ) )
+            return false;
+        if ( !( refresh_jwt_token == rhs.refresh_jwt_token ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const User_refresh_jwt1_SendInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const User_refresh_jwt1_SendInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    if (!(jwt_token == rhs.jwt_token))
-      return false;
-    if (!(refresh_jwt_token == rhs.refresh_jwt_token))
-      return false;
-    return true;
-  }
-  bool operator != (const User_refresh_jwt1_SendInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const User_refresh_jwt1_SendInfo& ) const;
 
-  bool operator < (const User_refresh_jwt1_SendInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(User_refresh_jwt1_SendInfo &a, User_refresh_jwt1_SendInfo &b);
+void swap( User_refresh_jwt1_SendInfo& a, User_refresh_jwt1_SendInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const User_refresh_jwt1_SendInfo& obj);
+std::ostream& operator<<( std::ostream& out, const User_refresh_jwt1_SendInfo& obj );
 
 typedef struct _User_refresh_jwt1_RecvInfo__isset {
-  _User_refresh_jwt1_RecvInfo__isset() : type(false), sendtime(false), status(false), jwt_token(false) {}
-  bool type :1;
-  bool sendtime :1;
-  bool status :1;
-  bool jwt_token :1;
+    _User_refresh_jwt1_RecvInfo__isset() : type( false ), sendtime( false ), status( false ), jwt_token( false ) {}
+    bool type : 1;
+    bool sendtime : 1;
+    bool status : 1;
+    bool jwt_token : 1;
 } _User_refresh_jwt1_RecvInfo__isset;
 
 class User_refresh_jwt1_RecvInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    User_refresh_jwt1_RecvInfo( const User_refresh_jwt1_RecvInfo& );
+    User_refresh_jwt1_RecvInfo& operator=( const User_refresh_jwt1_RecvInfo& );
+    User_refresh_jwt1_RecvInfo() noexcept : type( 0 ), sendtime( 0 ), status( 0 ), jwt_token() {}
 
-  User_refresh_jwt1_RecvInfo(const User_refresh_jwt1_RecvInfo&);
-  User_refresh_jwt1_RecvInfo& operator=(const User_refresh_jwt1_RecvInfo&);
-  User_refresh_jwt1_RecvInfo() noexcept
-                             : type(0),
-                               sendtime(0),
-                               status(0),
-                               jwt_token() {
-  }
+    virtual ~User_refresh_jwt1_RecvInfo() noexcept;
+    int32_t     type;
+    int32_t     sendtime;
+    int32_t     status;
+    std::string jwt_token;
 
-  virtual ~User_refresh_jwt1_RecvInfo() noexcept;
-  int32_t type;
-  int32_t sendtime;
-  int32_t status;
-  std::string jwt_token;
+    _User_refresh_jwt1_RecvInfo__isset __isset;
 
-  _User_refresh_jwt1_RecvInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    void __set_status( const int32_t val );
 
-  void __set_status(const int32_t val);
+    void __set_jwt_token( const std::string& val );
 
-  void __set_jwt_token(const std::string& val);
+    bool operator==( const User_refresh_jwt1_RecvInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        if ( !( status == rhs.status ) )
+            return false;
+        if ( !( jwt_token == rhs.jwt_token ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const User_refresh_jwt1_RecvInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const User_refresh_jwt1_RecvInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    if (!(status == rhs.status))
-      return false;
-    if (!(jwt_token == rhs.jwt_token))
-      return false;
-    return true;
-  }
-  bool operator != (const User_refresh_jwt1_RecvInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const User_refresh_jwt1_RecvInfo& ) const;
 
-  bool operator < (const User_refresh_jwt1_RecvInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(User_refresh_jwt1_RecvInfo &a, User_refresh_jwt1_RecvInfo &b);
+void swap( User_refresh_jwt1_RecvInfo& a, User_refresh_jwt1_RecvInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const User_refresh_jwt1_RecvInfo& obj);
+std::ostream& operator<<( std::ostream& out, const User_refresh_jwt1_RecvInfo& obj );
 
 typedef struct _User_refresh_jwt2_SendInfo__isset {
-  _User_refresh_jwt2_SendInfo__isset() : type(false), sendtime(false), jwt_token(false), refresh_jwt_token(false) {}
-  bool type :1;
-  bool sendtime :1;
-  bool jwt_token :1;
-  bool refresh_jwt_token :1;
+    _User_refresh_jwt2_SendInfo__isset() : type( false ), sendtime( false ), jwt_token( false ), refresh_jwt_token( false ) {}
+    bool type : 1;
+    bool sendtime : 1;
+    bool jwt_token : 1;
+    bool refresh_jwt_token : 1;
 } _User_refresh_jwt2_SendInfo__isset;
 
 class User_refresh_jwt2_SendInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    User_refresh_jwt2_SendInfo( const User_refresh_jwt2_SendInfo& );
+    User_refresh_jwt2_SendInfo& operator=( const User_refresh_jwt2_SendInfo& );
+    User_refresh_jwt2_SendInfo() noexcept : type( 0 ), sendtime( 0 ), jwt_token(), refresh_jwt_token() {}
 
-  User_refresh_jwt2_SendInfo(const User_refresh_jwt2_SendInfo&);
-  User_refresh_jwt2_SendInfo& operator=(const User_refresh_jwt2_SendInfo&);
-  User_refresh_jwt2_SendInfo() noexcept
-                             : type(0),
-                               sendtime(0),
-                               jwt_token(),
-                               refresh_jwt_token() {
-  }
+    virtual ~User_refresh_jwt2_SendInfo() noexcept;
+    int32_t     type;
+    int32_t     sendtime;
+    std::string jwt_token;
+    std::string refresh_jwt_token;
 
-  virtual ~User_refresh_jwt2_SendInfo() noexcept;
-  int32_t type;
-  int32_t sendtime;
-  std::string jwt_token;
-  std::string refresh_jwt_token;
+    _User_refresh_jwt2_SendInfo__isset __isset;
 
-  _User_refresh_jwt2_SendInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    void __set_jwt_token( const std::string& val );
 
-  void __set_jwt_token(const std::string& val);
+    void __set_refresh_jwt_token( const std::string& val );
 
-  void __set_refresh_jwt_token(const std::string& val);
+    bool operator==( const User_refresh_jwt2_SendInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        if ( !( jwt_token == rhs.jwt_token ) )
+            return false;
+        if ( !( refresh_jwt_token == rhs.refresh_jwt_token ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const User_refresh_jwt2_SendInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const User_refresh_jwt2_SendInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    if (!(jwt_token == rhs.jwt_token))
-      return false;
-    if (!(refresh_jwt_token == rhs.refresh_jwt_token))
-      return false;
-    return true;
-  }
-  bool operator != (const User_refresh_jwt2_SendInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const User_refresh_jwt2_SendInfo& ) const;
 
-  bool operator < (const User_refresh_jwt2_SendInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(User_refresh_jwt2_SendInfo &a, User_refresh_jwt2_SendInfo &b);
+void swap( User_refresh_jwt2_SendInfo& a, User_refresh_jwt2_SendInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const User_refresh_jwt2_SendInfo& obj);
+std::ostream& operator<<( std::ostream& out, const User_refresh_jwt2_SendInfo& obj );
 
 typedef struct _User_refresh_jwt2_RecvInfo__isset {
-  _User_refresh_jwt2_RecvInfo__isset() : type(false), sendtime(false), status(false), jwt_token(false), refresh_jwt_token(false) {}
-  bool type :1;
-  bool sendtime :1;
-  bool status :1;
-  bool jwt_token :1;
-  bool refresh_jwt_token :1;
+    _User_refresh_jwt2_RecvInfo__isset() : type( false ), sendtime( false ), status( false ), jwt_token( false ), refresh_jwt_token( false ) {}
+    bool type : 1;
+    bool sendtime : 1;
+    bool status : 1;
+    bool jwt_token : 1;
+    bool refresh_jwt_token : 1;
 } _User_refresh_jwt2_RecvInfo__isset;
 
 class User_refresh_jwt2_RecvInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    User_refresh_jwt2_RecvInfo( const User_refresh_jwt2_RecvInfo& );
+    User_refresh_jwt2_RecvInfo& operator=( const User_refresh_jwt2_RecvInfo& );
+    User_refresh_jwt2_RecvInfo() noexcept : type( 0 ), sendtime( 0 ), status( 0 ), jwt_token(), refresh_jwt_token() {}
 
-  User_refresh_jwt2_RecvInfo(const User_refresh_jwt2_RecvInfo&);
-  User_refresh_jwt2_RecvInfo& operator=(const User_refresh_jwt2_RecvInfo&);
-  User_refresh_jwt2_RecvInfo() noexcept
-                             : type(0),
-                               sendtime(0),
-                               status(0),
-                               jwt_token(),
-                               refresh_jwt_token() {
-  }
+    virtual ~User_refresh_jwt2_RecvInfo() noexcept;
+    int32_t     type;
+    int32_t     sendtime;
+    int32_t     status;
+    std::string jwt_token;
+    std::string refresh_jwt_token;
 
-  virtual ~User_refresh_jwt2_RecvInfo() noexcept;
-  int32_t type;
-  int32_t sendtime;
-  int32_t status;
-  std::string jwt_token;
-  std::string refresh_jwt_token;
+    _User_refresh_jwt2_RecvInfo__isset __isset;
 
-  _User_refresh_jwt2_RecvInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    void __set_status( const int32_t val );
 
-  void __set_status(const int32_t val);
+    void __set_jwt_token( const std::string& val );
 
-  void __set_jwt_token(const std::string& val);
+    void __set_refresh_jwt_token( const std::string& val );
 
-  void __set_refresh_jwt_token(const std::string& val);
+    bool operator==( const User_refresh_jwt2_RecvInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        if ( !( status == rhs.status ) )
+            return false;
+        if ( !( jwt_token == rhs.jwt_token ) )
+            return false;
+        if ( !( refresh_jwt_token == rhs.refresh_jwt_token ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const User_refresh_jwt2_RecvInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const User_refresh_jwt2_RecvInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    if (!(status == rhs.status))
-      return false;
-    if (!(jwt_token == rhs.jwt_token))
-      return false;
-    if (!(refresh_jwt_token == rhs.refresh_jwt_token))
-      return false;
-    return true;
-  }
-  bool operator != (const User_refresh_jwt2_RecvInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const User_refresh_jwt2_RecvInfo& ) const;
 
-  bool operator < (const User_refresh_jwt2_RecvInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(User_refresh_jwt2_RecvInfo &a, User_refresh_jwt2_RecvInfo &b);
+void swap( User_refresh_jwt2_RecvInfo& a, User_refresh_jwt2_RecvInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const User_refresh_jwt2_RecvInfo& obj);
+std::ostream& operator<<( std::ostream& out, const User_refresh_jwt2_RecvInfo& obj );
 
 typedef struct _User_friend_SendInfo__isset {
-  _User_friend_SendInfo__isset() : type(false), jwt_token(false), sendtime(false) {}
-  bool type :1;
-  bool jwt_token :1;
-  bool sendtime :1;
+    _User_friend_SendInfo__isset() : type( false ), jwt_token( false ), sendtime( false ) {}
+    bool type : 1;
+    bool jwt_token : 1;
+    bool sendtime : 1;
 } _User_friend_SendInfo__isset;
 
 class User_friend_SendInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    User_friend_SendInfo( const User_friend_SendInfo& );
+    User_friend_SendInfo& operator=( const User_friend_SendInfo& );
+    User_friend_SendInfo() noexcept : type( 0 ), jwt_token(), sendtime( 0 ) {}
 
-  User_friend_SendInfo(const User_friend_SendInfo&);
-  User_friend_SendInfo& operator=(const User_friend_SendInfo&);
-  User_friend_SendInfo() noexcept
-                       : type(0),
-                         jwt_token(),
-                         sendtime(0) {
-  }
+    virtual ~User_friend_SendInfo() noexcept;
+    int32_t     type;
+    std::string jwt_token;
+    int32_t     sendtime;
 
-  virtual ~User_friend_SendInfo() noexcept;
-  int32_t type;
-  std::string jwt_token;
-  int32_t sendtime;
+    _User_friend_SendInfo__isset __isset;
 
-  _User_friend_SendInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_jwt_token( const std::string& val );
 
-  void __set_jwt_token(const std::string& val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    bool operator==( const User_friend_SendInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( jwt_token == rhs.jwt_token ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const User_friend_SendInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const User_friend_SendInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(jwt_token == rhs.jwt_token))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    return true;
-  }
-  bool operator != (const User_friend_SendInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const User_friend_SendInfo& ) const;
 
-  bool operator < (const User_friend_SendInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(User_friend_SendInfo &a, User_friend_SendInfo &b);
+void swap( User_friend_SendInfo& a, User_friend_SendInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const User_friend_SendInfo& obj);
+std::ostream& operator<<( std::ostream& out, const User_friend_SendInfo& obj );
 
 typedef struct _User_friend_RecvInfo__isset {
-  _User_friend_RecvInfo__isset() : type(false), sendtime(false), status(false), info(false) {}
-  bool type :1;
-  bool sendtime :1;
-  bool status :1;
-  bool info :1;
+    _User_friend_RecvInfo__isset() : type( false ), sendtime( false ), status( false ), info( false ) {}
+    bool type : 1;
+    bool sendtime : 1;
+    bool status : 1;
+    bool info : 1;
 } _User_friend_RecvInfo__isset;
 
 class User_friend_RecvInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    User_friend_RecvInfo( const User_friend_RecvInfo& );
+    User_friend_RecvInfo& operator=( const User_friend_RecvInfo& );
+    User_friend_RecvInfo() noexcept : type( 0 ), sendtime( 0 ), status( 0 ), info() {}
 
-  User_friend_RecvInfo(const User_friend_RecvInfo&);
-  User_friend_RecvInfo& operator=(const User_friend_RecvInfo&);
-  User_friend_RecvInfo() noexcept
-                       : type(0),
-                         sendtime(0),
-                         status(0),
-                         info() {
-  }
+    virtual ~User_friend_RecvInfo() noexcept;
+    int32_t     type;
+    int32_t     sendtime;
+    int32_t     status;
+    std::string info;
 
-  virtual ~User_friend_RecvInfo() noexcept;
-  int32_t type;
-  int32_t sendtime;
-  int32_t status;
-  std::string info;
+    _User_friend_RecvInfo__isset __isset;
 
-  _User_friend_RecvInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    void __set_status( const int32_t val );
 
-  void __set_status(const int32_t val);
+    void __set_info( const std::string& val );
 
-  void __set_info(const std::string& val);
+    bool operator==( const User_friend_RecvInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        if ( !( status == rhs.status ) )
+            return false;
+        if ( !( info == rhs.info ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const User_friend_RecvInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const User_friend_RecvInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    if (!(status == rhs.status))
-      return false;
-    if (!(info == rhs.info))
-      return false;
-    return true;
-  }
-  bool operator != (const User_friend_RecvInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const User_friend_RecvInfo& ) const;
 
-  bool operator < (const User_friend_RecvInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(User_friend_RecvInfo &a, User_friend_RecvInfo &b);
+void swap( User_friend_RecvInfo& a, User_friend_RecvInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const User_friend_RecvInfo& obj);
+std::ostream& operator<<( std::ostream& out, const User_friend_RecvInfo& obj );
 
 typedef struct _User_follow_SendInfo__isset {
-  _User_follow_SendInfo__isset() : type(false), jwt_token(false), sendtime(false) {}
-  bool type :1;
-  bool jwt_token :1;
-  bool sendtime :1;
+    _User_follow_SendInfo__isset() : type( false ), jwt_token( false ), sendtime( false ) {}
+    bool type : 1;
+    bool jwt_token : 1;
+    bool sendtime : 1;
 } _User_follow_SendInfo__isset;
 
 class User_follow_SendInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    User_follow_SendInfo( const User_follow_SendInfo& );
+    User_follow_SendInfo& operator=( const User_follow_SendInfo& );
+    User_follow_SendInfo() noexcept : type( 0 ), jwt_token(), sendtime( 0 ) {}
 
-  User_follow_SendInfo(const User_follow_SendInfo&);
-  User_follow_SendInfo& operator=(const User_follow_SendInfo&);
-  User_follow_SendInfo() noexcept
-                       : type(0),
-                         jwt_token(),
-                         sendtime(0) {
-  }
+    virtual ~User_follow_SendInfo() noexcept;
+    int32_t     type;
+    std::string jwt_token;
+    int32_t     sendtime;
 
-  virtual ~User_follow_SendInfo() noexcept;
-  int32_t type;
-  std::string jwt_token;
-  int32_t sendtime;
+    _User_follow_SendInfo__isset __isset;
 
-  _User_follow_SendInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_jwt_token( const std::string& val );
 
-  void __set_jwt_token(const std::string& val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    bool operator==( const User_follow_SendInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( jwt_token == rhs.jwt_token ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const User_follow_SendInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const User_follow_SendInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(jwt_token == rhs.jwt_token))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    return true;
-  }
-  bool operator != (const User_follow_SendInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const User_follow_SendInfo& ) const;
 
-  bool operator < (const User_follow_SendInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(User_follow_SendInfo &a, User_follow_SendInfo &b);
+void swap( User_follow_SendInfo& a, User_follow_SendInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const User_follow_SendInfo& obj);
+std::ostream& operator<<( std::ostream& out, const User_follow_SendInfo& obj );
 
 typedef struct _User_follow_RecvInfo__isset {
-  _User_follow_RecvInfo__isset() : type(false), sendtime(false), status(false), info(false) {}
-  bool type :1;
-  bool sendtime :1;
-  bool status :1;
-  bool info :1;
+    _User_follow_RecvInfo__isset() : type( false ), sendtime( false ), status( false ), info( false ) {}
+    bool type : 1;
+    bool sendtime : 1;
+    bool status : 1;
+    bool info : 1;
 } _User_follow_RecvInfo__isset;
 
 class User_follow_RecvInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    User_follow_RecvInfo( const User_follow_RecvInfo& );
+    User_follow_RecvInfo& operator=( const User_follow_RecvInfo& );
+    User_follow_RecvInfo() noexcept : type( 0 ), sendtime( 0 ), status( 0 ), info() {}
 
-  User_follow_RecvInfo(const User_follow_RecvInfo&);
-  User_follow_RecvInfo& operator=(const User_follow_RecvInfo&);
-  User_follow_RecvInfo() noexcept
-                       : type(0),
-                         sendtime(0),
-                         status(0),
-                         info() {
-  }
+    virtual ~User_follow_RecvInfo() noexcept;
+    int32_t     type;
+    int32_t     sendtime;
+    int32_t     status;
+    std::string info;
 
-  virtual ~User_follow_RecvInfo() noexcept;
-  int32_t type;
-  int32_t sendtime;
-  int32_t status;
-  std::string info;
+    _User_follow_RecvInfo__isset __isset;
 
-  _User_follow_RecvInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    void __set_status( const int32_t val );
 
-  void __set_status(const int32_t val);
+    void __set_info( const std::string& val );
 
-  void __set_info(const std::string& val);
+    bool operator==( const User_follow_RecvInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        if ( !( status == rhs.status ) )
+            return false;
+        if ( !( info == rhs.info ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const User_follow_RecvInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const User_follow_RecvInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    if (!(status == rhs.status))
-      return false;
-    if (!(info == rhs.info))
-      return false;
-    return true;
-  }
-  bool operator != (const User_follow_RecvInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const User_follow_RecvInfo& ) const;
 
-  bool operator < (const User_follow_RecvInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(User_follow_RecvInfo &a, User_follow_RecvInfo &b);
+void swap( User_follow_RecvInfo& a, User_follow_RecvInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const User_follow_RecvInfo& obj);
+std::ostream& operator<<( std::ostream& out, const User_follow_RecvInfo& obj );
 
 typedef struct _User_followed_SendInfo__isset {
-  _User_followed_SendInfo__isset() : type(false), jwt_token(false), sendtime(false) {}
-  bool type :1;
-  bool jwt_token :1;
-  bool sendtime :1;
+    _User_followed_SendInfo__isset() : type( false ), jwt_token( false ), sendtime( false ) {}
+    bool type : 1;
+    bool jwt_token : 1;
+    bool sendtime : 1;
 } _User_followed_SendInfo__isset;
 
 class User_followed_SendInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    User_followed_SendInfo( const User_followed_SendInfo& );
+    User_followed_SendInfo& operator=( const User_followed_SendInfo& );
+    User_followed_SendInfo() noexcept : type( 0 ), jwt_token(), sendtime( 0 ) {}
 
-  User_followed_SendInfo(const User_followed_SendInfo&);
-  User_followed_SendInfo& operator=(const User_followed_SendInfo&);
-  User_followed_SendInfo() noexcept
-                         : type(0),
-                           jwt_token(),
-                           sendtime(0) {
-  }
+    virtual ~User_followed_SendInfo() noexcept;
+    int32_t     type;
+    std::string jwt_token;
+    int32_t     sendtime;
 
-  virtual ~User_followed_SendInfo() noexcept;
-  int32_t type;
-  std::string jwt_token;
-  int32_t sendtime;
+    _User_followed_SendInfo__isset __isset;
 
-  _User_followed_SendInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_jwt_token( const std::string& val );
 
-  void __set_jwt_token(const std::string& val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    bool operator==( const User_followed_SendInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( jwt_token == rhs.jwt_token ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const User_followed_SendInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const User_followed_SendInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(jwt_token == rhs.jwt_token))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    return true;
-  }
-  bool operator != (const User_followed_SendInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const User_followed_SendInfo& ) const;
 
-  bool operator < (const User_followed_SendInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(User_followed_SendInfo &a, User_followed_SendInfo &b);
+void swap( User_followed_SendInfo& a, User_followed_SendInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const User_followed_SendInfo& obj);
+std::ostream& operator<<( std::ostream& out, const User_followed_SendInfo& obj );
 
 typedef struct _User_followed_RecvInfo__isset {
-  _User_followed_RecvInfo__isset() : type(false), sendtime(false), status(false), info(false) {}
-  bool type :1;
-  bool sendtime :1;
-  bool status :1;
-  bool info :1;
+    _User_followed_RecvInfo__isset() : type( false ), sendtime( false ), status( false ), info( false ) {}
+    bool type : 1;
+    bool sendtime : 1;
+    bool status : 1;
+    bool info : 1;
 } _User_followed_RecvInfo__isset;
 
 class User_followed_RecvInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    User_followed_RecvInfo( const User_followed_RecvInfo& );
+    User_followed_RecvInfo& operator=( const User_followed_RecvInfo& );
+    User_followed_RecvInfo() noexcept : type( 0 ), sendtime( 0 ), status( 0 ), info() {}
 
-  User_followed_RecvInfo(const User_followed_RecvInfo&);
-  User_followed_RecvInfo& operator=(const User_followed_RecvInfo&);
-  User_followed_RecvInfo() noexcept
-                         : type(0),
-                           sendtime(0),
-                           status(0),
-                           info() {
-  }
+    virtual ~User_followed_RecvInfo() noexcept;
+    int32_t     type;
+    int32_t     sendtime;
+    int32_t     status;
+    std::string info;
 
-  virtual ~User_followed_RecvInfo() noexcept;
-  int32_t type;
-  int32_t sendtime;
-  int32_t status;
-  std::string info;
+    _User_followed_RecvInfo__isset __isset;
 
-  _User_followed_RecvInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    void __set_status( const int32_t val );
 
-  void __set_status(const int32_t val);
+    void __set_info( const std::string& val );
 
-  void __set_info(const std::string& val);
+    bool operator==( const User_followed_RecvInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        if ( !( status == rhs.status ) )
+            return false;
+        if ( !( info == rhs.info ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const User_followed_RecvInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const User_followed_RecvInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    if (!(status == rhs.status))
-      return false;
-    if (!(info == rhs.info))
-      return false;
-    return true;
-  }
-  bool operator != (const User_followed_RecvInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const User_followed_RecvInfo& ) const;
 
-  bool operator < (const User_followed_RecvInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(User_followed_RecvInfo &a, User_followed_RecvInfo &b);
+void swap( User_followed_RecvInfo& a, User_followed_RecvInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const User_followed_RecvInfo& obj);
+std::ostream& operator<<( std::ostream& out, const User_followed_RecvInfo& obj );
 
 typedef struct _User_ModifyBaseInfo_SendInfo__isset {
-  _User_ModifyBaseInfo_SendInfo__isset() : type(false), jwt_token(false), sendtime(false), modifyinfo(false) {}
-  bool type :1;
-  bool jwt_token :1;
-  bool sendtime :1;
-  bool modifyinfo :1;
+    _User_ModifyBaseInfo_SendInfo__isset() : type( false ), jwt_token( false ), sendtime( false ), modifyinfo( false ) {}
+    bool type : 1;
+    bool jwt_token : 1;
+    bool sendtime : 1;
+    bool modifyinfo : 1;
 } _User_ModifyBaseInfo_SendInfo__isset;
 
 class User_ModifyBaseInfo_SendInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    User_ModifyBaseInfo_SendInfo( const User_ModifyBaseInfo_SendInfo& );
+    User_ModifyBaseInfo_SendInfo& operator=( const User_ModifyBaseInfo_SendInfo& );
+    User_ModifyBaseInfo_SendInfo() noexcept : type( 0 ), jwt_token(), sendtime( 0 ), modifyinfo() {}
 
-  User_ModifyBaseInfo_SendInfo(const User_ModifyBaseInfo_SendInfo&);
-  User_ModifyBaseInfo_SendInfo& operator=(const User_ModifyBaseInfo_SendInfo&);
-  User_ModifyBaseInfo_SendInfo() noexcept
-                               : type(0),
-                                 jwt_token(),
-                                 sendtime(0),
-                                 modifyinfo() {
-  }
+    virtual ~User_ModifyBaseInfo_SendInfo() noexcept;
+    int32_t     type;
+    std::string jwt_token;
+    int32_t     sendtime;
+    std::string modifyinfo;
 
-  virtual ~User_ModifyBaseInfo_SendInfo() noexcept;
-  int32_t type;
-  std::string jwt_token;
-  int32_t sendtime;
-  std::string modifyinfo;
+    _User_ModifyBaseInfo_SendInfo__isset __isset;
 
-  _User_ModifyBaseInfo_SendInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_jwt_token( const std::string& val );
 
-  void __set_jwt_token(const std::string& val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    void __set_modifyinfo( const std::string& val );
 
-  void __set_modifyinfo(const std::string& val);
+    bool operator==( const User_ModifyBaseInfo_SendInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( jwt_token == rhs.jwt_token ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        if ( !( modifyinfo == rhs.modifyinfo ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const User_ModifyBaseInfo_SendInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const User_ModifyBaseInfo_SendInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(jwt_token == rhs.jwt_token))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    if (!(modifyinfo == rhs.modifyinfo))
-      return false;
-    return true;
-  }
-  bool operator != (const User_ModifyBaseInfo_SendInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const User_ModifyBaseInfo_SendInfo& ) const;
 
-  bool operator < (const User_ModifyBaseInfo_SendInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(User_ModifyBaseInfo_SendInfo &a, User_ModifyBaseInfo_SendInfo &b);
+void swap( User_ModifyBaseInfo_SendInfo& a, User_ModifyBaseInfo_SendInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const User_ModifyBaseInfo_SendInfo& obj);
+std::ostream& operator<<( std::ostream& out, const User_ModifyBaseInfo_SendInfo& obj );
 
 typedef struct _User_ModifyBaseInfo_RecvInfo__isset {
-  _User_ModifyBaseInfo_RecvInfo__isset() : type(false), sendtime(false), status(false) {}
-  bool type :1;
-  bool sendtime :1;
-  bool status :1;
+    _User_ModifyBaseInfo_RecvInfo__isset() : type( false ), sendtime( false ), status( false ) {}
+    bool type : 1;
+    bool sendtime : 1;
+    bool status : 1;
 } _User_ModifyBaseInfo_RecvInfo__isset;
 
 class User_ModifyBaseInfo_RecvInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    User_ModifyBaseInfo_RecvInfo( const User_ModifyBaseInfo_RecvInfo& ) noexcept;
+    User_ModifyBaseInfo_RecvInfo& operator=( const User_ModifyBaseInfo_RecvInfo& ) noexcept;
+    User_ModifyBaseInfo_RecvInfo() noexcept : type( 0 ), sendtime( 0 ), status( 0 ) {}
 
-  User_ModifyBaseInfo_RecvInfo(const User_ModifyBaseInfo_RecvInfo&) noexcept;
-  User_ModifyBaseInfo_RecvInfo& operator=(const User_ModifyBaseInfo_RecvInfo&) noexcept;
-  User_ModifyBaseInfo_RecvInfo() noexcept
-                               : type(0),
-                                 sendtime(0),
-                                 status(0) {
-  }
+    virtual ~User_ModifyBaseInfo_RecvInfo() noexcept;
+    int32_t type;
+    int32_t sendtime;
+    int32_t status;
 
-  virtual ~User_ModifyBaseInfo_RecvInfo() noexcept;
-  int32_t type;
-  int32_t sendtime;
-  int32_t status;
+    _User_ModifyBaseInfo_RecvInfo__isset __isset;
 
-  _User_ModifyBaseInfo_RecvInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    void __set_status( const int32_t val );
 
-  void __set_status(const int32_t val);
+    bool operator==( const User_ModifyBaseInfo_RecvInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        if ( !( status == rhs.status ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const User_ModifyBaseInfo_RecvInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const User_ModifyBaseInfo_RecvInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    if (!(status == rhs.status))
-      return false;
-    return true;
-  }
-  bool operator != (const User_ModifyBaseInfo_RecvInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const User_ModifyBaseInfo_RecvInfo& ) const;
 
-  bool operator < (const User_ModifyBaseInfo_RecvInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(User_ModifyBaseInfo_RecvInfo &a, User_ModifyBaseInfo_RecvInfo &b);
+void swap( User_ModifyBaseInfo_RecvInfo& a, User_ModifyBaseInfo_RecvInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const User_ModifyBaseInfo_RecvInfo& obj);
+std::ostream& operator<<( std::ostream& out, const User_ModifyBaseInfo_RecvInfo& obj );
 
 typedef struct _User_ModifySocialInfo_SendInfo__isset {
-  _User_ModifySocialInfo_SendInfo__isset() : type(false), jwt_token(false), sendtime(false), modifyinfo(false) {}
-  bool type :1;
-  bool jwt_token :1;
-  bool sendtime :1;
-  bool modifyinfo :1;
+    _User_ModifySocialInfo_SendInfo__isset() : type( false ), jwt_token( false ), sendtime( false ), modifyinfo( false ) {}
+    bool type : 1;
+    bool jwt_token : 1;
+    bool sendtime : 1;
+    bool modifyinfo : 1;
 } _User_ModifySocialInfo_SendInfo__isset;
 
 class User_ModifySocialInfo_SendInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    User_ModifySocialInfo_SendInfo( const User_ModifySocialInfo_SendInfo& );
+    User_ModifySocialInfo_SendInfo& operator=( const User_ModifySocialInfo_SendInfo& );
+    User_ModifySocialInfo_SendInfo() noexcept : type( 0 ), jwt_token(), sendtime( 0 ), modifyinfo() {}
 
-  User_ModifySocialInfo_SendInfo(const User_ModifySocialInfo_SendInfo&);
-  User_ModifySocialInfo_SendInfo& operator=(const User_ModifySocialInfo_SendInfo&);
-  User_ModifySocialInfo_SendInfo() noexcept
-                                 : type(0),
-                                   jwt_token(),
-                                   sendtime(0),
-                                   modifyinfo() {
-  }
+    virtual ~User_ModifySocialInfo_SendInfo() noexcept;
+    int32_t     type;
+    std::string jwt_token;
+    int32_t     sendtime;
+    std::string modifyinfo;
 
-  virtual ~User_ModifySocialInfo_SendInfo() noexcept;
-  int32_t type;
-  std::string jwt_token;
-  int32_t sendtime;
-  std::string modifyinfo;
+    _User_ModifySocialInfo_SendInfo__isset __isset;
 
-  _User_ModifySocialInfo_SendInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_jwt_token( const std::string& val );
 
-  void __set_jwt_token(const std::string& val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    void __set_modifyinfo( const std::string& val );
 
-  void __set_modifyinfo(const std::string& val);
+    bool operator==( const User_ModifySocialInfo_SendInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( jwt_token == rhs.jwt_token ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        if ( !( modifyinfo == rhs.modifyinfo ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const User_ModifySocialInfo_SendInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const User_ModifySocialInfo_SendInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(jwt_token == rhs.jwt_token))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    if (!(modifyinfo == rhs.modifyinfo))
-      return false;
-    return true;
-  }
-  bool operator != (const User_ModifySocialInfo_SendInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const User_ModifySocialInfo_SendInfo& ) const;
 
-  bool operator < (const User_ModifySocialInfo_SendInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(User_ModifySocialInfo_SendInfo &a, User_ModifySocialInfo_SendInfo &b);
+void swap( User_ModifySocialInfo_SendInfo& a, User_ModifySocialInfo_SendInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const User_ModifySocialInfo_SendInfo& obj);
+std::ostream& operator<<( std::ostream& out, const User_ModifySocialInfo_SendInfo& obj );
 
 typedef struct _User_ModifySocialInfo_RecvInfo__isset {
-  _User_ModifySocialInfo_RecvInfo__isset() : type(false), sendtime(false), status(false) {}
-  bool type :1;
-  bool sendtime :1;
-  bool status :1;
+    _User_ModifySocialInfo_RecvInfo__isset() : type( false ), sendtime( false ), status( false ) {}
+    bool type : 1;
+    bool sendtime : 1;
+    bool status : 1;
 } _User_ModifySocialInfo_RecvInfo__isset;
 
 class User_ModifySocialInfo_RecvInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    User_ModifySocialInfo_RecvInfo( const User_ModifySocialInfo_RecvInfo& ) noexcept;
+    User_ModifySocialInfo_RecvInfo& operator=( const User_ModifySocialInfo_RecvInfo& ) noexcept;
+    User_ModifySocialInfo_RecvInfo() noexcept : type( 0 ), sendtime( 0 ), status( 0 ) {}
 
-  User_ModifySocialInfo_RecvInfo(const User_ModifySocialInfo_RecvInfo&) noexcept;
-  User_ModifySocialInfo_RecvInfo& operator=(const User_ModifySocialInfo_RecvInfo&) noexcept;
-  User_ModifySocialInfo_RecvInfo() noexcept
-                                 : type(0),
-                                   sendtime(0),
-                                   status(0) {
-  }
+    virtual ~User_ModifySocialInfo_RecvInfo() noexcept;
+    int32_t type;
+    int32_t sendtime;
+    int32_t status;
 
-  virtual ~User_ModifySocialInfo_RecvInfo() noexcept;
-  int32_t type;
-  int32_t sendtime;
-  int32_t status;
+    _User_ModifySocialInfo_RecvInfo__isset __isset;
 
-  _User_ModifySocialInfo_RecvInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    void __set_status( const int32_t val );
 
-  void __set_status(const int32_t val);
+    bool operator==( const User_ModifySocialInfo_RecvInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        if ( !( status == rhs.status ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const User_ModifySocialInfo_RecvInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const User_ModifySocialInfo_RecvInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    if (!(status == rhs.status))
-      return false;
-    return true;
-  }
-  bool operator != (const User_ModifySocialInfo_RecvInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const User_ModifySocialInfo_RecvInfo& ) const;
 
-  bool operator < (const User_ModifySocialInfo_RecvInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(User_ModifySocialInfo_RecvInfo &a, User_ModifySocialInfo_RecvInfo &b);
+void swap( User_ModifySocialInfo_RecvInfo& a, User_ModifySocialInfo_RecvInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const User_ModifySocialInfo_RecvInfo& obj);
+std::ostream& operator<<( std::ostream& out, const User_ModifySocialInfo_RecvInfo& obj );
 
 typedef struct _User_ModifyExInfo_SendInfo__isset {
-  _User_ModifyExInfo_SendInfo__isset() : type(false), jwt_token(false), sendtime(false), modifyinfo(false) {}
-  bool type :1;
-  bool jwt_token :1;
-  bool sendtime :1;
-  bool modifyinfo :1;
+    _User_ModifyExInfo_SendInfo__isset() : type( false ), jwt_token( false ), sendtime( false ), modifyinfo( false ) {}
+    bool type : 1;
+    bool jwt_token : 1;
+    bool sendtime : 1;
+    bool modifyinfo : 1;
 } _User_ModifyExInfo_SendInfo__isset;
 
 class User_ModifyExInfo_SendInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    User_ModifyExInfo_SendInfo( const User_ModifyExInfo_SendInfo& );
+    User_ModifyExInfo_SendInfo& operator=( const User_ModifyExInfo_SendInfo& );
+    User_ModifyExInfo_SendInfo() noexcept : type( 0 ), jwt_token(), sendtime( 0 ), modifyinfo() {}
 
-  User_ModifyExInfo_SendInfo(const User_ModifyExInfo_SendInfo&);
-  User_ModifyExInfo_SendInfo& operator=(const User_ModifyExInfo_SendInfo&);
-  User_ModifyExInfo_SendInfo() noexcept
-                             : type(0),
-                               jwt_token(),
-                               sendtime(0),
-                               modifyinfo() {
-  }
+    virtual ~User_ModifyExInfo_SendInfo() noexcept;
+    int32_t     type;
+    std::string jwt_token;
+    int32_t     sendtime;
+    std::string modifyinfo;
 
-  virtual ~User_ModifyExInfo_SendInfo() noexcept;
-  int32_t type;
-  std::string jwt_token;
-  int32_t sendtime;
-  std::string modifyinfo;
+    _User_ModifyExInfo_SendInfo__isset __isset;
 
-  _User_ModifyExInfo_SendInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_jwt_token( const std::string& val );
 
-  void __set_jwt_token(const std::string& val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    void __set_modifyinfo( const std::string& val );
 
-  void __set_modifyinfo(const std::string& val);
+    bool operator==( const User_ModifyExInfo_SendInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( jwt_token == rhs.jwt_token ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        if ( !( modifyinfo == rhs.modifyinfo ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const User_ModifyExInfo_SendInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const User_ModifyExInfo_SendInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(jwt_token == rhs.jwt_token))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    if (!(modifyinfo == rhs.modifyinfo))
-      return false;
-    return true;
-  }
-  bool operator != (const User_ModifyExInfo_SendInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const User_ModifyExInfo_SendInfo& ) const;
 
-  bool operator < (const User_ModifyExInfo_SendInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(User_ModifyExInfo_SendInfo &a, User_ModifyExInfo_SendInfo &b);
+void swap( User_ModifyExInfo_SendInfo& a, User_ModifyExInfo_SendInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const User_ModifyExInfo_SendInfo& obj);
+std::ostream& operator<<( std::ostream& out, const User_ModifyExInfo_SendInfo& obj );
 
 typedef struct _User_ModifyExInfo_RecvInfo__isset {
-  _User_ModifyExInfo_RecvInfo__isset() : type(false), sendtime(false), status(false) {}
-  bool type :1;
-  bool sendtime :1;
-  bool status :1;
+    _User_ModifyExInfo_RecvInfo__isset() : type( false ), sendtime( false ), status( false ) {}
+    bool type : 1;
+    bool sendtime : 1;
+    bool status : 1;
 } _User_ModifyExInfo_RecvInfo__isset;
 
 class User_ModifyExInfo_RecvInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    User_ModifyExInfo_RecvInfo( const User_ModifyExInfo_RecvInfo& ) noexcept;
+    User_ModifyExInfo_RecvInfo& operator=( const User_ModifyExInfo_RecvInfo& ) noexcept;
+    User_ModifyExInfo_RecvInfo() noexcept : type( 0 ), sendtime( 0 ), status( 0 ) {}
 
-  User_ModifyExInfo_RecvInfo(const User_ModifyExInfo_RecvInfo&) noexcept;
-  User_ModifyExInfo_RecvInfo& operator=(const User_ModifyExInfo_RecvInfo&) noexcept;
-  User_ModifyExInfo_RecvInfo() noexcept
-                             : type(0),
-                               sendtime(0),
-                               status(0) {
-  }
+    virtual ~User_ModifyExInfo_RecvInfo() noexcept;
+    int32_t type;
+    int32_t sendtime;
+    int32_t status;
 
-  virtual ~User_ModifyExInfo_RecvInfo() noexcept;
-  int32_t type;
-  int32_t sendtime;
-  int32_t status;
+    _User_ModifyExInfo_RecvInfo__isset __isset;
 
-  _User_ModifyExInfo_RecvInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    void __set_status( const int32_t val );
 
-  void __set_status(const int32_t val);
+    bool operator==( const User_ModifyExInfo_RecvInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        if ( !( status == rhs.status ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const User_ModifyExInfo_RecvInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const User_ModifyExInfo_RecvInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    if (!(status == rhs.status))
-      return false;
-    return true;
-  }
-  bool operator != (const User_ModifyExInfo_RecvInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const User_ModifyExInfo_RecvInfo& ) const;
 
-  bool operator < (const User_ModifyExInfo_RecvInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(User_ModifyExInfo_RecvInfo &a, User_ModifyExInfo_RecvInfo &b);
+void swap( User_ModifyExInfo_RecvInfo& a, User_ModifyExInfo_RecvInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const User_ModifyExInfo_RecvInfo& obj);
-
-
+std::ostream& operator<<( std::ostream& out, const User_ModifyExInfo_RecvInfo& obj );
 
 #endif

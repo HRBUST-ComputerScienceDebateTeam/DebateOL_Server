@@ -9,17 +9,14 @@
 
 #include <iosfwd>
 
-#include <thrift/Thrift.h>
 #include <thrift/TApplicationException.h>
 #include <thrift/TBase.h>
+#include <thrift/Thrift.h>
 #include <thrift/protocol/TProtocol.h>
 #include <thrift/transport/TTransport.h>
 
 #include <functional>
 #include <memory>
-
-
-
 
 class Video_Upload_SendInfo;
 
@@ -32,437 +29,384 @@ class Video_Download_RecvInfo;
 class Video_Clean_SendInfo;
 
 typedef struct _Video_Upload_SendInfo__isset {
-  _Video_Upload_SendInfo__isset() : type(false), userId(false), roomId(false), min(false), sec(false), msec(false), info(false), sendtime(false) {}
-  bool type :1;
-  bool userId :1;
-  bool roomId :1;
-  bool min :1;
-  bool sec :1;
-  bool msec :1;
-  bool info :1;
-  bool sendtime :1;
+    _Video_Upload_SendInfo__isset() : type( false ), userId( false ), roomId( false ), min( false ), sec( false ), msec( false ), info( false ), sendtime( false ) {}
+    bool type : 1;
+    bool userId : 1;
+    bool roomId : 1;
+    bool min : 1;
+    bool sec : 1;
+    bool msec : 1;
+    bool info : 1;
+    bool sendtime : 1;
 } _Video_Upload_SendInfo__isset;
 
 class Video_Upload_SendInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    Video_Upload_SendInfo( const Video_Upload_SendInfo& );
+    Video_Upload_SendInfo& operator=( const Video_Upload_SendInfo& );
+    Video_Upload_SendInfo() noexcept : type( 0 ), userId( 0 ), roomId( 0 ), min( 0 ), sec( 0 ), msec( 0 ), info(), sendtime( 0 ) {}
 
-  Video_Upload_SendInfo(const Video_Upload_SendInfo&);
-  Video_Upload_SendInfo& operator=(const Video_Upload_SendInfo&);
-  Video_Upload_SendInfo() noexcept
-                        : type(0),
-                          userId(0),
-                          roomId(0),
-                          min(0),
-                          sec(0),
-                          msec(0),
-                          info(),
-                          sendtime(0) {
-  }
+    virtual ~Video_Upload_SendInfo() noexcept;
+    int32_t     type;
+    int32_t     userId;
+    int32_t     roomId;
+    int32_t     min;
+    int32_t     sec;
+    int32_t     msec;
+    std::string info;
+    int32_t     sendtime;
 
-  virtual ~Video_Upload_SendInfo() noexcept;
-  int32_t type;
-  int32_t userId;
-  int32_t roomId;
-  int32_t min;
-  int32_t sec;
-  int32_t msec;
-  std::string info;
-  int32_t sendtime;
+    _Video_Upload_SendInfo__isset __isset;
 
-  _Video_Upload_SendInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_userId( const int32_t val );
 
-  void __set_userId(const int32_t val);
+    void __set_roomId( const int32_t val );
 
-  void __set_roomId(const int32_t val);
+    void __set_min( const int32_t val );
 
-  void __set_min(const int32_t val);
+    void __set_sec( const int32_t val );
 
-  void __set_sec(const int32_t val);
+    void __set_msec( const int32_t val );
 
-  void __set_msec(const int32_t val);
+    void __set_info( const std::string& val );
 
-  void __set_info(const std::string& val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    bool operator==( const Video_Upload_SendInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( userId == rhs.userId ) )
+            return false;
+        if ( !( roomId == rhs.roomId ) )
+            return false;
+        if ( !( min == rhs.min ) )
+            return false;
+        if ( !( sec == rhs.sec ) )
+            return false;
+        if ( !( msec == rhs.msec ) )
+            return false;
+        if ( !( info == rhs.info ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const Video_Upload_SendInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const Video_Upload_SendInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(userId == rhs.userId))
-      return false;
-    if (!(roomId == rhs.roomId))
-      return false;
-    if (!(min == rhs.min))
-      return false;
-    if (!(sec == rhs.sec))
-      return false;
-    if (!(msec == rhs.msec))
-      return false;
-    if (!(info == rhs.info))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    return true;
-  }
-  bool operator != (const Video_Upload_SendInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const Video_Upload_SendInfo& ) const;
 
-  bool operator < (const Video_Upload_SendInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(Video_Upload_SendInfo &a, Video_Upload_SendInfo &b);
+void swap( Video_Upload_SendInfo& a, Video_Upload_SendInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const Video_Upload_SendInfo& obj);
+std::ostream& operator<<( std::ostream& out, const Video_Upload_SendInfo& obj );
 
 typedef struct _Video_Upload_RecvInfo__isset {
-  _Video_Upload_RecvInfo__isset() : type(false), userId(false), roomId(false), min(false), sec(false), msec(false), status(false), sendtime(false) {}
-  bool type :1;
-  bool userId :1;
-  bool roomId :1;
-  bool min :1;
-  bool sec :1;
-  bool msec :1;
-  bool status :1;
-  bool sendtime :1;
+    _Video_Upload_RecvInfo__isset() : type( false ), userId( false ), roomId( false ), min( false ), sec( false ), msec( false ), status( false ), sendtime( false ) {}
+    bool type : 1;
+    bool userId : 1;
+    bool roomId : 1;
+    bool min : 1;
+    bool sec : 1;
+    bool msec : 1;
+    bool status : 1;
+    bool sendtime : 1;
 } _Video_Upload_RecvInfo__isset;
 
 class Video_Upload_RecvInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    Video_Upload_RecvInfo( const Video_Upload_RecvInfo& ) noexcept;
+    Video_Upload_RecvInfo& operator=( const Video_Upload_RecvInfo& ) noexcept;
+    Video_Upload_RecvInfo() noexcept : type( 0 ), userId( 0 ), roomId( 0 ), min( 0 ), sec( 0 ), msec( 0 ), status( 0 ), sendtime( 0 ) {}
 
-  Video_Upload_RecvInfo(const Video_Upload_RecvInfo&) noexcept;
-  Video_Upload_RecvInfo& operator=(const Video_Upload_RecvInfo&) noexcept;
-  Video_Upload_RecvInfo() noexcept
-                        : type(0),
-                          userId(0),
-                          roomId(0),
-                          min(0),
-                          sec(0),
-                          msec(0),
-                          status(0),
-                          sendtime(0) {
-  }
+    virtual ~Video_Upload_RecvInfo() noexcept;
+    int32_t type;
+    int32_t userId;
+    int32_t roomId;
+    int32_t min;
+    int32_t sec;
+    int32_t msec;
+    int32_t status;
+    int32_t sendtime;
 
-  virtual ~Video_Upload_RecvInfo() noexcept;
-  int32_t type;
-  int32_t userId;
-  int32_t roomId;
-  int32_t min;
-  int32_t sec;
-  int32_t msec;
-  int32_t status;
-  int32_t sendtime;
+    _Video_Upload_RecvInfo__isset __isset;
 
-  _Video_Upload_RecvInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_userId( const int32_t val );
 
-  void __set_userId(const int32_t val);
+    void __set_roomId( const int32_t val );
 
-  void __set_roomId(const int32_t val);
+    void __set_min( const int32_t val );
 
-  void __set_min(const int32_t val);
+    void __set_sec( const int32_t val );
 
-  void __set_sec(const int32_t val);
+    void __set_msec( const int32_t val );
 
-  void __set_msec(const int32_t val);
+    void __set_status( const int32_t val );
 
-  void __set_status(const int32_t val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    bool operator==( const Video_Upload_RecvInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( userId == rhs.userId ) )
+            return false;
+        if ( !( roomId == rhs.roomId ) )
+            return false;
+        if ( !( min == rhs.min ) )
+            return false;
+        if ( !( sec == rhs.sec ) )
+            return false;
+        if ( !( msec == rhs.msec ) )
+            return false;
+        if ( !( status == rhs.status ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const Video_Upload_RecvInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const Video_Upload_RecvInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(userId == rhs.userId))
-      return false;
-    if (!(roomId == rhs.roomId))
-      return false;
-    if (!(min == rhs.min))
-      return false;
-    if (!(sec == rhs.sec))
-      return false;
-    if (!(msec == rhs.msec))
-      return false;
-    if (!(status == rhs.status))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    return true;
-  }
-  bool operator != (const Video_Upload_RecvInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const Video_Upload_RecvInfo& ) const;
 
-  bool operator < (const Video_Upload_RecvInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(Video_Upload_RecvInfo &a, Video_Upload_RecvInfo &b);
+void swap( Video_Upload_RecvInfo& a, Video_Upload_RecvInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const Video_Upload_RecvInfo& obj);
+std::ostream& operator<<( std::ostream& out, const Video_Upload_RecvInfo& obj );
 
 typedef struct _Video_Download_SendInfo__isset {
-  _Video_Download_SendInfo__isset() : type(false), userId(false), roomId(false), min(false), sec(false), msec(false), sendtime(false) {}
-  bool type :1;
-  bool userId :1;
-  bool roomId :1;
-  bool min :1;
-  bool sec :1;
-  bool msec :1;
-  bool sendtime :1;
+    _Video_Download_SendInfo__isset() : type( false ), userId( false ), roomId( false ), min( false ), sec( false ), msec( false ), sendtime( false ) {}
+    bool type : 1;
+    bool userId : 1;
+    bool roomId : 1;
+    bool min : 1;
+    bool sec : 1;
+    bool msec : 1;
+    bool sendtime : 1;
 } _Video_Download_SendInfo__isset;
 
 class Video_Download_SendInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    Video_Download_SendInfo( const Video_Download_SendInfo& ) noexcept;
+    Video_Download_SendInfo& operator=( const Video_Download_SendInfo& ) noexcept;
+    Video_Download_SendInfo() noexcept : type( 0 ), userId( 0 ), roomId( 0 ), min( 0 ), sec( 0 ), msec( 0 ), sendtime( 0 ) {}
 
-  Video_Download_SendInfo(const Video_Download_SendInfo&) noexcept;
-  Video_Download_SendInfo& operator=(const Video_Download_SendInfo&) noexcept;
-  Video_Download_SendInfo() noexcept
-                          : type(0),
-                            userId(0),
-                            roomId(0),
-                            min(0),
-                            sec(0),
-                            msec(0),
-                            sendtime(0) {
-  }
+    virtual ~Video_Download_SendInfo() noexcept;
+    int32_t type;
+    int32_t userId;
+    int32_t roomId;
+    int32_t min;
+    int32_t sec;
+    int32_t msec;
+    int32_t sendtime;
 
-  virtual ~Video_Download_SendInfo() noexcept;
-  int32_t type;
-  int32_t userId;
-  int32_t roomId;
-  int32_t min;
-  int32_t sec;
-  int32_t msec;
-  int32_t sendtime;
+    _Video_Download_SendInfo__isset __isset;
 
-  _Video_Download_SendInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_userId( const int32_t val );
 
-  void __set_userId(const int32_t val);
+    void __set_roomId( const int32_t val );
 
-  void __set_roomId(const int32_t val);
+    void __set_min( const int32_t val );
 
-  void __set_min(const int32_t val);
+    void __set_sec( const int32_t val );
 
-  void __set_sec(const int32_t val);
+    void __set_msec( const int32_t val );
 
-  void __set_msec(const int32_t val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    bool operator==( const Video_Download_SendInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( userId == rhs.userId ) )
+            return false;
+        if ( !( roomId == rhs.roomId ) )
+            return false;
+        if ( !( min == rhs.min ) )
+            return false;
+        if ( !( sec == rhs.sec ) )
+            return false;
+        if ( !( msec == rhs.msec ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const Video_Download_SendInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const Video_Download_SendInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(userId == rhs.userId))
-      return false;
-    if (!(roomId == rhs.roomId))
-      return false;
-    if (!(min == rhs.min))
-      return false;
-    if (!(sec == rhs.sec))
-      return false;
-    if (!(msec == rhs.msec))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    return true;
-  }
-  bool operator != (const Video_Download_SendInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const Video_Download_SendInfo& ) const;
 
-  bool operator < (const Video_Download_SendInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(Video_Download_SendInfo &a, Video_Download_SendInfo &b);
+void swap( Video_Download_SendInfo& a, Video_Download_SendInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const Video_Download_SendInfo& obj);
+std::ostream& operator<<( std::ostream& out, const Video_Download_SendInfo& obj );
 
 typedef struct _Video_Download_RecvInfo__isset {
-  _Video_Download_RecvInfo__isset() : type(false), userId(false), roomId(false), min(false), sec(false), msec(false), status(false), info(false), sendtime(false) {}
-  bool type :1;
-  bool userId :1;
-  bool roomId :1;
-  bool min :1;
-  bool sec :1;
-  bool msec :1;
-  bool status :1;
-  bool info :1;
-  bool sendtime :1;
+    _Video_Download_RecvInfo__isset() : type( false ), userId( false ), roomId( false ), min( false ), sec( false ), msec( false ), status( false ), info( false ), sendtime( false ) {}
+    bool type : 1;
+    bool userId : 1;
+    bool roomId : 1;
+    bool min : 1;
+    bool sec : 1;
+    bool msec : 1;
+    bool status : 1;
+    bool info : 1;
+    bool sendtime : 1;
 } _Video_Download_RecvInfo__isset;
 
 class Video_Download_RecvInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    Video_Download_RecvInfo( const Video_Download_RecvInfo& );
+    Video_Download_RecvInfo& operator=( const Video_Download_RecvInfo& );
+    Video_Download_RecvInfo() noexcept : type( 0 ), userId( 0 ), roomId( 0 ), min( 0 ), sec( 0 ), msec( 0 ), status( 0 ), info(), sendtime( 0 ) {}
 
-  Video_Download_RecvInfo(const Video_Download_RecvInfo&);
-  Video_Download_RecvInfo& operator=(const Video_Download_RecvInfo&);
-  Video_Download_RecvInfo() noexcept
-                          : type(0),
-                            userId(0),
-                            roomId(0),
-                            min(0),
-                            sec(0),
-                            msec(0),
-                            status(0),
-                            info(),
-                            sendtime(0) {
-  }
+    virtual ~Video_Download_RecvInfo() noexcept;
+    int32_t     type;
+    int32_t     userId;
+    int32_t     roomId;
+    int32_t     min;
+    int32_t     sec;
+    int32_t     msec;
+    int32_t     status;
+    std::string info;
+    int32_t     sendtime;
 
-  virtual ~Video_Download_RecvInfo() noexcept;
-  int32_t type;
-  int32_t userId;
-  int32_t roomId;
-  int32_t min;
-  int32_t sec;
-  int32_t msec;
-  int32_t status;
-  std::string info;
-  int32_t sendtime;
+    _Video_Download_RecvInfo__isset __isset;
 
-  _Video_Download_RecvInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_userId( const int32_t val );
 
-  void __set_userId(const int32_t val);
+    void __set_roomId( const int32_t val );
 
-  void __set_roomId(const int32_t val);
+    void __set_min( const int32_t val );
 
-  void __set_min(const int32_t val);
+    void __set_sec( const int32_t val );
 
-  void __set_sec(const int32_t val);
+    void __set_msec( const int32_t val );
 
-  void __set_msec(const int32_t val);
+    void __set_status( const int32_t val );
 
-  void __set_status(const int32_t val);
+    void __set_info( const std::string& val );
 
-  void __set_info(const std::string& val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    bool operator==( const Video_Download_RecvInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( userId == rhs.userId ) )
+            return false;
+        if ( !( roomId == rhs.roomId ) )
+            return false;
+        if ( !( min == rhs.min ) )
+            return false;
+        if ( !( sec == rhs.sec ) )
+            return false;
+        if ( !( msec == rhs.msec ) )
+            return false;
+        if ( !( status == rhs.status ) )
+            return false;
+        if ( !( info == rhs.info ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const Video_Download_RecvInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const Video_Download_RecvInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(userId == rhs.userId))
-      return false;
-    if (!(roomId == rhs.roomId))
-      return false;
-    if (!(min == rhs.min))
-      return false;
-    if (!(sec == rhs.sec))
-      return false;
-    if (!(msec == rhs.msec))
-      return false;
-    if (!(status == rhs.status))
-      return false;
-    if (!(info == rhs.info))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    return true;
-  }
-  bool operator != (const Video_Download_RecvInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const Video_Download_RecvInfo& ) const;
 
-  bool operator < (const Video_Download_RecvInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(Video_Download_RecvInfo &a, Video_Download_RecvInfo &b);
+void swap( Video_Download_RecvInfo& a, Video_Download_RecvInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const Video_Download_RecvInfo& obj);
+std::ostream& operator<<( std::ostream& out, const Video_Download_RecvInfo& obj );
 
 typedef struct _Video_Clean_SendInfo__isset {
-  _Video_Clean_SendInfo__isset() : type(false), userId(false), roomId(false), sendtime(false) {}
-  bool type :1;
-  bool userId :1;
-  bool roomId :1;
-  bool sendtime :1;
+    _Video_Clean_SendInfo__isset() : type( false ), userId( false ), roomId( false ), sendtime( false ) {}
+    bool type : 1;
+    bool userId : 1;
+    bool roomId : 1;
+    bool sendtime : 1;
 } _Video_Clean_SendInfo__isset;
 
 class Video_Clean_SendInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    Video_Clean_SendInfo( const Video_Clean_SendInfo& ) noexcept;
+    Video_Clean_SendInfo& operator=( const Video_Clean_SendInfo& ) noexcept;
+    Video_Clean_SendInfo() noexcept : type( 0 ), userId( 0 ), roomId( 0 ), sendtime( 0 ) {}
 
-  Video_Clean_SendInfo(const Video_Clean_SendInfo&) noexcept;
-  Video_Clean_SendInfo& operator=(const Video_Clean_SendInfo&) noexcept;
-  Video_Clean_SendInfo() noexcept
-                       : type(0),
-                         userId(0),
-                         roomId(0),
-                         sendtime(0) {
-  }
+    virtual ~Video_Clean_SendInfo() noexcept;
+    int32_t type;
+    int32_t userId;
+    int32_t roomId;
+    int32_t sendtime;
 
-  virtual ~Video_Clean_SendInfo() noexcept;
-  int32_t type;
-  int32_t userId;
-  int32_t roomId;
-  int32_t sendtime;
+    _Video_Clean_SendInfo__isset __isset;
 
-  _Video_Clean_SendInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_userId( const int32_t val );
 
-  void __set_userId(const int32_t val);
+    void __set_roomId( const int32_t val );
 
-  void __set_roomId(const int32_t val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    bool operator==( const Video_Clean_SendInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( userId == rhs.userId ) )
+            return false;
+        if ( !( roomId == rhs.roomId ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const Video_Clean_SendInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const Video_Clean_SendInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(userId == rhs.userId))
-      return false;
-    if (!(roomId == rhs.roomId))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    return true;
-  }
-  bool operator != (const Video_Clean_SendInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const Video_Clean_SendInfo& ) const;
 
-  bool operator < (const Video_Clean_SendInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(Video_Clean_SendInfo &a, Video_Clean_SendInfo &b);
+void swap( Video_Clean_SendInfo& a, Video_Clean_SendInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const Video_Clean_SendInfo& obj);
-
-
+std::ostream& operator<<( std::ostream& out, const Video_Clean_SendInfo& obj );
 
 #endif

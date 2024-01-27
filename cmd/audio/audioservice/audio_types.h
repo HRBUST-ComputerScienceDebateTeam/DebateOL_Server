@@ -9,17 +9,14 @@
 
 #include <iosfwd>
 
-#include <thrift/Thrift.h>
 #include <thrift/TApplicationException.h>
 #include <thrift/TBase.h>
+#include <thrift/Thrift.h>
 #include <thrift/protocol/TProtocol.h>
 #include <thrift/transport/TTransport.h>
 
 #include <functional>
 #include <memory>
-
-
-
 
 class Audio_Upload_SendInfo;
 
@@ -32,437 +29,384 @@ class Audio_Download_RecvInfo;
 class Audio_Clean_SendInfo;
 
 typedef struct _Audio_Upload_SendInfo__isset {
-  _Audio_Upload_SendInfo__isset() : type(false), userId(false), roomId(false), min(false), sec(false), msec(false), info(false), sendtime(false) {}
-  bool type :1;
-  bool userId :1;
-  bool roomId :1;
-  bool min :1;
-  bool sec :1;
-  bool msec :1;
-  bool info :1;
-  bool sendtime :1;
+    _Audio_Upload_SendInfo__isset() : type( false ), userId( false ), roomId( false ), min( false ), sec( false ), msec( false ), info( false ), sendtime( false ) {}
+    bool type : 1;
+    bool userId : 1;
+    bool roomId : 1;
+    bool min : 1;
+    bool sec : 1;
+    bool msec : 1;
+    bool info : 1;
+    bool sendtime : 1;
 } _Audio_Upload_SendInfo__isset;
 
 class Audio_Upload_SendInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    Audio_Upload_SendInfo( const Audio_Upload_SendInfo& );
+    Audio_Upload_SendInfo& operator=( const Audio_Upload_SendInfo& );
+    Audio_Upload_SendInfo() noexcept : type( 0 ), userId( 0 ), roomId( 0 ), min( 0 ), sec( 0 ), msec( 0 ), info(), sendtime( 0 ) {}
 
-  Audio_Upload_SendInfo(const Audio_Upload_SendInfo&);
-  Audio_Upload_SendInfo& operator=(const Audio_Upload_SendInfo&);
-  Audio_Upload_SendInfo() noexcept
-                        : type(0),
-                          userId(0),
-                          roomId(0),
-                          min(0),
-                          sec(0),
-                          msec(0),
-                          info(),
-                          sendtime(0) {
-  }
+    virtual ~Audio_Upload_SendInfo() noexcept;
+    int32_t     type;
+    int32_t     userId;
+    int32_t     roomId;
+    int32_t     min;
+    int32_t     sec;
+    int32_t     msec;
+    std::string info;
+    int32_t     sendtime;
 
-  virtual ~Audio_Upload_SendInfo() noexcept;
-  int32_t type;
-  int32_t userId;
-  int32_t roomId;
-  int32_t min;
-  int32_t sec;
-  int32_t msec;
-  std::string info;
-  int32_t sendtime;
+    _Audio_Upload_SendInfo__isset __isset;
 
-  _Audio_Upload_SendInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_userId( const int32_t val );
 
-  void __set_userId(const int32_t val);
+    void __set_roomId( const int32_t val );
 
-  void __set_roomId(const int32_t val);
+    void __set_min( const int32_t val );
 
-  void __set_min(const int32_t val);
+    void __set_sec( const int32_t val );
 
-  void __set_sec(const int32_t val);
+    void __set_msec( const int32_t val );
 
-  void __set_msec(const int32_t val);
+    void __set_info( const std::string& val );
 
-  void __set_info(const std::string& val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    bool operator==( const Audio_Upload_SendInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( userId == rhs.userId ) )
+            return false;
+        if ( !( roomId == rhs.roomId ) )
+            return false;
+        if ( !( min == rhs.min ) )
+            return false;
+        if ( !( sec == rhs.sec ) )
+            return false;
+        if ( !( msec == rhs.msec ) )
+            return false;
+        if ( !( info == rhs.info ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const Audio_Upload_SendInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const Audio_Upload_SendInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(userId == rhs.userId))
-      return false;
-    if (!(roomId == rhs.roomId))
-      return false;
-    if (!(min == rhs.min))
-      return false;
-    if (!(sec == rhs.sec))
-      return false;
-    if (!(msec == rhs.msec))
-      return false;
-    if (!(info == rhs.info))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    return true;
-  }
-  bool operator != (const Audio_Upload_SendInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const Audio_Upload_SendInfo& ) const;
 
-  bool operator < (const Audio_Upload_SendInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(Audio_Upload_SendInfo &a, Audio_Upload_SendInfo &b);
+void swap( Audio_Upload_SendInfo& a, Audio_Upload_SendInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const Audio_Upload_SendInfo& obj);
+std::ostream& operator<<( std::ostream& out, const Audio_Upload_SendInfo& obj );
 
 typedef struct _Audio_Upload_RecvInfo__isset {
-  _Audio_Upload_RecvInfo__isset() : type(false), userId(false), roomId(false), min(false), sec(false), msec(false), status(false), sendtime(false) {}
-  bool type :1;
-  bool userId :1;
-  bool roomId :1;
-  bool min :1;
-  bool sec :1;
-  bool msec :1;
-  bool status :1;
-  bool sendtime :1;
+    _Audio_Upload_RecvInfo__isset() : type( false ), userId( false ), roomId( false ), min( false ), sec( false ), msec( false ), status( false ), sendtime( false ) {}
+    bool type : 1;
+    bool userId : 1;
+    bool roomId : 1;
+    bool min : 1;
+    bool sec : 1;
+    bool msec : 1;
+    bool status : 1;
+    bool sendtime : 1;
 } _Audio_Upload_RecvInfo__isset;
 
 class Audio_Upload_RecvInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    Audio_Upload_RecvInfo( const Audio_Upload_RecvInfo& ) noexcept;
+    Audio_Upload_RecvInfo& operator=( const Audio_Upload_RecvInfo& ) noexcept;
+    Audio_Upload_RecvInfo() noexcept : type( 0 ), userId( 0 ), roomId( 0 ), min( 0 ), sec( 0 ), msec( 0 ), status( 0 ), sendtime( 0 ) {}
 
-  Audio_Upload_RecvInfo(const Audio_Upload_RecvInfo&) noexcept;
-  Audio_Upload_RecvInfo& operator=(const Audio_Upload_RecvInfo&) noexcept;
-  Audio_Upload_RecvInfo() noexcept
-                        : type(0),
-                          userId(0),
-                          roomId(0),
-                          min(0),
-                          sec(0),
-                          msec(0),
-                          status(0),
-                          sendtime(0) {
-  }
+    virtual ~Audio_Upload_RecvInfo() noexcept;
+    int32_t type;
+    int32_t userId;
+    int32_t roomId;
+    int32_t min;
+    int32_t sec;
+    int32_t msec;
+    int32_t status;
+    int32_t sendtime;
 
-  virtual ~Audio_Upload_RecvInfo() noexcept;
-  int32_t type;
-  int32_t userId;
-  int32_t roomId;
-  int32_t min;
-  int32_t sec;
-  int32_t msec;
-  int32_t status;
-  int32_t sendtime;
+    _Audio_Upload_RecvInfo__isset __isset;
 
-  _Audio_Upload_RecvInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_userId( const int32_t val );
 
-  void __set_userId(const int32_t val);
+    void __set_roomId( const int32_t val );
 
-  void __set_roomId(const int32_t val);
+    void __set_min( const int32_t val );
 
-  void __set_min(const int32_t val);
+    void __set_sec( const int32_t val );
 
-  void __set_sec(const int32_t val);
+    void __set_msec( const int32_t val );
 
-  void __set_msec(const int32_t val);
+    void __set_status( const int32_t val );
 
-  void __set_status(const int32_t val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    bool operator==( const Audio_Upload_RecvInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( userId == rhs.userId ) )
+            return false;
+        if ( !( roomId == rhs.roomId ) )
+            return false;
+        if ( !( min == rhs.min ) )
+            return false;
+        if ( !( sec == rhs.sec ) )
+            return false;
+        if ( !( msec == rhs.msec ) )
+            return false;
+        if ( !( status == rhs.status ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const Audio_Upload_RecvInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const Audio_Upload_RecvInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(userId == rhs.userId))
-      return false;
-    if (!(roomId == rhs.roomId))
-      return false;
-    if (!(min == rhs.min))
-      return false;
-    if (!(sec == rhs.sec))
-      return false;
-    if (!(msec == rhs.msec))
-      return false;
-    if (!(status == rhs.status))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    return true;
-  }
-  bool operator != (const Audio_Upload_RecvInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const Audio_Upload_RecvInfo& ) const;
 
-  bool operator < (const Audio_Upload_RecvInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(Audio_Upload_RecvInfo &a, Audio_Upload_RecvInfo &b);
+void swap( Audio_Upload_RecvInfo& a, Audio_Upload_RecvInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const Audio_Upload_RecvInfo& obj);
+std::ostream& operator<<( std::ostream& out, const Audio_Upload_RecvInfo& obj );
 
 typedef struct _Audio_Download_SendInfo__isset {
-  _Audio_Download_SendInfo__isset() : type(false), userId(false), roomId(false), min(false), sec(false), msec(false), sendtime(false) {}
-  bool type :1;
-  bool userId :1;
-  bool roomId :1;
-  bool min :1;
-  bool sec :1;
-  bool msec :1;
-  bool sendtime :1;
+    _Audio_Download_SendInfo__isset() : type( false ), userId( false ), roomId( false ), min( false ), sec( false ), msec( false ), sendtime( false ) {}
+    bool type : 1;
+    bool userId : 1;
+    bool roomId : 1;
+    bool min : 1;
+    bool sec : 1;
+    bool msec : 1;
+    bool sendtime : 1;
 } _Audio_Download_SendInfo__isset;
 
 class Audio_Download_SendInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    Audio_Download_SendInfo( const Audio_Download_SendInfo& ) noexcept;
+    Audio_Download_SendInfo& operator=( const Audio_Download_SendInfo& ) noexcept;
+    Audio_Download_SendInfo() noexcept : type( 0 ), userId( 0 ), roomId( 0 ), min( 0 ), sec( 0 ), msec( 0 ), sendtime( 0 ) {}
 
-  Audio_Download_SendInfo(const Audio_Download_SendInfo&) noexcept;
-  Audio_Download_SendInfo& operator=(const Audio_Download_SendInfo&) noexcept;
-  Audio_Download_SendInfo() noexcept
-                          : type(0),
-                            userId(0),
-                            roomId(0),
-                            min(0),
-                            sec(0),
-                            msec(0),
-                            sendtime(0) {
-  }
+    virtual ~Audio_Download_SendInfo() noexcept;
+    int32_t type;
+    int32_t userId;
+    int32_t roomId;
+    int32_t min;
+    int32_t sec;
+    int32_t msec;
+    int32_t sendtime;
 
-  virtual ~Audio_Download_SendInfo() noexcept;
-  int32_t type;
-  int32_t userId;
-  int32_t roomId;
-  int32_t min;
-  int32_t sec;
-  int32_t msec;
-  int32_t sendtime;
+    _Audio_Download_SendInfo__isset __isset;
 
-  _Audio_Download_SendInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_userId( const int32_t val );
 
-  void __set_userId(const int32_t val);
+    void __set_roomId( const int32_t val );
 
-  void __set_roomId(const int32_t val);
+    void __set_min( const int32_t val );
 
-  void __set_min(const int32_t val);
+    void __set_sec( const int32_t val );
 
-  void __set_sec(const int32_t val);
+    void __set_msec( const int32_t val );
 
-  void __set_msec(const int32_t val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    bool operator==( const Audio_Download_SendInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( userId == rhs.userId ) )
+            return false;
+        if ( !( roomId == rhs.roomId ) )
+            return false;
+        if ( !( min == rhs.min ) )
+            return false;
+        if ( !( sec == rhs.sec ) )
+            return false;
+        if ( !( msec == rhs.msec ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const Audio_Download_SendInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const Audio_Download_SendInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(userId == rhs.userId))
-      return false;
-    if (!(roomId == rhs.roomId))
-      return false;
-    if (!(min == rhs.min))
-      return false;
-    if (!(sec == rhs.sec))
-      return false;
-    if (!(msec == rhs.msec))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    return true;
-  }
-  bool operator != (const Audio_Download_SendInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const Audio_Download_SendInfo& ) const;
 
-  bool operator < (const Audio_Download_SendInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(Audio_Download_SendInfo &a, Audio_Download_SendInfo &b);
+void swap( Audio_Download_SendInfo& a, Audio_Download_SendInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const Audio_Download_SendInfo& obj);
+std::ostream& operator<<( std::ostream& out, const Audio_Download_SendInfo& obj );
 
 typedef struct _Audio_Download_RecvInfo__isset {
-  _Audio_Download_RecvInfo__isset() : type(false), userId(false), roomId(false), min(false), sec(false), msec(false), status(false), info(false), sendtime(false) {}
-  bool type :1;
-  bool userId :1;
-  bool roomId :1;
-  bool min :1;
-  bool sec :1;
-  bool msec :1;
-  bool status :1;
-  bool info :1;
-  bool sendtime :1;
+    _Audio_Download_RecvInfo__isset() : type( false ), userId( false ), roomId( false ), min( false ), sec( false ), msec( false ), status( false ), info( false ), sendtime( false ) {}
+    bool type : 1;
+    bool userId : 1;
+    bool roomId : 1;
+    bool min : 1;
+    bool sec : 1;
+    bool msec : 1;
+    bool status : 1;
+    bool info : 1;
+    bool sendtime : 1;
 } _Audio_Download_RecvInfo__isset;
 
 class Audio_Download_RecvInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    Audio_Download_RecvInfo( const Audio_Download_RecvInfo& );
+    Audio_Download_RecvInfo& operator=( const Audio_Download_RecvInfo& );
+    Audio_Download_RecvInfo() noexcept : type( 0 ), userId( 0 ), roomId( 0 ), min( 0 ), sec( 0 ), msec( 0 ), status( 0 ), info(), sendtime( 0 ) {}
 
-  Audio_Download_RecvInfo(const Audio_Download_RecvInfo&);
-  Audio_Download_RecvInfo& operator=(const Audio_Download_RecvInfo&);
-  Audio_Download_RecvInfo() noexcept
-                          : type(0),
-                            userId(0),
-                            roomId(0),
-                            min(0),
-                            sec(0),
-                            msec(0),
-                            status(0),
-                            info(),
-                            sendtime(0) {
-  }
+    virtual ~Audio_Download_RecvInfo() noexcept;
+    int32_t     type;
+    int32_t     userId;
+    int32_t     roomId;
+    int32_t     min;
+    int32_t     sec;
+    int32_t     msec;
+    int32_t     status;
+    std::string info;
+    int32_t     sendtime;
 
-  virtual ~Audio_Download_RecvInfo() noexcept;
-  int32_t type;
-  int32_t userId;
-  int32_t roomId;
-  int32_t min;
-  int32_t sec;
-  int32_t msec;
-  int32_t status;
-  std::string info;
-  int32_t sendtime;
+    _Audio_Download_RecvInfo__isset __isset;
 
-  _Audio_Download_RecvInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_userId( const int32_t val );
 
-  void __set_userId(const int32_t val);
+    void __set_roomId( const int32_t val );
 
-  void __set_roomId(const int32_t val);
+    void __set_min( const int32_t val );
 
-  void __set_min(const int32_t val);
+    void __set_sec( const int32_t val );
 
-  void __set_sec(const int32_t val);
+    void __set_msec( const int32_t val );
 
-  void __set_msec(const int32_t val);
+    void __set_status( const int32_t val );
 
-  void __set_status(const int32_t val);
+    void __set_info( const std::string& val );
 
-  void __set_info(const std::string& val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    bool operator==( const Audio_Download_RecvInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( userId == rhs.userId ) )
+            return false;
+        if ( !( roomId == rhs.roomId ) )
+            return false;
+        if ( !( min == rhs.min ) )
+            return false;
+        if ( !( sec == rhs.sec ) )
+            return false;
+        if ( !( msec == rhs.msec ) )
+            return false;
+        if ( !( status == rhs.status ) )
+            return false;
+        if ( !( info == rhs.info ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const Audio_Download_RecvInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const Audio_Download_RecvInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(userId == rhs.userId))
-      return false;
-    if (!(roomId == rhs.roomId))
-      return false;
-    if (!(min == rhs.min))
-      return false;
-    if (!(sec == rhs.sec))
-      return false;
-    if (!(msec == rhs.msec))
-      return false;
-    if (!(status == rhs.status))
-      return false;
-    if (!(info == rhs.info))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    return true;
-  }
-  bool operator != (const Audio_Download_RecvInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const Audio_Download_RecvInfo& ) const;
 
-  bool operator < (const Audio_Download_RecvInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(Audio_Download_RecvInfo &a, Audio_Download_RecvInfo &b);
+void swap( Audio_Download_RecvInfo& a, Audio_Download_RecvInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const Audio_Download_RecvInfo& obj);
+std::ostream& operator<<( std::ostream& out, const Audio_Download_RecvInfo& obj );
 
 typedef struct _Audio_Clean_SendInfo__isset {
-  _Audio_Clean_SendInfo__isset() : type(false), userId(false), roomId(false), sendtime(false) {}
-  bool type :1;
-  bool userId :1;
-  bool roomId :1;
-  bool sendtime :1;
+    _Audio_Clean_SendInfo__isset() : type( false ), userId( false ), roomId( false ), sendtime( false ) {}
+    bool type : 1;
+    bool userId : 1;
+    bool roomId : 1;
+    bool sendtime : 1;
 } _Audio_Clean_SendInfo__isset;
 
 class Audio_Clean_SendInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    Audio_Clean_SendInfo( const Audio_Clean_SendInfo& ) noexcept;
+    Audio_Clean_SendInfo& operator=( const Audio_Clean_SendInfo& ) noexcept;
+    Audio_Clean_SendInfo() noexcept : type( 0 ), userId( 0 ), roomId( 0 ), sendtime( 0 ) {}
 
-  Audio_Clean_SendInfo(const Audio_Clean_SendInfo&) noexcept;
-  Audio_Clean_SendInfo& operator=(const Audio_Clean_SendInfo&) noexcept;
-  Audio_Clean_SendInfo() noexcept
-                       : type(0),
-                         userId(0),
-                         roomId(0),
-                         sendtime(0) {
-  }
+    virtual ~Audio_Clean_SendInfo() noexcept;
+    int32_t type;
+    int32_t userId;
+    int32_t roomId;
+    int32_t sendtime;
 
-  virtual ~Audio_Clean_SendInfo() noexcept;
-  int32_t type;
-  int32_t userId;
-  int32_t roomId;
-  int32_t sendtime;
+    _Audio_Clean_SendInfo__isset __isset;
 
-  _Audio_Clean_SendInfo__isset __isset;
+    void __set_type( const int32_t val );
 
-  void __set_type(const int32_t val);
+    void __set_userId( const int32_t val );
 
-  void __set_userId(const int32_t val);
+    void __set_roomId( const int32_t val );
 
-  void __set_roomId(const int32_t val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    bool operator==( const Audio_Clean_SendInfo& rhs ) const {
+        if ( !( type == rhs.type ) )
+            return false;
+        if ( !( userId == rhs.userId ) )
+            return false;
+        if ( !( roomId == rhs.roomId ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const Audio_Clean_SendInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const Audio_Clean_SendInfo & rhs) const
-  {
-    if (!(type == rhs.type))
-      return false;
-    if (!(userId == rhs.userId))
-      return false;
-    if (!(roomId == rhs.roomId))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    return true;
-  }
-  bool operator != (const Audio_Clean_SendInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const Audio_Clean_SendInfo& ) const;
 
-  bool operator < (const Audio_Clean_SendInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(Audio_Clean_SendInfo &a, Audio_Clean_SendInfo &b);
+void swap( Audio_Clean_SendInfo& a, Audio_Clean_SendInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const Audio_Clean_SendInfo& obj);
-
-
+std::ostream& operator<<( std::ostream& out, const Audio_Clean_SendInfo& obj );
 
 #endif
