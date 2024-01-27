@@ -9,143 +9,125 @@
 
 #include <iosfwd>
 
-#include <thrift/Thrift.h>
 #include <thrift/TApplicationException.h>
 #include <thrift/TBase.h>
+#include <thrift/Thrift.h>
 #include <thrift/protocol/TProtocol.h>
 #include <thrift/transport/TTransport.h>
 
 #include <functional>
 #include <memory>
 
-
-
-
 class Echo_SendInfo;
 
 class Echo_RecvInfo;
 
 typedef struct _Echo_SendInfo__isset {
-  _Echo_SendInfo__isset() : id(false), info(false), sendtime(false) {}
-  bool id :1;
-  bool info :1;
-  bool sendtime :1;
+    _Echo_SendInfo__isset() : id( false ), info( false ), sendtime( false ) {}
+    bool id : 1;
+    bool info : 1;
+    bool sendtime : 1;
 } _Echo_SendInfo__isset;
 
 class Echo_SendInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    Echo_SendInfo( const Echo_SendInfo& );
+    Echo_SendInfo& operator=( const Echo_SendInfo& );
+    Echo_SendInfo() noexcept : id( 0 ), info(), sendtime( 0 ) {}
 
-  Echo_SendInfo(const Echo_SendInfo&);
-  Echo_SendInfo& operator=(const Echo_SendInfo&);
-  Echo_SendInfo() noexcept
-                : id(0),
-                  info(),
-                  sendtime(0) {
-  }
+    virtual ~Echo_SendInfo() noexcept;
+    int32_t     id;
+    std::string info;
+    int32_t     sendtime;
 
-  virtual ~Echo_SendInfo() noexcept;
-  int32_t id;
-  std::string info;
-  int32_t sendtime;
+    _Echo_SendInfo__isset __isset;
 
-  _Echo_SendInfo__isset __isset;
+    void __set_id( const int32_t val );
 
-  void __set_id(const int32_t val);
+    void __set_info( const std::string& val );
 
-  void __set_info(const std::string& val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    bool operator==( const Echo_SendInfo& rhs ) const {
+        if ( !( id == rhs.id ) )
+            return false;
+        if ( !( info == rhs.info ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const Echo_SendInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const Echo_SendInfo & rhs) const
-  {
-    if (!(id == rhs.id))
-      return false;
-    if (!(info == rhs.info))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    return true;
-  }
-  bool operator != (const Echo_SendInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const Echo_SendInfo& ) const;
 
-  bool operator < (const Echo_SendInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(Echo_SendInfo &a, Echo_SendInfo &b);
+void swap( Echo_SendInfo& a, Echo_SendInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const Echo_SendInfo& obj);
+std::ostream& operator<<( std::ostream& out, const Echo_SendInfo& obj );
 
 typedef struct _Echo_RecvInfo__isset {
-  _Echo_RecvInfo__isset() : id(false), info(false), time(false), sendtime(false) {}
-  bool id :1;
-  bool info :1;
-  bool time :1;
-  bool sendtime :1;
+    _Echo_RecvInfo__isset() : id( false ), info( false ), time( false ), sendtime( false ) {}
+    bool id : 1;
+    bool info : 1;
+    bool time : 1;
+    bool sendtime : 1;
 } _Echo_RecvInfo__isset;
 
 class Echo_RecvInfo : public virtual ::apache::thrift::TBase {
- public:
+public:
+    Echo_RecvInfo( const Echo_RecvInfo& );
+    Echo_RecvInfo& operator=( const Echo_RecvInfo& );
+    Echo_RecvInfo() noexcept : id( 0 ), info(), time(), sendtime( 0 ) {}
 
-  Echo_RecvInfo(const Echo_RecvInfo&);
-  Echo_RecvInfo& operator=(const Echo_RecvInfo&);
-  Echo_RecvInfo() noexcept
-                : id(0),
-                  info(),
-                  time(),
-                  sendtime(0) {
-  }
+    virtual ~Echo_RecvInfo() noexcept;
+    int32_t     id;
+    std::string info;
+    std::string time;
+    int32_t     sendtime;
 
-  virtual ~Echo_RecvInfo() noexcept;
-  int32_t id;
-  std::string info;
-  std::string time;
-  int32_t sendtime;
+    _Echo_RecvInfo__isset __isset;
 
-  _Echo_RecvInfo__isset __isset;
+    void __set_id( const int32_t val );
 
-  void __set_id(const int32_t val);
+    void __set_info( const std::string& val );
 
-  void __set_info(const std::string& val);
+    void __set_time( const std::string& val );
 
-  void __set_time(const std::string& val);
+    void __set_sendtime( const int32_t val );
 
-  void __set_sendtime(const int32_t val);
+    bool operator==( const Echo_RecvInfo& rhs ) const {
+        if ( !( id == rhs.id ) )
+            return false;
+        if ( !( info == rhs.info ) )
+            return false;
+        if ( !( time == rhs.time ) )
+            return false;
+        if ( !( sendtime == rhs.sendtime ) )
+            return false;
+        return true;
+    }
+    bool operator!=( const Echo_RecvInfo& rhs ) const {
+        return !( *this == rhs );
+    }
 
-  bool operator == (const Echo_RecvInfo & rhs) const
-  {
-    if (!(id == rhs.id))
-      return false;
-    if (!(info == rhs.info))
-      return false;
-    if (!(time == rhs.time))
-      return false;
-    if (!(sendtime == rhs.sendtime))
-      return false;
-    return true;
-  }
-  bool operator != (const Echo_RecvInfo &rhs) const {
-    return !(*this == rhs);
-  }
+    bool operator<( const Echo_RecvInfo& ) const;
 
-  bool operator < (const Echo_RecvInfo & ) const;
+    uint32_t read( ::apache::thrift::protocol::TProtocol* iprot ) override;
+    uint32_t write( ::apache::thrift::protocol::TProtocol* oprot ) const override;
 
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
-
-  virtual void printTo(std::ostream& out) const;
+    virtual void printTo( std::ostream& out ) const;
 };
 
-void swap(Echo_RecvInfo &a, Echo_RecvInfo &b);
+void swap( Echo_RecvInfo& a, Echo_RecvInfo& b );
 
-std::ostream& operator<<(std::ostream& out, const Echo_RecvInfo& obj);
-
-
+std::ostream& operator<<( std::ostream& out, const Echo_RecvInfo& obj );
 
 #endif

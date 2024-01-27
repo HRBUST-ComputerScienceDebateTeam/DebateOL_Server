@@ -17,7 +17,7 @@ Conf_path    = $(CMD_path)
 CC           = CC
 CPP          = g++
 CFlag        = -g -Wall -std=c++11
-Libflag      = -lssl -lpthread -lcrypto -lthrift -lmysqlclient
+Libflag      = -lssl -lpthread -lcrypto -lthrift -lmysqlclient -lrt
 
 #pkg
 Top_path  = ../../

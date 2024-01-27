@@ -46,6 +46,7 @@
 
 #define USER_ACTION_OK           200
 #define USER_WRONG_DOWNLOAD_TYPE 400
+#define USER_HAVELOGGINNOW       401
 #define USER_LOWACLevel          403
 #define USER_TIMEOUT_JWT         405
 #define USER_ERR_REQINFO         406
@@ -158,6 +159,8 @@ const int Room_ChangeDebatePos_SendInfo_TypeId  = 418;
 const int time_hour   = 60*60;
 const int time_minute = 60   ;
 const int time_second = 1    ;
+const int heart_outtime  = 30 * time_minute;
+const int heart_jgtime   = 30 * time_second;
 const int jwt_time         = 10*time_minute;
 const int refresh_jwt_time =  2*time_hour  ;
 
