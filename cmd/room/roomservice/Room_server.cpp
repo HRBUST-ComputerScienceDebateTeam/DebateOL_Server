@@ -53,62 +53,6 @@ public:
     map< string, int > mp_Room_Modify_Room_base_level;
     map< string, int > mp_Room_Modify_Room_extra_level;
 
-    // static Time_Wheel heart_time;
-    // static timer_t    heart_timer;
-
-    // // 首先定时器连接 定时 时间处理
-    // static void timedeal( sigval_t arg ) {
-    //     switch ( arg.sival_int ) {
-    //     case 1: {  //时钟心跳事件
-    //         heart_time.time_go();
-    //         //结束处理
-    //         cout << "[S]本轮用户心跳检查结束 当前在线人数:" << heart_time.size() << "人" << endl;
-    //     } break;
-
-    //     default: {
-    //         cerr << "[x]错误的未知定时信号" << endl;
-    //         break;
-    //     }
-    //     }
-    // }
-
-    // static void* TIMEOUT_heart( void* arg ) {
-    //     //应该释放
-    //     int uid = *( int* )arg;
-
-    //     //在线
-    //     time_t timenow;
-    //     time( &timenow );
-    //     if ( DB_MYSQL_OFUSER::updata_UserLasttime( uid, to_string( ( int64_t )timenow ) ) == false ) {
-    //         cout << "[X]用户 检查。。心跳下线失败 " << endl;
-    //         return nullptr;
-    //     }
-    //     //下线成功
-    //     heart_time.del_work( uid );
-
-    //     cout << "[S]用户 检查。。下线用户 ：" << uid << endl;
-    //     return nullptr;
-    // }
-
-    // // true代表之前没有
-    // static bool Cheak_and_UpdataUserToHeart( int uid ) {
-    //     //创建或者更新
-    //     if ( heart_time.find_work( uid ) ) {
-    //         //已经有了 更新时间
-    //         heart_time.change_work( uid, heart_outtime );
-    //         cout << "[S]用户心跳更新" << endl;
-    //         return false;
-    //     } else {
-    //         int* arg = new int( uid );
-    //         heart_time.add_work( uid, heart_outtime, UserHandler::TIMEOUT_heart, ( void* )arg );
-    //         cout << "[S]用户心跳添加" << endl;
-    //         return true;
-    //     }
-    // }
-
-    // static void DelUserToHeart( int uid ) {
-    //     heart_time.del_work( uid );
-    // }
 public:
     static Time_Wheel heart_time;
     static timer_t    heart_timer;  //心跳监控 - 定时器
