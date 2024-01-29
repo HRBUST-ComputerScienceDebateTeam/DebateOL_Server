@@ -71,6 +71,7 @@ public:
         heart_mp.erase( uid );
         heart_queue.pop();
     }
+
     // true代表之前没有
     static bool Cheak_and_UpdataUserToHeart( int uid ) {
         time_t timnow;
