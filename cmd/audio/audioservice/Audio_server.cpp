@@ -4,10 +4,14 @@
 #include "../../conf.hh"
 #include "Audio.h"
 #include <bits/stdc++.h>
+#include <cstdint>
+#include <queue>
+#include <sys/types.h>
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/server/TSimpleServer.h>
 #include <thrift/transport/TBufferTransports.h>
 #include <thrift/transport/TServerSocket.h>
+#include <utility>
 
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;
@@ -31,19 +35,25 @@ public:
         int32_t timeinfo                = info.msec + info.sec * 1000 + info.min * 60000;
         int32_t userinfo                = info.roomId * MAX_USER + info.userId;
         audiomp[ userinfo ][ timeinfo ] = info.info;
-        std::cout << "audio 上传成功："
-                  << "\n\t房间号:" << info.roomId << "\n\t用户号:" << info.userId << "\n\t时间:" << timeinfo << std::endl;
+        std::cout << "[↑]audio 上传成功："
+                  << "\t房间号:" << info.roomId << "\t用户号:" << info.userId << "\t时间:" << timeinfo << std::endl;
+
+        // 时间调试
+        // time_t now = time(nullptr);
+        // char* curr_time = ctime(&now);
+        // std::cout << curr_time <<std::endl;
+        // std::cout << info.min << " " <<info.sec <<" " <<info.msec ;
 
         //删除
         if ( audiomp[ userinfo ].size() > 10000 ) {
             auto it = audiomp[ userinfo ].upper_bound( timeinfo );
             if ( it != audiomp[ userinfo ].end() ) {
-                std::cout << "audio 删除成功："
-                          << "\n\t房间号:" << info.roomId << "\n\t用户号:" << info.userId << "\n\t时间:" << it->first << std::endl;
+                std::cout << "[-]audio 删除成功："
+                          << "\t房间号:" << info.roomId << "\t用户号:" << info.userId << "\t时间:" << it->first << std::endl;
                 audiomp[ userinfo ].erase( it );
             } else {
-                std::cout << "audio 删除成功："
-                          << "\n\t房间号:" << info.roomId << "\n\t用户号:" << info.userId << "\n\t时间:" << it->first << std::endl;
+                std::cout << "[-]audio 删除成功："
+                          << "\t房间号:" << info.roomId << "\t用户号:" << info.userId << "\t时间:" << it->first << std::endl;
                 audiomp[ userinfo ].erase( audiomp[ userinfo ].begin() );
             }
         }
@@ -56,7 +66,7 @@ public:
         _return.roomId   = info.roomId;
         _return.userId   = info.userId;
         _return.type     = Audio_Upload_RecvInfo_TypeId;
-        _return.sendtime = timeinfo;
+        _return.sendtime = info.sendtime;
         return;
     }
 
@@ -77,9 +87,9 @@ public:
             _return.roomId   = info.roomId;
             _return.userId   = info.userId;
             _return.type     = Audio_Download_RecvInfo_TypeId;
-            _return.sendtime = timeinfo;
-            std::cout << "audio 下载失败-没有元素："
-                      << "\n房间号:" << info.roomId << "\n用户号:" << info.userId << "\n时间:" << timeinfo << std::endl;
+            _return.sendtime = info.sendtime;
+            std::cout << "[↓]audio 下载失败-没有元素："
+                      << "\t房间号:" << info.roomId << "\t用户号:" << info.userId << "\t时间:" << timeinfo << std::endl;
             return;
         }
 
@@ -88,8 +98,8 @@ public:
             it = audiomp[ userinfo ].end();
         }
         it--;
-        std::cout << "audio 下载成功："
-                  << "\n房间号:" << info.roomId << "\n用户号:" << info.userId << "\n时间:" << it->first << std::endl;
+        std::cout << "[↓]audio 下载成功："
+                  << "\t房间号:" << info.roomId << "\t用户号:" << info.userId << "\t时间:" << it->first << std::endl;
         _return.status   = AUDIO_OK;
         _return.min      = ( it->first ) / 1000 / 60;
         _return.sec      = ( it->first ) / 1000 % 60;
@@ -98,8 +108,7 @@ public:
         _return.userId   = info.userId;
         _return.type     = Audio_Download_RecvInfo_TypeId;
         _return.info     = it->second;
-        _return.sendtime = timeinfo;
-        // printf("Audio_Download\n");
+        _return.sendtime = info.sendtime;
         return;
     }
 
@@ -111,9 +120,10 @@ public:
 };
 
 int main( int argc, char** argv ) {
+    int                                    port = AUDIO_PORT;
     ::std::shared_ptr< AudioHandler >      handler( new AudioHandler() );
     ::std::shared_ptr< TProcessor >        processor( new AudioProcessor( handler ) );
-    ::std::shared_ptr< TServerTransport >  serverTransport( new TServerSocket( AUDIO_PORT ) );
+    ::std::shared_ptr< TServerTransport >  serverTransport( new TServerSocket( port ) );
     ::std::shared_ptr< TTransportFactory > transportFactory( new TBufferedTransportFactory() );
     ::std::shared_ptr< TProtocolFactory >  protocolFactory( new TBinaryProtocolFactory() );
 

@@ -49,22 +49,22 @@ public:
     static std::priority_queue< p_heart_node* > heart_queue;  //心跳监控
     static map< int, p_heart_node* >            heart_mp;
     static timer_t                              heart_timer;
-    static void                                 TIME_deal_heart() {
-                                        //不合格处理
-        //删除
+
+    static void TIME_deal_heart() {
+        //不合格处理
         //直接调用底层
         int uid = heart_queue.top()->userid;
         //判断在线
         if ( stoi( DB_MYSQL_OFUSER::get_UserLasttime( uid ) ) != 0 ) {
-                                            return;
+            return;
         }
 
         //在线
         time_t timenow;
         time( &timenow );
         if ( DB_MYSQL_OFUSER::updata_UserLasttime( uid, to_string( ( int64_t )timenow ) ) == false ) {
-                                            cout << "[X]用户 检查。。心跳下线失败 " << endl;
-                                            return;
+            cout << "[X]用户 检查。。心跳下线失败 " << endl;
+            return;
         }
         cout << "[S]用户 检查。。下线用户 ：" << uid << endl;
         delete ( heart_mp[ uid ] );
@@ -107,7 +107,9 @@ public:
             while ( !heart_queue.empty() ) {
                 if ( heart_queue.top()->enableflag == false ) {
                     //主动释放
-                    delete heart_queue.top();
+                    int uid = heart_queue.top()->userid;
+                    delete heart_mp[ uid ];
+                    heart_mp.erase( heart_mp.find( uid ) );
                     heart_queue.pop();
                     continue;
                 }
@@ -117,7 +119,7 @@ public:
                 TIME_deal_heart();  //不合格执行处理
             }
             //结束处理
-            cout << "[S]本轮用户心跳检查结束" << endl;
+            cout << "[S]本轮用户心跳检查结束 当前在线人数:" << heart_mp.size() << "人" << endl;
         } break;
 
         default: {
@@ -222,8 +224,6 @@ public:
     void User_GetBaseInfo( User_GetBaseInfo_RecvInfo& _return, const User_GetBaseInfo_SendInfo& info ) {
         /* 第一步 用户鉴权 */
 
-        //拆包
-        map< string, string > jwt_payload_mp = JWT_token::jwt_decode( info.jwt_token ).getpayloadmap();
         //检查哈希 - 哈希失败没有返回报文
         if ( JWT_token::jwt_check_hash( jwt_secret, info.jwt_token ) == JWT_HASHERR ) {
             //丢掉
@@ -241,9 +241,17 @@ public:
             return;
         }
 
-        //获取好友关系
+        /* 第二步 拆包解析 */
+        //拆包
+        map< string, string > jwt_payload_mp = JWT_token::jwt_decode( info.jwt_token ).getpayloadmap();
+
+        //用户id
         int uidA = stoi( jwt_payload_mp[ "aud" ] );
+
+        //更新在线状态
         Cheak_and_UpdataUserToHeart( uidA );
+
+        //获取基础信息
         int uidB      = DB_MYSQL_OFUSER::get_userid_fromUsernum( info.Aim_usernum );
         int truelevel = -1;
         int aimlevel  = level_black_uu;
@@ -640,20 +648,35 @@ public:
         time_t timenow;
         time( &timenow );
         srand( time( 0 ) );
+
+        bool err = true;
         //写入数据库
+        DB_MYSQL_OFUSER::DB_mysql.start_transaction();
+
         DAL_User_Base t1;
-        t1.Userid       = DB_MYSQL_OFUSER::getnextuid();
+        t1.Userid = DB_MYSQL_OFUSER::getnextuid();
+        if ( t1.Userid == INT_DEFAULT ) {
+            err = false;
+        }
         t1.Usernum      = info.usernum;
         t1.UserRegtime  = to_string( ( int64_t )timenow );
         t1.UserLasttime = to_string( ( int64_t )timenow );
         t1.Salt         = sha256( ( to_string( rand() ) ) );
         t1.Passwd       = sha256( ( info.passwd ) + t1.Salt );
         t1.Tel          = info.tel;
-        DB_MYSQL_OFUSER::AddUser_t1( t1 );
+        if ( DB_MYSQL_OFUSER::AddUser_t1( t1 ) == false ) {
+            err = false;
+        }
         _return.status   = USER_ACTION_OK;
         _return.sendtime = info.sendtime;
         _return.type     = User_reg_RecvInfo_TypeId;
-        printf( "[+]User_reg Success  Userid: %d !\n", t1.Userid );
+        if ( err == true ) {
+            DB_MYSQL_OFUSER::DB_mysql.commit_transaction();
+            printf( "[+]User_reg Success  Userid: %d !\n", t1.Userid );
+        } else {
+            DB_MYSQL_OFUSER::DB_mysql.rollback_transaction();
+            printf( "[x]User_reg fault  Userid: %d !\n", t1.Userid );
+        }
     }
 
     void User_logoff( User_logoff_RecvInfo& _return, const User_logoff_SendInfo& info ) {
@@ -876,6 +899,7 @@ public:
             return;
         }
 
+        bool err;
         //获得对应数据
         DAL_User_Base         dal_user_base    = DB_MYSQL_OFUSER::get_user_base( uidA );
         map< string, string > dal_user_base_mp = dal_user_base.toMap();
@@ -883,11 +907,20 @@ public:
             //暂无校验机制
             dal_user_base_mp[ it.first ] = it.second;
         }
-        DB_MYSQL_OFUSER::updata_user_base( uidA, DAL_User_Base::ToClass( dal_user_base_mp ) );
-        _return.sendtime = info.sendtime;
-        _return.status   = USER_ACTION_OK;
-        _return.type     = User_ModifyBaseInfo_RecvInfo_TypeId;
-        printf( "User_ModifyBaseInfo\n" );
+        err = DB_MYSQL_OFUSER::updata_user_base( uidA, DAL_User_Base::ToClass( dal_user_base_mp ) );
+        if ( err == true ) {
+            _return.sendtime = info.sendtime;
+            _return.status   = USER_ACTION_OK;
+            _return.type     = User_ModifyBaseInfo_RecvInfo_TypeId;
+            printf( "User_ModifyBaseInfo success\n" );
+        } else {
+
+            _return.sendtime = info.sendtime;
+            _return.status   = User_Unknowerr;
+            _return.type     = User_ModifyBaseInfo_RecvInfo_TypeId;
+            printf( "User_ModifyBaseInfo fault\n" );
+        }
+
         return;
     }
 
@@ -958,6 +991,7 @@ public:
             return;
         }
 
+        bool err = false;
         //获得对应数据
         DAL_User_Social       dal_user_social    = DB_MYSQL_OFUSER::get_user_social( uidA );
         map< string, string > dal_user_social_mp = dal_user_social.toMap();
@@ -965,11 +999,18 @@ public:
             //暂无校验机制
             dal_user_social_mp[ it.first ] = it.second;
         }
-        DB_MYSQL_OFUSER::updata_user_social( uidA, DAL_User_Social::ToClass( dal_user_social_mp ) );
-        _return.sendtime = info.sendtime;
-        _return.status   = USER_ACTION_OK;
-        _return.type     = User_ModifySocialInfo_RecvInfo_TypeId;
-        printf( "User_ModifySocialInfo\n" );
+        err = DB_MYSQL_OFUSER::updata_user_social( uidA, DAL_User_Social::ToClass( dal_user_social_mp ) );
+        if ( err == true ) {
+            _return.sendtime = info.sendtime;
+            _return.status   = USER_ACTION_OK;
+            _return.type     = User_ModifySocialInfo_RecvInfo_TypeId;
+            printf( "User_ModifySocialInfo Success\n" );
+        } else {
+            _return.sendtime = info.sendtime;
+            _return.status   = User_Unknowerr;
+            _return.type     = User_ModifySocialInfo_RecvInfo_TypeId;
+            printf( "User_ModifySocialInfo fault\n" );
+        }
         return;
     }
 
@@ -1039,7 +1080,7 @@ public:
             _return.sendtime = info.sendtime;
             return;
         }
-
+        bool err = false;
         //获得对应数据
         DAL_User_Extra        dal_user_ex    = DB_MYSQL_OFUSER::get_user_extra( uidA );
         map< string, string > dal_user_ex_mp = dal_user_ex.toMap();
@@ -1047,11 +1088,19 @@ public:
             //暂无校验机制
             dal_user_ex_mp[ it.first ] = it.second;
         }
-        DB_MYSQL_OFUSER::updata_user_extra( uidA, DAL_User_Extra::ToClass( dal_user_ex_mp ) );
-        _return.sendtime = info.sendtime;
-        _return.status   = USER_ACTION_OK;
-        _return.type     = User_ModifyExInfo_RecvInfo_TypeId;
-        printf( "User_ModifyexInfo\n" );
+        err = DB_MYSQL_OFUSER::updata_user_extra( uidA, DAL_User_Extra::ToClass( dal_user_ex_mp ) );
+        if ( err ) {
+            _return.sendtime = info.sendtime;
+            _return.status   = USER_ACTION_OK;
+            _return.type     = User_ModifyExInfo_RecvInfo_TypeId;
+            printf( "User_ModifyexInfo\n" );
+        } else {
+            _return.sendtime = info.sendtime;
+            _return.status   = User_Unknowerr;
+            _return.type     = User_ModifyExInfo_RecvInfo_TypeId;
+            printf( "User_ModifyexInfo\n" );
+        }
+
         return;
     }
 

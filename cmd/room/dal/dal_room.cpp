@@ -565,9 +565,15 @@ bool DB_MYSQL_OFROOM::AddURrelation( DAL_UR_relation urr ) {
 }
 bool DB_MYSQL_OFROOM::AddRoom( DAL_Room_Base t1, DAL_Room_Extra t2, DAL_UR_relation urr ) {
     // TODO: 原子
+    DB_mysql.start_transaction();
     bool flag1 = AddRoom_t1( t1 );
     bool flag2 = AddRoom_t2( t2 );
     bool flag3 = AddURrelation( urr );
+    if ( flag1 && flag2 && flag3 ) {
+        DB_mysql.commit_transaction();
+    } else {
+        DB_mysql.rollback_transaction();
+    }
     return flag1 && flag2 && flag3;
 }
 /* 删除 */
@@ -655,8 +661,14 @@ bool DB_MYSQL_OFROOM::updata_Room_base( int roomid, DAL_Room_Base t ) {
             mp_indb[ DAL_Room_Base::title_DAL_Room_Base[ i ] ] = mp_modify[ DAL_Room_Base::title_DAL_Room_Base[ i ] ];
         }
     }
+    DB_mysql.start_transaction();
     int flag1 = DelRoom_t1( roomid );
     int flag2 = AddRoom_t1( DAL_Room_Base::ToClass( mp_indb ) );
+    if ( flag1 && flag2 ) {
+        DB_mysql.commit_transaction();
+    } else {
+        DB_mysql.rollback_transaction();
+    }
     return flag1 && flag2;
 };
 
@@ -679,8 +691,14 @@ bool DB_MYSQL_OFROOM::updata_Room_extra( int roomid, DAL_Room_Extra t ) {
             mp_indb[ DAL_Room_Extra::title_DAL_Room_Extra[ i ] ] = mp_modify[ DAL_Room_Extra::title_DAL_Room_Extra[ i ] ];
         }
     }
+    DB_mysql.start_transaction();
     int flag1 = DelRoom_t2( roomid );
     int flag2 = AddRoom_t2( DAL_Room_Extra::ToClass( mp_indb ) );
+    if ( flag1 && flag2 ) {
+        DB_mysql.commit_transaction();
+    } else {
+        DB_mysql.rollback_transaction();
+    }
     return flag1 && flag2;
 }
 bool DB_MYSQL_OFROOM::updata_RoomURrelation( int uid, int roomid, int pos, int newlevel ) {
@@ -699,13 +717,20 @@ bool DB_MYSQL_OFROOM::updata_RoomURrelation( int uid, int roomid, int pos, int n
         map< string, string > mp   = JsonstringToMap( rets );
         newlevel                   = stoi( mp[ to_string( uid ) ] );
     }
-    int             flag1 = DelURrelation( uid, roomid );
+
+    DB_mysql.start_transaction();
     DAL_UR_relation t;
-    t.Userid      = uid;
-    t.Roomid      = roomid;
-    t.Debate_pos  = pos;
-    t.Permissions = newlevel;
-    int flag2     = AddURrelation( t );
+    int             flag1 = DelURrelation( uid, roomid );
+    t.Userid              = uid;
+    t.Roomid              = roomid;
+    t.Debate_pos          = pos;
+    t.Permissions         = newlevel;
+    int flag2             = AddURrelation( t );
+    if ( flag1 && flag2 ) {
+        DB_mysql.commit_transaction();
+    } else {
+        DB_mysql.rollback_transaction();
+    }
     return flag1 && flag2;
 }  //更改关系
 

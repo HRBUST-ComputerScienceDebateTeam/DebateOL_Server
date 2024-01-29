@@ -669,6 +669,7 @@ bool DB_MYSQL_OFUSER::DelUser( int uid ) {
     bool doflag3 = 0;
     bool doflag4 = 0;
 
+    DB_mysql.start_transaction();
     string sql1 = "delete from DAL_User_Base where Userid = " + to_string( uid ) + ";";
     string sql2 = "delete from DAL_User_Social where Userid = " + to_string( uid ) + ";";
     string sql3 = "delete from DAL_User_Extra where Userid = " + to_string( uid ) + ";";
@@ -685,7 +686,11 @@ bool DB_MYSQL_OFUSER::DelUser( int uid ) {
 
     res     = DB_MYSQL_OFUSER::DB_mysql.exec( sql4 );
     doflag4 = res->checkerr( sql4 );
-
+    if ( doflag1 && doflag2 && doflag3 && doflag4 ) {
+        DB_mysql.commit_transaction();
+    } else {
+        DB_mysql.rollback_transaction();
+    }
     return doflag1 && doflag2 && doflag3 && doflag4;
 }
 bool DB_MYSQL_OFUSER::DelUser_t1( int uid ) {
@@ -789,8 +794,14 @@ bool DB_MYSQL_OFUSER::updata_user_base( int uid, DAL_User_Base t ) {  //整表�
             mp_indb[ DAL_User_Base::title_DAL_User_Base[ i ] ] = mp_modify[ DAL_User_Base::title_DAL_User_Base[ i ] ];
         }
     }
+    DB_mysql.start_transaction();
     int flag1 = DelUser_t1( uid );
     int flag2 = AddUser_t1( DAL_User_Base::ToClass( mp_indb ) );
+    if ( flag1 && flag2 ) {
+        DB_mysql.commit_transaction();
+    } else {
+        DB_mysql.rollback_transaction();
+    }
     return flag1 && flag2;
 };
 bool DB_MYSQL_OFUSER::updata_user_extra( int uid, DAL_User_Extra t ) {
@@ -812,8 +823,14 @@ bool DB_MYSQL_OFUSER::updata_user_extra( int uid, DAL_User_Extra t ) {
             mp_indb[ DAL_User_Extra::title_DAL_User_Extra[ i ] ] = mp_modify[ DAL_User_Extra::title_DAL_User_Extra[ i ] ];
         }
     }
+    DB_mysql.start_transaction();
     int flag1 = DelUser_t3( uid );
     int flag2 = AddUser_t3( DAL_User_Extra::ToClass( mp_indb ) );
+    if ( flag1 && flag2 ) {
+        DB_mysql.commit_transaction();
+    } else {
+        DB_mysql.rollback_transaction();
+    }
     return flag1 && flag2;
 };
 bool DB_MYSQL_OFUSER::updata_user_social( int uid, DAL_User_Social t ) {
@@ -835,8 +852,14 @@ bool DB_MYSQL_OFUSER::updata_user_social( int uid, DAL_User_Social t ) {
             mp_indb[ DAL_User_Social::title_DAL_User_Social[ i ] ] = mp_modify[ DAL_User_Social::title_DAL_User_Social[ i ] ];
         }
     }
+    DB_mysql.start_transaction();
     int flag1 = DelUser_t2( uid );
     int flag2 = AddUser_t2( DAL_User_Social::ToClass( mp_indb ) );
+    if ( flag1 && flag2 ) {
+        DB_mysql.commit_transaction();
+    } else {
+        DB_mysql.rollback_transaction();
+    }
     return flag1 && flag2;
 };
 
