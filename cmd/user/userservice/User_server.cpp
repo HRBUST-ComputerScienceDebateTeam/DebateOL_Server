@@ -4,6 +4,7 @@
 #include "../../../pkg/JWT/jwt.h"
 #include "../../../pkg/JsonChange/jsonchange.h"
 #include "../../../pkg/Openssl/openssl.h"
+#include "../../../pkg/time_wheel/time_wheel.h"
 #include "../../conf.hh"
 #include "../dal/dal_user.h"
 #include "../dal/dal_userconfig.h"
@@ -11,6 +12,7 @@
 #include <bits/types/time_t.h>
 #include <cstdint>
 #include <mysql/mysql.h>
+#include <openssl/bn.h>
 #include <regex>
 #include <string>
 #include <thrift/protocol/TBinaryProtocol.h>
@@ -46,81 +48,16 @@ public:
 
     // 心跳相关
 public:
-    static std::priority_queue< p_heart_node* > heart_queue;  //心跳监控
-    static map< int, p_heart_node* >            heart_mp;
-    static timer_t                              heart_timer;
+    static Time_Wheel heart_time;
+    static timer_t    heart_timer;
 
-    static void TIME_deal_heart() {
-        //不合格处理
-        //直接调用底层
-        int uid = heart_queue.top()->userid;
-        //判断在线
-        if ( stoi( DB_MYSQL_OFUSER::get_UserLasttime( uid ) ) != 0 ) {
-            return;
-        }
-
-        //在线
-        time_t timenow;
-        time( &timenow );
-        if ( DB_MYSQL_OFUSER::updata_UserLasttime( uid, to_string( ( int64_t )timenow ) ) == false ) {
-            cout << "[X]用户 检查。。心跳下线失败 " << endl;
-            return;
-        }
-        cout << "[S]用户 检查。。下线用户 ：" << uid << endl;
-        delete ( heart_mp[ uid ] );
-        heart_mp.erase( uid );
-        heart_queue.pop();
-    }
-
-    // true代表之前没有
-    static bool Cheak_and_UpdataUserToHeart( int uid ) {
-        time_t timnow;
-        time( &timnow );
-        if ( heart_mp.find( uid ) != heart_mp.end() ) {
-            //已经有了
-            ( heart_mp[ uid ] )->tim = timnow;
-            cout << "[S]用户心跳更新" << endl;
-            return false;
-        } else {
-            heart_mp[ uid ] = new p_heart_node( { uid, timnow, true } );
-            heart_queue.push( heart_mp[ uid ] );
-            cout << "[S]用户心跳添加" << endl;
-            return true;
-        }
-    }
-    static void DelUserToHeart( int uid ) {
-        time_t timnow;
-        time( &timnow );
-        if ( heart_mp.find( uid ) != heart_mp.end() ) {
-            //已经有了
-            ( heart_mp[ uid ] )->enableflag = false;
-            cout << "[S]用户心跳移除" << endl;
-            return;
-        }
-    }
-
-    // 定时时间处理
+    // 首先定时器连接 定时 时间处理
     static void timedeal( sigval_t arg ) {
         switch ( arg.sival_int ) {
         case 1: {  //时钟心跳事件
-            time_t timnow;
-            time( &timnow );
-            while ( !heart_queue.empty() ) {
-                if ( heart_queue.top()->enableflag == false ) {
-                    //主动释放
-                    int uid = heart_queue.top()->userid;
-                    delete heart_mp[ uid ];
-                    heart_mp.erase( heart_mp.find( uid ) );
-                    heart_queue.pop();
-                    continue;
-                }
-                if ( timnow - heart_queue.top()->tim <= heart_outtime ) {  //合格跳出
-                    break;
-                }
-                TIME_deal_heart();  //不合格执行处理
-            }
+            heart_time.time_go();
             //结束处理
-            cout << "[S]本轮用户心跳检查结束 当前在线人数:" << heart_mp.size() << "人" << endl;
+            cout << "[S]本轮用户心跳检查结束 当前在线人数:" << heart_time.size() << "人" << endl;
         } break;
 
         default: {
@@ -128,6 +65,45 @@ public:
             break;
         }
         }
+    }
+
+    static void* TIMEOUT_heart( void* arg ) {
+        //应该释放
+        int uid = *( int* )arg;
+
+        //在线
+        time_t timenow;
+        time( &timenow );
+        if ( DB_MYSQL_OFUSER::updata_UserLasttime( uid, to_string( ( int64_t )timenow ) ) == false ) {
+            cout << "[X]用户 检查。。心跳下线失败 " << endl;
+            return nullptr;
+        }
+        //下线成功
+        heart_time.del_work( uid );
+
+        cout << "[S]用户 检查。。下线用户 ：" << uid << endl;
+        return nullptr;
+    }
+
+    // true代表之前没有
+    static bool Cheak_and_UpdataUserToHeart( int uid ) {
+        //创建或者更新
+        if ( heart_time.find_work( uid ) ) {
+            //已经有了 更新时间
+            heart_time.change_work( uid, heart_outtime );
+            cout << "[S]用户心跳更新" << endl;
+            return false;
+        } else {
+            int* arg = new int( uid );
+            heart_time.add_work( uid, heart_outtime, UserHandler::TIMEOUT_heart, ( void* )arg );
+            cout << "[S]用户心跳添加" << endl;
+            return true;
+        }
+    }
+
+    static void DelUserToHeart( int uid ) {
+        heart_time.del_work( uid );
+        cout << "[S]用户心跳移除" << endl;
     }
 
     void AcLevel_Init_user() {  // Ac 等级设定
@@ -1230,9 +1206,8 @@ public:
     }
 };
 
-std::priority_queue< p_heart_node* > UserHandler::heart_queue;  //心跳监控
-map< int, p_heart_node* >            UserHandler::heart_mp;
-timer_t                              UserHandler::heart_timer;
+timer_t    UserHandler::heart_timer;
+Time_Wheel UserHandler::heart_time;
 
 int main( int argc, char** argv ) {
     int                                    port = USER_PORT;

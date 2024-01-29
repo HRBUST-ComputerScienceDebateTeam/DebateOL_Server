@@ -147,8 +147,8 @@ const int Room_ChangeDebatePos_SendInfo_TypeId = 418;
 const int time_hour        = 60 * 60;
 const int time_minute      = 60;
 const int time_second      = 1;
-const int heart_outtime    = 1 * time_minute;
-const int heart_jgtime     = 30 * time_second;
+const int heart_outtime    = 1 * time_minute;   //心跳超时时间
+const int heart_jgtime     = 30 * time_second;  //检查间隔
 const int jwt_time         = 10 * time_minute;
 const int refresh_jwt_time = 2 * time_hour;
 

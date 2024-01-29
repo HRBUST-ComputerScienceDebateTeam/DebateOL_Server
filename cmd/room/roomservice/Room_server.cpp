@@ -4,6 +4,7 @@
 #include "../../../pkg/JWT/jwt.h"
 #include "../../../pkg/JsonChange/jsonchange.h"
 #include "../../../pkg/Openssl/openssl.h"
+#include "../../../pkg/time_wheel/time_wheel.h"
 #include "../../conf.hh"
 #include "../dal/dal_room.h"
 #include "../dal/dal_roomconfig.h"
@@ -44,8 +45,6 @@ struct p_heart_node {
     }
 };
 
-class RoomHandler;
-
 class RoomHandler : virtual public RoomIf {
 public:
     // 权限控制
@@ -54,23 +53,109 @@ public:
     map< string, int > mp_Room_Modify_Room_base_level;
     map< string, int > mp_Room_Modify_Room_extra_level;
 
-public:
-    // 心跳相关
-    static std::priority_queue< p_heart_node* > heart_queue;  //心跳监控 - 队列
-    static map< int, p_heart_node* >            heart_mp;     //心跳监控 - 监听
-    static timer_t                              heart_timer;  //心跳监控 - 定时器
+    // static Time_Wheel heart_time;
+    // static timer_t    heart_timer;
 
-    static void TIME_deal_heart() {
+    // // 首先定时器连接 定时 时间处理
+    // static void timedeal( sigval_t arg ) {
+    //     switch ( arg.sival_int ) {
+    //     case 1: {  //时钟心跳事件
+    //         heart_time.time_go();
+    //         //结束处理
+    //         cout << "[S]本轮用户心跳检查结束 当前在线人数:" << heart_time.size() << "人" << endl;
+    //     } break;
+
+    //     default: {
+    //         cerr << "[x]错误的未知定时信号" << endl;
+    //         break;
+    //     }
+    //     }
+    // }
+
+    // static void* TIMEOUT_heart( void* arg ) {
+    //     //应该释放
+    //     int uid = *( int* )arg;
+
+    //     //在线
+    //     time_t timenow;
+    //     time( &timenow );
+    //     if ( DB_MYSQL_OFUSER::updata_UserLasttime( uid, to_string( ( int64_t )timenow ) ) == false ) {
+    //         cout << "[X]用户 检查。。心跳下线失败 " << endl;
+    //         return nullptr;
+    //     }
+    //     //下线成功
+    //     heart_time.del_work( uid );
+
+    //     cout << "[S]用户 检查。。下线用户 ：" << uid << endl;
+    //     return nullptr;
+    // }
+
+    // // true代表之前没有
+    // static bool Cheak_and_UpdataUserToHeart( int uid ) {
+    //     //创建或者更新
+    //     if ( heart_time.find_work( uid ) ) {
+    //         //已经有了 更新时间
+    //         heart_time.change_work( uid, heart_outtime );
+    //         cout << "[S]用户心跳更新" << endl;
+    //         return false;
+    //     } else {
+    //         int* arg = new int( uid );
+    //         heart_time.add_work( uid, heart_outtime, UserHandler::TIMEOUT_heart, ( void* )arg );
+    //         cout << "[S]用户心跳添加" << endl;
+    //         return true;
+    //     }
+    // }
+
+    // static void DelUserToHeart( int uid ) {
+    //     heart_time.del_work( uid );
+    // }
+public:
+    static Time_Wheel heart_time;
+    static timer_t    heart_timer;  //心跳监控 - 定时器
+
+    // 定时时间处理
+    static void timedeal( sigval_t arg ) {
+        switch ( arg.sival_int ) {
+        case 1: {  //时钟心跳事件
+            heart_time.time_go();
+            //结束处理
+            cout << "[S]本轮用户-房间心跳检查结束 当前房间中活跃人数:" << heart_time.size() << "人" << endl;
+        } break;
+
+        default: {
+            cerr << "[x]错误的未知定时信号" << endl;
+            break;
+        }
+        }
+    }
+
+    // true代表之前没有
+    static bool Cheak_and_UpdataUserToHeart( int uid ) {
+        if ( heart_time.find_work( uid ) ) {
+            heart_time.change_work( uid, heart_outtime );
+            cout << "[S]用户-房间心跳更新" << endl;
+            return false;
+        } else {
+            int* arg = new int( uid );
+            heart_time.add_work( uid, heart_outtime, RoomHandler::TIMEOUT_heart, ( void* )arg );
+            cout << "[S]用户-房间心跳添加" << endl;
+            return true;
+        }
+    }
+
+    static void* TIMEOUT_heart( void* arg ) {
         //不合格处理
         //直接调用底层 删除
-        int id     = heart_queue.top()->userid;
+        int id     = *( int* )arg;
         int roomid = DB_MYSQL_OFROOM::get_Roomid_fromUserid( id );
         if ( roomid == INT_DEFAULT ) {
             cout << "[x]用户-房间系统异常 - 没有正确强制下线" << endl;
-            return;
+            return nullptr;
         }
 
         // 1. 修改位图
+        DB_MYSQL_OFROOM::DB_mysql.start_transaction();
+
         bool           err;
         DAL_Room_Extra t;
         int            nowbm      = DB_MYSQL_OFROOM::get_Room_extra( roomid ).Debate_posbitmap;
@@ -80,20 +165,23 @@ public:
         err = DB_MYSQL_OFROOM::updata_Room_extra( roomid, t );
         if ( !err ) {
             cout << "[x]用户-房间系统异常 - 没有正确强制下线" << endl;
-            return;
+            DB_MYSQL_OFROOM::DB_mysql.rollback_transaction();
+            return nullptr;
         }
 
         // 2. UR删除用户
         string pre = DB_MYSQL_OFROOM::get_UserinRoom_permissions( roomid );
         if ( pre == STR_DEFAULT ) {
             cout << "[x]用户-房间系统异常 - 没有正确强制下线" << endl;
-            return;
+            DB_MYSQL_OFROOM::DB_mysql.rollback_transaction();
+            return nullptr;
         }
         map< string, string > mp_pre = JsonstringToMap( pre );
         err                          = DB_MYSQL_OFROOM::DelURrelation( id, roomid );
         if ( !err ) {
             cout << "[x]用户-房间系统异常 - 没有正确强制下线" << endl;
-            return;
+            DB_MYSQL_OFROOM::DB_mysql.rollback_transaction();
+            return nullptr;
         }
         //如果是房主要转移权力
         if ( mp_pre.size() == 1 ) {
@@ -109,79 +197,24 @@ public:
                 }
                 if ( aim_peo == INT_DEFAULT ) {
                     cout << "[x]用户-房间系统异常 - 没有正确强制下线" << endl;
-                    return;
+                    return nullptr;
                 } else {
                     err = DB_MYSQL_OFROOM::updata_RoomURrelation( aim_peo, roomid, INT_DEFAULT, 1 );
                     if ( !err ) {
                         cout << "[x]用户-房间系统异常 - 没有正确强制下线" << endl;
-                        return;
+                        return nullptr;
                     }
                 }
             }
         }
+        heart_time.del_work( id );
+        DB_MYSQL_OFROOM::DB_mysql.commit_transaction();
         cout << "[S]用户-房间 检查。。下线用户 ：" << id << endl;
-        delete ( heart_mp[ id ] );
-        heart_mp.erase( id );
-        heart_queue.pop();
     }
 
     static void DelUserToHeart( int uid ) {
-        time_t timnow;
-        time( &timnow );
-        if ( heart_mp.find( uid ) != heart_mp.end() ) {
-            //已经有了
-            ( heart_mp[ uid ] )->enableflag = false;
-            cout << "[S]用户-房间心跳移除" << endl;
-            return;
-        }
-    }
-
-    // true代表之前没有
-    static bool Cheak_and_UpdataUserToHeart( int uid ) {
-        time_t timnow;
-        time( &timnow );
-        if ( heart_mp.find( uid ) != heart_mp.end() ) {
-            //已经有了
-            ( heart_mp[ uid ] )->tim = timnow;
-            cout << "[S]用户-房间心跳更新" << endl;
-            return false;
-        } else {
-            heart_mp[ uid ] = new p_heart_node( { uid, timnow } );
-            heart_queue.push( heart_mp[ uid ] );
-            cout << "[S]用户-房间心跳添加" << endl;
-            return true;
-        }
-    }
-
-    // 定时时间处理
-    static void timedeal( sigval_t arg ) {
-        switch ( arg.sival_int ) {
-        case 1: {  //时钟心跳事件
-            time_t timnow;
-            time( &timnow );
-            while ( !heart_queue.empty() ) {
-                if ( heart_queue.top()->enableflag == false ) {
-                    //主动释放
-                    int uid = heart_queue.top()->userid;
-                    delete heart_mp[ uid ];
-                    heart_mp.erase( heart_mp.find( uid ) );
-                    heart_queue.pop();
-                    continue;
-                }
-                if ( timnow - heart_queue.top()->tim <= heart_outtime ) {  //合格跳出
-                    break;
-                }
-                TIME_deal_heart();  //不合格执行处理
-            }
-            //结束处理
-            cout << "[S]本轮用户-房间心跳检查结束 当前房间中活跃人数:" << heart_mp.size() << "人" << endl;
-        } break;
-
-        default: {
-            cerr << "[x]错误的未知定时信号" << endl;
-            break;
-        }
-        }
+        heart_time.del_work( uid );
+        cout << "[S]用户-房间心跳移除" << endl;
     }
 
 public:
@@ -1067,9 +1100,8 @@ public:
 };
 
 //心跳
-std::priority_queue< p_heart_node* > RoomHandler::heart_queue;  //心跳监控
-map< int, p_heart_node* >            RoomHandler::heart_mp;
-timer_t                              RoomHandler::heart_timer;
+Time_Wheel RoomHandler::heart_time;
+timer_t    RoomHandler::heart_timer;
 
 int main( int argc, char** argv ) {
     int                                    port = ROOM_PORT;
