@@ -4,6 +4,7 @@
 #include "../../../pkg/JWT/jwt.h"
 #include "../../../pkg/JsonChange/jsonchange.h"
 #include "../../../pkg/Openssl/openssl.h"
+#include "../../../pkg/time_wheel/time_wheel.h"
 #include "../../conf.hh"
 #include "../dal/dal_user.h"
 #include "../dal/dal_userconfig.h"
@@ -11,6 +12,7 @@
 #include <bits/types/time_t.h>
 #include <cstdint>
 #include <mysql/mysql.h>
+#include <openssl/bn.h>
 #include <regex>
 #include <string>
 #include <thrift/protocol/TBinaryProtocol.h>
@@ -46,78 +48,16 @@ public:
 
     // 心跳相关
 public:
-    static std::priority_queue< p_heart_node* > heart_queue;  //心跳监控
-    static map< int, p_heart_node* >            heart_mp;
-    static timer_t                              heart_timer;
-    static void                                 TIME_deal_heart() {
-                                        //不合格处理
-        //删除
-        //直接调用底层
-        int uid = heart_queue.top()->userid;
-        //判断在线
-        if ( stoi( DB_MYSQL_OFUSER::get_UserLasttime( uid ) ) != 0 ) {
-                                            return;
-        }
+    static Time_Wheel heart_time;
+    static timer_t    heart_timer;
 
-        //在线
-        time_t timenow;
-        time( &timenow );
-        if ( DB_MYSQL_OFUSER::updata_UserLasttime( uid, to_string( ( int64_t )timenow ) ) == false ) {
-                                            cout << "[X]用户 检查。。心跳下线失败 " << endl;
-                                            return;
-        }
-        cout << "[S]用户 检查。。下线用户 ：" << uid << endl;
-        delete ( heart_mp[ uid ] );
-        heart_mp.erase( uid );
-        heart_queue.pop();
-    }
-    // true代表之前没有
-    static bool Cheak_and_UpdataUserToHeart( int uid ) {
-        time_t timnow;
-        time( &timnow );
-        if ( heart_mp.find( uid ) != heart_mp.end() ) {
-            //已经有了
-            ( heart_mp[ uid ] )->tim = timnow;
-            cout << "[S]用户心跳更新" << endl;
-            return false;
-        } else {
-            heart_mp[ uid ] = new p_heart_node( { uid, timnow, true } );
-            heart_queue.push( heart_mp[ uid ] );
-            cout << "[S]用户心跳添加" << endl;
-            return true;
-        }
-    }
-    static void DelUserToHeart( int uid ) {
-        time_t timnow;
-        time( &timnow );
-        if ( heart_mp.find( uid ) != heart_mp.end() ) {
-            //已经有了
-            ( heart_mp[ uid ] )->enableflag = false;
-            cout << "[S]用户心跳移除" << endl;
-            return;
-        }
-    }
-
-    // 定时时间处理
+    // 首先定时器连接 定时 时间处理
     static void timedeal( sigval_t arg ) {
         switch ( arg.sival_int ) {
         case 1: {  //时钟心跳事件
-            time_t timnow;
-            time( &timnow );
-            while ( !heart_queue.empty() ) {
-                if ( heart_queue.top()->enableflag == false ) {
-                    //主动释放
-                    delete heart_queue.top();
-                    heart_queue.pop();
-                    continue;
-                }
-                if ( timnow - heart_queue.top()->tim <= heart_outtime ) {  //合格跳出
-                    break;
-                }
-                TIME_deal_heart();  //不合格执行处理
-            }
+            heart_time.time_go();
             //结束处理
-            cout << "[S]本轮用户心跳检查结束" << endl;
+            cout << "[S]本轮用户心跳检查结束 当前在线人数:" << heart_time.size() << "人" << endl;
         } break;
 
         default: {
@@ -125,6 +65,45 @@ public:
             break;
         }
         }
+    }
+
+    static void* TIMEOUT_heart( void* arg ) {
+        //应该释放
+        int uid = *( int* )arg;
+
+        //在线
+        time_t timenow;
+        time( &timenow );
+        if ( DB_MYSQL_OFUSER::updata_UserLasttime( uid, to_string( ( int64_t )timenow ) ) == false ) {
+            cout << "[X]用户 检查。。心跳下线失败 " << endl;
+            return nullptr;
+        }
+        //下线成功
+        heart_time.del_work( uid );
+
+        cout << "[S]用户 检查。。下线用户 ：" << uid << endl;
+        return nullptr;
+    }
+
+    // true代表之前没有
+    static bool Cheak_and_UpdataUserToHeart( int uid ) {
+        //创建或者更新
+        if ( heart_time.find_work( uid ) ) {
+            //已经有了 更新时间
+            heart_time.change_work( uid, heart_outtime );
+            cout << "[S]用户心跳更新" << endl;
+            return false;
+        } else {
+            int* arg = new int( uid );
+            heart_time.add_work( uid, heart_outtime, UserHandler::TIMEOUT_heart, ( void* )arg );
+            cout << "[S]用户心跳添加" << endl;
+            return true;
+        }
+    }
+
+    static void DelUserToHeart( int uid ) {
+        heart_time.del_work( uid );
+        cout << "[S]用户心跳移除" << endl;
     }
 
     void AcLevel_Init_user() {  // Ac 等级设定
@@ -222,8 +201,6 @@ public:
     void User_GetBaseInfo( User_GetBaseInfo_RecvInfo& _return, const User_GetBaseInfo_SendInfo& info ) {
         /* 第一步 用户鉴权 */
 
-        //拆包
-        map< string, string > jwt_payload_mp = JWT_token::jwt_decode( info.jwt_token ).getpayloadmap();
         //检查哈希 - 哈希失败没有返回报文
         if ( JWT_token::jwt_check_hash( jwt_secret, info.jwt_token ) == JWT_HASHERR ) {
             //丢掉
@@ -241,9 +218,17 @@ public:
             return;
         }
 
-        //获取好友关系
+        /* 第二步 拆包解析 */
+        //拆包
+        map< string, string > jwt_payload_mp = JWT_token::jwt_decode( info.jwt_token ).getpayloadmap();
+
+        //用户id
         int uidA = stoi( jwt_payload_mp[ "aud" ] );
+
+        //更新在线状态
         Cheak_and_UpdataUserToHeart( uidA );
+
+        //获取基础信息
         int uidB      = DB_MYSQL_OFUSER::get_userid_fromUsernum( info.Aim_usernum );
         int truelevel = -1;
         int aimlevel  = level_black_uu;
@@ -640,20 +625,35 @@ public:
         time_t timenow;
         time( &timenow );
         srand( time( 0 ) );
+
+        bool err = true;
         //写入数据库
+        DB_MYSQL_OFUSER::DB_mysql.start_transaction();
+
         DAL_User_Base t1;
-        t1.Userid       = DB_MYSQL_OFUSER::getnextuid();
+        t1.Userid = DB_MYSQL_OFUSER::getnextuid();
+        if ( t1.Userid == INT_DEFAULT ) {
+            err = false;
+        }
         t1.Usernum      = info.usernum;
         t1.UserRegtime  = to_string( ( int64_t )timenow );
         t1.UserLasttime = to_string( ( int64_t )timenow );
         t1.Salt         = sha256( ( to_string( rand() ) ) );
         t1.Passwd       = sha256( ( info.passwd ) + t1.Salt );
         t1.Tel          = info.tel;
-        DB_MYSQL_OFUSER::AddUser_t1( t1 );
+        if ( DB_MYSQL_OFUSER::AddUser_t1( t1 ) == false ) {
+            err = false;
+        }
         _return.status   = USER_ACTION_OK;
         _return.sendtime = info.sendtime;
         _return.type     = User_reg_RecvInfo_TypeId;
-        printf( "[+]User_reg Success  Userid: %d !\n", t1.Userid );
+        if ( err == true ) {
+            DB_MYSQL_OFUSER::DB_mysql.commit_transaction();
+            printf( "[+]User_reg Success  Userid: %d !\n", t1.Userid );
+        } else {
+            DB_MYSQL_OFUSER::DB_mysql.rollback_transaction();
+            printf( "[x]User_reg fault  Userid: %d !\n", t1.Userid );
+        }
     }
 
     void User_logoff( User_logoff_RecvInfo& _return, const User_logoff_SendInfo& info ) {
@@ -876,6 +876,7 @@ public:
             return;
         }
 
+        bool err;
         //获得对应数据
         DAL_User_Base         dal_user_base    = DB_MYSQL_OFUSER::get_user_base( uidA );
         map< string, string > dal_user_base_mp = dal_user_base.toMap();
@@ -883,11 +884,20 @@ public:
             //暂无校验机制
             dal_user_base_mp[ it.first ] = it.second;
         }
-        DB_MYSQL_OFUSER::updata_user_base( uidA, DAL_User_Base::ToClass( dal_user_base_mp ) );
-        _return.sendtime = info.sendtime;
-        _return.status   = USER_ACTION_OK;
-        _return.type     = User_ModifyBaseInfo_RecvInfo_TypeId;
-        printf( "User_ModifyBaseInfo\n" );
+        err = DB_MYSQL_OFUSER::updata_user_base( uidA, DAL_User_Base::ToClass( dal_user_base_mp ) );
+        if ( err == true ) {
+            _return.sendtime = info.sendtime;
+            _return.status   = USER_ACTION_OK;
+            _return.type     = User_ModifyBaseInfo_RecvInfo_TypeId;
+            printf( "User_ModifyBaseInfo success\n" );
+        } else {
+
+            _return.sendtime = info.sendtime;
+            _return.status   = User_Unknowerr;
+            _return.type     = User_ModifyBaseInfo_RecvInfo_TypeId;
+            printf( "User_ModifyBaseInfo fault\n" );
+        }
+
         return;
     }
 
@@ -958,6 +968,7 @@ public:
             return;
         }
 
+        bool err = false;
         //获得对应数据
         DAL_User_Social       dal_user_social    = DB_MYSQL_OFUSER::get_user_social( uidA );
         map< string, string > dal_user_social_mp = dal_user_social.toMap();
@@ -965,11 +976,18 @@ public:
             //暂无校验机制
             dal_user_social_mp[ it.first ] = it.second;
         }
-        DB_MYSQL_OFUSER::updata_user_social( uidA, DAL_User_Social::ToClass( dal_user_social_mp ) );
-        _return.sendtime = info.sendtime;
-        _return.status   = USER_ACTION_OK;
-        _return.type     = User_ModifySocialInfo_RecvInfo_TypeId;
-        printf( "User_ModifySocialInfo\n" );
+        err = DB_MYSQL_OFUSER::updata_user_social( uidA, DAL_User_Social::ToClass( dal_user_social_mp ) );
+        if ( err == true ) {
+            _return.sendtime = info.sendtime;
+            _return.status   = USER_ACTION_OK;
+            _return.type     = User_ModifySocialInfo_RecvInfo_TypeId;
+            printf( "User_ModifySocialInfo Success\n" );
+        } else {
+            _return.sendtime = info.sendtime;
+            _return.status   = User_Unknowerr;
+            _return.type     = User_ModifySocialInfo_RecvInfo_TypeId;
+            printf( "User_ModifySocialInfo fault\n" );
+        }
         return;
     }
 
@@ -1039,7 +1057,7 @@ public:
             _return.sendtime = info.sendtime;
             return;
         }
-
+        bool err = false;
         //获得对应数据
         DAL_User_Extra        dal_user_ex    = DB_MYSQL_OFUSER::get_user_extra( uidA );
         map< string, string > dal_user_ex_mp = dal_user_ex.toMap();
@@ -1047,11 +1065,19 @@ public:
             //暂无校验机制
             dal_user_ex_mp[ it.first ] = it.second;
         }
-        DB_MYSQL_OFUSER::updata_user_extra( uidA, DAL_User_Extra::ToClass( dal_user_ex_mp ) );
-        _return.sendtime = info.sendtime;
-        _return.status   = USER_ACTION_OK;
-        _return.type     = User_ModifyExInfo_RecvInfo_TypeId;
-        printf( "User_ModifyexInfo\n" );
+        err = DB_MYSQL_OFUSER::updata_user_extra( uidA, DAL_User_Extra::ToClass( dal_user_ex_mp ) );
+        if ( err ) {
+            _return.sendtime = info.sendtime;
+            _return.status   = USER_ACTION_OK;
+            _return.type     = User_ModifyExInfo_RecvInfo_TypeId;
+            printf( "User_ModifyexInfo\n" );
+        } else {
+            _return.sendtime = info.sendtime;
+            _return.status   = User_Unknowerr;
+            _return.type     = User_ModifyExInfo_RecvInfo_TypeId;
+            printf( "User_ModifyexInfo\n" );
+        }
+
         return;
     }
 
@@ -1180,9 +1206,8 @@ public:
     }
 };
 
-std::priority_queue< p_heart_node* > UserHandler::heart_queue;  //心跳监控
-map< int, p_heart_node* >            UserHandler::heart_mp;
-timer_t                              UserHandler::heart_timer;
+timer_t    UserHandler::heart_timer;
+Time_Wheel UserHandler::heart_time;
 
 int main( int argc, char** argv ) {
     int                                    port = USER_PORT;

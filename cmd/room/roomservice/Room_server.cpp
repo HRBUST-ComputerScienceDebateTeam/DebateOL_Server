@@ -4,6 +4,7 @@
 #include "../../../pkg/JWT/jwt.h"
 #include "../../../pkg/JsonChange/jsonchange.h"
 #include "../../../pkg/Openssl/openssl.h"
+#include "../../../pkg/time_wheel/time_wheel.h"
 #include "../../conf.hh"
 #include "../dal/dal_room.h"
 #include "../dal/dal_roomconfig.h"
@@ -38,6 +39,7 @@ using namespace ::apache::thrift::server;
 struct p_heart_node {
     int         userid;
     time_t      tim;
+    bool        enableflag;
     friend bool operator<( p_heart_node a, p_heart_node b ) {
         return a.tim > b.tim;  //按x从小到大排
     }
@@ -45,111 +47,23 @@ struct p_heart_node {
 
 class RoomHandler : virtual public RoomIf {
 public:
+    // 权限控制
     map< string, int > mp_Room_get_Room_base_level;
     map< string, int > mp_Room_get_Room_extra_level;
     map< string, int > mp_Room_Modify_Room_base_level;
     map< string, int > mp_Room_Modify_Room_extra_level;
 
-    // 心跳相关
 public:
-    static std::priority_queue< p_heart_node* > heart_queue;  //心跳监控
-    static map< int, p_heart_node* >            heart_mp;
-    static timer_t                              heart_timer;
-    static void                                 TIME_deal_heart() {
-                                        //不合格处理
-        //删除
-        //直接调用底层
-        int id = heart_queue.top()->userid;
-
-        int roomid = DB_MYSQL_OFROOM::get_Roomid_fromUserid( id );
-        if ( roomid == INT_DEFAULT ) {
-                                            cout << "[x]用户-房间系统异常 - 没有正确强制下线" << endl;
-                                            return;
-        }
-        // 1. 修改位图
-        bool           err;
-        DAL_Room_Extra t;
-        int            nowbm      = DB_MYSQL_OFROOM::get_Room_extra( roomid ).Debate_posbitmap;
-        int            debate_pos = DB_MYSQL_OFROOM::get_Debatepos_fromUserid( id );
-        t.Debate_posbitmap        = ( nowbm - ( 1 << ( 8 - debate_pos ) ) );
-        err                       = DB_MYSQL_OFROOM::updata_Room_extra( roomid, t );
-        if ( !err ) {
-                                            cout << "[x]用户-房间系统异常 - 没有正确强制下线" << endl;
-                                            return;
-        }
-
-        // 2. UR删除用户
-        string pre = DB_MYSQL_OFROOM::get_UserinRoom_permissions( roomid );
-        if ( pre == STR_DEFAULT ) {
-                                            cout << "[x]用户-房间系统异常 - 没有正确强制下线" << endl;
-                                            return;
-        }
-        map< string, string > mp_pre = JsonstringToMap( pre );
-        err                          = DB_MYSQL_OFROOM::DelURrelation( id, roomid );
-        if ( !err ) {
-                                            cout << "[x]用户-房间系统异常 - 没有正确强制下线" << endl;
-                                            return;
-        }
-        //如果是房主要转移权力
-        if ( mp_pre.size() == 1 ) {
-                                            //关闭房间
-        } else {
-                                            if ( mp_pre[ to_string( id ) ] == "1" ) {  //是房主
-                //移交权力
-                int aim_peo = INT_DEFAULT;
-                for ( auto it : mp_pre ) {
-                                                    if ( it.first != to_string( id ) ) {
-                                                        aim_peo = stoi( it.first );
-                    }
-                }
-                if ( aim_peo == INT_DEFAULT ) {
-                                                    cout << "[x]用户-房间系统异常 - 没有正确强制下线" << endl;
-                                                    return;
-                } else {
-                                                    err = DB_MYSQL_OFROOM::updata_RoomURrelation( aim_peo, roomid, INT_DEFAULT, 1 );
-                                                    if ( !err ) {
-                                                        cout << "[x]用户-房间系统异常 - 没有正确强制下线" << endl;
-                                                        return;
-                    }
-                }
-            }
-        }
-        cout << "[S]用户-房间 检查。。下线用户 ：" << id << endl;
-        delete ( heart_mp[ id ] );
-        heart_mp.erase( id );
-        heart_queue.pop();
-    }
-    // true代表之前没有
-    static bool Cheak_and_UpdataUserToHeart( int uid ) {
-        time_t timnow;
-        time( &timnow );
-        if ( heart_mp.find( uid ) != heart_mp.end() ) {
-            //已经有了
-            ( heart_mp[ uid ] )->tim = timnow;
-            cout << "[S]用户-房间心跳更新" << endl;
-            return false;
-        } else {
-            heart_mp[ uid ] = new p_heart_node( { uid, timnow } );
-            heart_queue.push( heart_mp[ uid ] );
-            cout << "[S]用户-房间心跳添加" << endl;
-            return true;
-        }
-    }
+    static Time_Wheel heart_time;
+    static timer_t    heart_timer;  //心跳监控 - 定时器
 
     // 定时时间处理
     static void timedeal( sigval_t arg ) {
         switch ( arg.sival_int ) {
         case 1: {  //时钟心跳事件
-            time_t timnow;
-            time( &timnow );
-            while ( !heart_queue.empty() ) {
-                if ( timnow - heart_queue.top()->tim <= heart_outtime ) {  //合格跳出
-                    break;
-                }
-                TIME_deal_heart();  //不合格执行处理
-            }
+            heart_time.time_go();
             //结束处理
-            cout << "[S]本轮用户-房间心跳检查结束" << endl;
+            cout << "[S]本轮用户-房间心跳检查结束 当前房间中活跃人数:" << heart_time.size() << "人" << endl;
         } break;
 
         default: {
@@ -157,6 +71,94 @@ public:
             break;
         }
         }
+    }
+
+    // true代表之前没有
+    static bool Cheak_and_UpdataUserToHeart( int uid ) {
+        if ( heart_time.find_work( uid ) ) {
+            heart_time.change_work( uid, heart_outtime );
+            cout << "[S]用户-房间心跳更新" << endl;
+            return false;
+        } else {
+            int* arg = new int( uid );
+            heart_time.add_work( uid, heart_outtime, RoomHandler::TIMEOUT_heart, ( void* )arg );
+            cout << "[S]用户-房间心跳添加" << endl;
+            return true;
+        }
+    }
+
+    static void* TIMEOUT_heart( void* arg ) {
+        //不合格处理
+        //直接调用底层 删除
+        int id     = *( int* )arg;
+        int roomid = DB_MYSQL_OFROOM::get_Roomid_fromUserid( id );
+        if ( roomid == INT_DEFAULT ) {
+            cout << "[x]用户-房间系统异常 - 没有正确强制下线" << endl;
+            return nullptr;
+        }
+
+        // 1. 修改位图
+        DB_MYSQL_OFROOM::DB_mysql.start_transaction();
+
+        bool           err;
+        DAL_Room_Extra t;
+        int            nowbm      = DB_MYSQL_OFROOM::get_Room_extra( roomid ).Debate_posbitmap;
+        int            debate_pos = DB_MYSQL_OFROOM::get_Debatepos_fromUserid( id );
+        t.Debate_posbitmap        = ( nowbm - ( 1 << ( 8 - debate_pos ) ) );
+
+        err = DB_MYSQL_OFROOM::updata_Room_extra( roomid, t );
+        if ( !err ) {
+            cout << "[x]用户-房间系统异常 - 没有正确强制下线" << endl;
+            DB_MYSQL_OFROOM::DB_mysql.rollback_transaction();
+            return nullptr;
+        }
+
+        // 2. UR删除用户
+        string pre = DB_MYSQL_OFROOM::get_UserinRoom_permissions( roomid );
+        if ( pre == STR_DEFAULT ) {
+            cout << "[x]用户-房间系统异常 - 没有正确强制下线" << endl;
+            DB_MYSQL_OFROOM::DB_mysql.rollback_transaction();
+            return nullptr;
+        }
+        map< string, string > mp_pre = JsonstringToMap( pre );
+        err                          = DB_MYSQL_OFROOM::DelURrelation( id, roomid );
+        if ( !err ) {
+            cout << "[x]用户-房间系统异常 - 没有正确强制下线" << endl;
+            DB_MYSQL_OFROOM::DB_mysql.rollback_transaction();
+            return nullptr;
+        }
+        //如果是房主要转移权力
+        if ( mp_pre.size() == 1 ) {
+            //关闭房间
+        } else {
+            if ( mp_pre[ to_string( id ) ] == "1" ) {  //是房主
+                //移交权力
+                int aim_peo = INT_DEFAULT;
+                for ( auto it : mp_pre ) {
+                    if ( it.first != to_string( id ) ) {
+                        aim_peo = stoi( it.first );
+                    }
+                }
+                if ( aim_peo == INT_DEFAULT ) {
+                    cout << "[x]用户-房间系统异常 - 没有正确强制下线" << endl;
+                    return nullptr;
+                } else {
+                    err = DB_MYSQL_OFROOM::updata_RoomURrelation( aim_peo, roomid, INT_DEFAULT, 1 );
+                    if ( !err ) {
+                        cout << "[x]用户-房间系统异常 - 没有正确强制下线" << endl;
+                        return nullptr;
+                    }
+                }
+            }
+        }
+        heart_time.del_work( id );
+        DB_MYSQL_OFROOM::DB_mysql.commit_transaction();
+        cout << "[S]用户-房间 检查。。下线用户 ：" << id << endl;
+    }
+
+    static void DelUserToHeart( int uid ) {
+        heart_time.del_work( uid );
+        cout << "[S]用户-房间心跳移除" << endl;
     }
 
 public:
@@ -275,12 +277,16 @@ public:
             _return.sendtime = info.sendtime;
             return;
         }
+
+        //添加事务
+        DB_MYSQL_OFROOM::DB_mysql.start_transaction();
         //修改ur数据
         err = DB_MYSQL_OFROOM::updata_RoomURrelation( uidA, roomid, npos, INT_DEFAULT );
         if ( !err ) {
             _return.status   = ROOM_DAL_ERR;
             _return.type     = Room_ChangeDebatePos_RecvInfo_TypeId;
             _return.sendtime = info.sendtime;
+            DB_MYSQL_OFROOM::DB_mysql.rollback_transaction();
             return;
         }
         //设置位图
@@ -290,12 +296,14 @@ public:
             _return.status   = ROOM_Changepos_Havepeo;
             _return.type     = Room_ChangeDebatePos_RecvInfo_TypeId;
             _return.sendtime = info.sendtime;
+            DB_MYSQL_OFROOM::DB_mysql.rollback_transaction();
             return;
         }
         if ( ( nowbitmap & ( 1 << ( 8 - npos ) ) ) != 0 ) {
             _return.status   = ROOM_Changepos_Havepeo;
             _return.type     = Room_ChangeDebatePos_RecvInfo_TypeId;
             _return.sendtime = info.sendtime;
+            DB_MYSQL_OFROOM::DB_mysql.rollback_transaction();
             return;
         }
         nowbitmap ^= ( 1 << ( 8 - opos ) );
@@ -307,6 +315,7 @@ public:
             _return.status   = ROOM_DAL_ERR;
             _return.type     = Room_ChangeDebatePos_RecvInfo_TypeId;
             _return.sendtime = info.sendtime;
+            DB_MYSQL_OFROOM::DB_mysql.rollback_transaction();
             return;
         }
 
@@ -314,6 +323,7 @@ public:
         _return.status   = ROOM_ACTION_OK;
         _return.type     = Room_ChangeDebatePos_RecvInfo_TypeId;
         printf( "Room_ChangePasswd\n" );
+        DB_MYSQL_OFROOM::DB_mysql.commit_transaction();
         return;
     }
 
@@ -493,6 +503,7 @@ public:
         map< string, string > jwt_payload_mp = JWT_token::jwt_decode( info.jwt_token ).getpayloadmap();
         int                   uidA           = stoi( jwt_payload_mp[ "aud" ] );
 
+        DB_MYSQL_OFROOM::DB_mysql.start_transaction();
         //获取目标房间号
         //获取房间id
         int roomid = DB_MYSQL_OFROOM::get_Roomid_fromRoomnum( info.roomnum );
@@ -500,6 +511,7 @@ public:
             _return.status   = ROOM_ERR_REQINFO;
             _return.type     = Room_Exitroom_RecvInfo_TypeId;
             _return.sendtime = info.sendtime;
+            DB_MYSQL_OFROOM::DB_mysql.rollback_transaction();
             return;
         }
         bool err = false;
@@ -514,6 +526,7 @@ public:
             _return.sendtime = info.sendtime;
             _return.status   = ROOM_DAL_ERR;
             _return.type     = Room_Exitroom_RecvInfo_TypeId;
+            DB_MYSQL_OFROOM::DB_mysql.rollback_transaction();
             return;
         }
 
@@ -524,6 +537,7 @@ public:
             _return.sendtime = info.sendtime;
             _return.status   = ROOM_DAL_ERR;
             _return.type     = Room_Exitroom_RecvInfo_TypeId;
+            DB_MYSQL_OFROOM::DB_mysql.rollback_transaction();
             return;
         }
         map< string, string > mp_pre = JsonstringToMap( pre );
@@ -533,12 +547,28 @@ public:
             _return.sendtime = info.sendtime;
             _return.status   = ROOM_DAL_ERR;
             _return.type     = Room_Exitroom_RecvInfo_TypeId;
+            DB_MYSQL_OFROOM::DB_mysql.rollback_transaction();
             return;
         }
 
         //如果是房主要转移权力
         if ( mp_pre.size() == 1 ) {
-            //关闭房间
+            err = DB_MYSQL_OFROOM::DelRoom_t1( roomid );
+            if ( err == false ) {
+                _return.sendtime = info.sendtime;
+                _return.status   = ROOM_DAL_ERR;
+                _return.type     = Room_Exitroom_RecvInfo_TypeId;
+                DB_MYSQL_OFROOM::DB_mysql.rollback_transaction();
+                return;
+            }
+            err = DB_MYSQL_OFROOM::DelRoom_t2( roomid );
+            if ( err == false ) {
+                _return.sendtime = info.sendtime;
+                _return.status   = ROOM_DAL_ERR;
+                _return.type     = Room_Exitroom_RecvInfo_TypeId;
+                DB_MYSQL_OFROOM::DB_mysql.rollback_transaction();
+                return;
+            }
         } else {
             if ( mp_pre[ to_string( uidA ) ] == "1" ) {  //是房主
                 //移交权力
@@ -552,6 +582,7 @@ public:
                     _return.sendtime = info.sendtime;
                     _return.status   = ROOM_DAL_ERR;
                     _return.type     = Room_Exitroom_RecvInfo_TypeId;
+                    DB_MYSQL_OFROOM::DB_mysql.rollback_transaction();
                     return;
                 } else {
                     err = DB_MYSQL_OFROOM::updata_RoomURrelation( aim_peo, roomid, INT_DEFAULT, 1 );
@@ -559,6 +590,7 @@ public:
                         _return.sendtime = info.sendtime;
                         _return.status   = ROOM_DAL_ERR;
                         _return.type     = Room_Exitroom_RecvInfo_TypeId;
+                        DB_MYSQL_OFROOM::DB_mysql.rollback_transaction();
                         return;
                     }
                 }
@@ -569,6 +601,7 @@ public:
         _return.sendtime = info.sendtime;
         _return.status   = ROOM_ACTION_OK;
         _return.type     = Room_Exitroom_RecvInfo_TypeId;
+        DB_MYSQL_OFROOM::DB_mysql.commit_transaction();
         return;
     }
 
@@ -632,6 +665,7 @@ public:
             return;
         }
 
+        DB_MYSQL_OFROOM::DB_mysql.start_transaction();
         //添加信息
         DAL_UR_relation urr;
         urr.Userid      = uidA;
@@ -642,7 +676,7 @@ public:
         if ( !err ) {
             //不正确
             _return.status = ROOM_DAL_ERR;
-
+            DB_MYSQL_OFROOM::DB_mysql.rollback_transaction();
             return;
         }
 
@@ -651,6 +685,7 @@ public:
         err                  = DB_MYSQL_OFROOM::updata_Room_extra( roomid, dre );
         if ( !err ) {
             _return.status = ROOM_DAL_ERR;
+            DB_MYSQL_OFROOM::DB_mysql.rollback_transaction();
             return;
         }
 
@@ -666,6 +701,7 @@ public:
         _return.info   = sendinfo_info;
         _return.status = ROOM_ACTION_OK;
         printf( "[->]用户加入了房间 uid:%d ,  roomid:%d  \n", uidA, roomid );
+        DB_MYSQL_OFROOM::DB_mysql.commit_transaction();
         return;
     }
 
@@ -1008,9 +1044,8 @@ public:
 };
 
 //心跳
-std::priority_queue< p_heart_node* > RoomHandler::heart_queue;  //心跳监控
-map< int, p_heart_node* >            RoomHandler::heart_mp;
-timer_t                              RoomHandler::heart_timer;
+Time_Wheel RoomHandler::heart_time;
+timer_t    RoomHandler::heart_timer;
 
 int main( int argc, char** argv ) {
     int                                    port = ROOM_PORT;

@@ -465,7 +465,7 @@ std::string handleRequest( RequestInfo& reqinfo ) {
 
             //路由选择路线30 ： 视频下载
         } else if ( reqinfo.uri.path == "/videodownload" ) {
-            std::cout << "\videodownload" << std::endl;
+            std::cout << "\tvideodownload" << std::endl;
             std::string s = rpc::VideoDownload( reqinfo.body );
             response += "Content-Length: ";
             response += std::string( std::to_string( s.length() ) );
@@ -474,7 +474,7 @@ std::string handleRequest( RequestInfo& reqinfo ) {
 
             //路由选择路线30 ： 音频下载
         } else if ( reqinfo.uri.path == "/audiodownload" ) {
-            std::cout << "\tvideoupload" << std::endl;
+            std::cout << "\taudiodownload" << std::endl;
             std::string s = rpc::AudioDownload( reqinfo.body );
             response += "Content-Length: ";
             response += std::string( std::to_string( s.length() ) );
