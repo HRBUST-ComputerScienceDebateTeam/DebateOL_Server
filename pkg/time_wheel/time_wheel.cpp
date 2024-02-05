@@ -183,7 +183,13 @@ void Time_Wheel::del_work( int index ) {
         }
     }
     //释放资源
+    delete aimwork;
     work_mp.erase( index );
+}
+
+void Time_Wheel::do_work( int index ) {
+    ( *work_mp[ index ]->workfn )( work_mp[ index ]->arg );
+    delete work_mp[ index ];
 }
 
 //给出相隔时间 指定轮上时间

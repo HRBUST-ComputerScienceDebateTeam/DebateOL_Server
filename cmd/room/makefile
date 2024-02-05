@@ -30,6 +30,8 @@ PKG_FILE =  $(PKG_rootpath)DB/DB_MYSQL.cpp \
 			$(PKG_rootpath)JWT/jwt.cpp \
 			$(PKG_rootpath)Openssl/openssl.cpp \
 			$(PKG_rootpath)pool/threadpool.cpp \
+			$(PKG_rootpath)Sidecar/sidecar.cpp \
+			$(PKG_rootpath)time_wheel/time_wheel.cpp \
 			$(PKG_rootpath)ChangeStr_Base64/ChangeStr_Base64_$(SmallName).cpp
 
 DAL_FILE  = $(RPC_path)dal/dal_$(SmallName).cpp

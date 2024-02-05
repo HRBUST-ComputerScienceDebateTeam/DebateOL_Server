@@ -1,4 +1,5 @@
 //本质上是微服务的客户端
+#include "../../../pkg/Sidecar/sidecar.h"
 #include "../../conf.hh"
 #include "../json.hh"
 #include "../rpc.hh"
@@ -18,7 +19,20 @@ using namespace apache::thrift::transport;
 namespace rpc {
 // video upload
 std::string VideoUpload( const std::string& s ) {
-    std::shared_ptr< TTransport > video_socket( new TSocket( VIDEO_IP, VIDEO_PORT ) );
+    string ip;
+    int    post;
+
+    list< pair< string, string > > ret = down_server_info( VIDEO_NAME );
+    if ( ret.size() == 0 ) {
+        cout << "没有发现服务" << endl;
+        return "";
+    } else {
+        cout << "发现服务" << endl;
+        ip   = ret.front().first;
+        post = stoi( ret.front().second );
+    }
+
+    std::shared_ptr< TTransport > video_socket( new TSocket( ip, post ) );
     std::shared_ptr< TTransport > video_transport( new TBufferedTransport( video_socket ) );
     std::shared_ptr< TProtocol >  video_protocol( new TBinaryProtocol( video_transport ) );
     VideoClient                   video_client( video_protocol );
@@ -41,7 +55,20 @@ std::string VideoUpload( const std::string& s ) {
 // video download
 // type - room - user - min - sec - msec - sendtime;
 std::string VideoDownload( const std::string& s ) {
-    std::shared_ptr< TTransport > video_socket( new TSocket( VIDEO_IP, VIDEO_PORT ) );
+    string ip;
+    int    post;
+
+    list< pair< string, string > > ret = down_server_info( VIDEO_NAME );
+    if ( ret.size() == 0 ) {
+        cout << "没有发现服务" << endl;
+        return "";
+    } else {
+        cout << "发现服务" << endl;
+        ip   = ret.front().first;
+        post = stoi( ret.front().second );
+    }
+
+    std::shared_ptr< TTransport > video_socket( new TSocket( ip, post ) );
     std::shared_ptr< TTransport > video_transport( new TBufferedTransport( video_socket ) );
     std::shared_ptr< TProtocol >  video_protocol( new TBinaryProtocol( video_transport ) );
     VideoClient                   video_client( video_protocol );
@@ -62,7 +89,20 @@ std::string VideoDownload( const std::string& s ) {
 };
 
 void VideoClean( const std::string& s ) {
-    std::shared_ptr< TTransport > video_socket( new TSocket( VIDEO_IP, VIDEO_PORT ) );
+    string ip;
+    int    post;
+
+    list< pair< string, string > > ret = down_server_info( VIDEO_NAME );
+    if ( ret.size() == 0 ) {
+        cout << "没有发现服务" << endl;
+        return;
+    } else {
+        cout << "发现服务" << endl;
+        ip   = ret.front().first;
+        post = stoi( ret.front().second );
+    }
+
+    std::shared_ptr< TTransport > video_socket( new TSocket( ip, post ) );
     std::shared_ptr< TTransport > video_transport( new TBufferedTransport( video_socket ) );
     std::shared_ptr< TProtocol >  video_protocol( new TBinaryProtocol( video_transport ) );
     VideoClient                   video_client( video_protocol );

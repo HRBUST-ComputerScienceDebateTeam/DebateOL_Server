@@ -1,4 +1,5 @@
 //本质上是微服务的客户端
+#include "../../../pkg/Sidecar/sidecar.h"
 #include "../../conf.hh"
 #include "../json.hh"
 #include "../rpc.hh"
@@ -17,8 +18,22 @@ using namespace apache::thrift::transport;
 
 namespace rpc {
 // audio upload
+
 std::string AudioUpload( const std::string& s ) {
-    std::shared_ptr< TTransport > audio_socket( new TSocket( AUDIO_IP, AUDIO_PORT ) );
+    string ip;
+    int    post;
+
+    list< pair< string, string > > ret = down_server_info( AUDIO_NAME );
+    if ( ret.size() == 0 ) {
+        cout << "没有发现服务" << endl;
+        return "";
+    } else {
+        cout << "发现服务" << endl;
+        ip   = ret.front().first;
+        post = stoi( ret.front().second );
+    }
+
+    std::shared_ptr< TTransport > audio_socket( new TSocket( ip, post ) );
     std::shared_ptr< TTransport > audio_transport( new TBufferedTransport( audio_socket ) );
     std::shared_ptr< TProtocol >  audio_protocol( new TBinaryProtocol( audio_transport ) );
     AudioClient                   audio_client( audio_protocol );
@@ -41,7 +56,20 @@ std::string AudioUpload( const std::string& s ) {
 // audio download
 // type - room - user - min - sec - msec - sendtime;
 std::string AudioDownload( const std::string& s ) {
-    std::shared_ptr< TTransport > audio_socket( new TSocket( AUDIO_IP, AUDIO_PORT ) );
+    string ip;
+    int    post;
+
+    list< pair< string, string > > ret = down_server_info( AUDIO_NAME );
+    if ( ret.size() == 0 ) {
+        cout << "没有发现服务" << endl;
+        return "";
+    } else {
+        cout << "发现服务" << endl;
+        ip   = ret.front().first;
+        post = stoi( ret.front().second );
+    }
+
+    std::shared_ptr< TTransport > audio_socket( new TSocket( ip, post ) );
     std::shared_ptr< TTransport > audio_transport( new TBufferedTransport( audio_socket ) );
     std::shared_ptr< TProtocol >  audio_protocol( new TBinaryProtocol( audio_transport ) );
     AudioClient                   audio_client( audio_protocol );
@@ -62,7 +90,20 @@ std::string AudioDownload( const std::string& s ) {
 };
 
 void AudioClean( const std::string& s ) {
-    std::shared_ptr< TTransport > audio_socket( new TSocket( AUDIO_IP, AUDIO_PORT ) );
+    string ip;
+    int    post;
+
+    list< pair< string, string > > ret = down_server_info( AUDIO_NAME );
+    if ( ret.size() == 0 ) {
+        cout << "没有发现服务" << endl;
+        return;
+    } else {
+        cout << "发现服务" << endl;
+        ip   = ret.front().first;
+        post = stoi( ret.front().second );
+    }
+
+    std::shared_ptr< TTransport > audio_socket( new TSocket( ip, post ) );
     std::shared_ptr< TTransport > audio_transport( new TBufferedTransport( audio_socket ) );
     std::shared_ptr< TProtocol >  audio_protocol( new TBinaryProtocol( audio_transport ) );
     AudioClient                   audio_client( audio_protocol );

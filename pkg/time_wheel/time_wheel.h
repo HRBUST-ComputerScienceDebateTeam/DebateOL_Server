@@ -1,3 +1,5 @@
+#ifndef TIME_WHEEL
+#define TIME_WHEEL
 #include <bits/stdc++.h>
 #include <tuple>
 #include <vector>
@@ -72,3 +74,4 @@ public:
     //查看任务人数
     int size();
 };
+#endif
