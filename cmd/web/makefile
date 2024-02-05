@@ -5,6 +5,7 @@ ALL_Server   = audio echo user video room
 Top_path        = ../../
 CMD_path        = $(Top_path)cmd/
 RPC_path        = $(CMD_path)web/
+SRC_path        = $(CMD_path)ServiceRegistry/
 Ser_path        = $(RPC_path)webserver/
 ALL_Server_path   = $(foreach sername, $(ALL_Server),$(shell echo -I$(CMD_path)$(sername)/$(sername)service/ ) )
 ALL_Server_DAL_path   = $(foreach sername, $(ALL_Server),$(shell echo -I$(CMD_path)$(sername)/dal/ ) )
@@ -34,6 +35,7 @@ TypeCpp1 = $(foreach sername, $(ALL_Server),  $(shell echo $(CMD_path)$(sername)
 TypeCpp2 = $(foreach sername, $(ALL_Server),  $(shell echo $(CMD_path)$(sername)/$(sername)service/$(shell echo $(sername) | sed 's/\b\(.\)/\u\1/g').cpp ))
 #微服务客户端
 Rpcclientfile  = $(wildcard $(Ser_path)*.cpp)
+
 #dalcpp
 dalcppfile  = $(foreach dalpath, $(ALL_Server_DAL_path),$(wildcard $(dalpath)*.cpp) )
 
@@ -45,6 +47,7 @@ ALLLIB   = 	-I$(Ser_path)\
 			-I$(PKG_path)\
 			-I$(ALL_Server_path)\
 			-I$(ALL_Server_DAL_path)\
+			-I$(SRC_path)\l
 			-I./
 
 ALLFILE  =  $(TypeCpp1) $(TypeCpp2)\

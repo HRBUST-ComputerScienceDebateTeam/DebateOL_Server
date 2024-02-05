@@ -31,6 +31,13 @@
 #define ROOM_IP "127.0.0.1"
 #define ROOM_PORT 9005
 
+//服务名称
+#define ECHO_NAME "echo"
+#define AUDIO_NAME "audio"
+#define VIDEO_NAME "video"
+#define ROOM_NAME "room"
+#define USER_NAME "user"
+
 //状态字
 #define MAX_ROOM 1000
 #define MAX_USER 1000

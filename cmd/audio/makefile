@@ -31,6 +31,8 @@ PKG_FILE =  $(PKG_rootpath)DB/DB_MYSQL.cpp \
 			$(PKG_rootpath)JWT/jwt.cpp \
 			$(PKG_rootpath)Openssl/openssl.cpp \
 			$(PKG_rootpath)pool/threadpool.cpp \
+			$(PKG_rootpath)Sidecar/sidecar.cpp \
+			$(PKG_rootpath)time_wheel/time_wheel.cpp \
 			$(PKG_rootpath)ChangeStr_Base64/ChangeStr_Base64_$(SmallName).cpp
 #文件
 type_cpp   =  $(Ser_path)$(SmallName)_types.cpp $(Ser_path)$(BigName).cpp

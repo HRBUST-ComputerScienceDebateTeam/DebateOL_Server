@@ -1,5 +1,6 @@
 //本质上是微服务的客户端
 #include "../../../pkg/ChangeStr_Base64/ChangeStr_Base64_user.h"
+#include "../../../pkg/Sidecar/sidecar.h"
 #include "../../conf.hh"
 #include "../json.hh"
 #include "../rpc.hh"
@@ -21,7 +22,20 @@ using namespace apache::thrift::transport;
 
 namespace rpc {
 std::string User_GetBaseInfo( const std::string& s ) {
-    std::shared_ptr< TTransport > user_socket( new TSocket( USER_IP, USER_PORT ) );
+    string ip;
+    int    post;
+
+    list< pair< string, string > > ret = down_server_info( USER_NAME );
+    if ( ret.size() == 0 ) {
+        cout << "没有发现服务" << endl;
+        return "";
+    } else {
+        cout << "发现服务" << endl;
+        ip   = ret.front().first;
+        post = stoi( ret.front().second );
+    }
+
+    std::shared_ptr< TTransport > user_socket( new TSocket( ip, post ) );
     std::shared_ptr< TTransport > user_transport( new TBufferedTransport( user_socket ) );
     std::shared_ptr< TProtocol >  user_protocol( new TBinaryProtocol( user_transport ) );
     UserClient                    user_client( user_protocol );
@@ -43,7 +57,20 @@ std::string User_GetBaseInfo( const std::string& s ) {
     return Serialization( recvinfo );
 }
 std::string User_GetSocialInfo( const std::string& s ) {
-    std::shared_ptr< TTransport > user_socket( new TSocket( USER_IP, USER_PORT ) );
+    string ip;
+    int    post;
+
+    list< pair< string, string > > ret = down_server_info( USER_NAME );
+    if ( ret.size() == 0 ) {
+        cout << "没有发现服务" << endl;
+        return "";
+    } else {
+        cout << "发现服务" << endl;
+        ip   = ret.front().first;
+        post = stoi( ret.front().second );
+    }
+
+    std::shared_ptr< TTransport > user_socket( new TSocket( ip, post ) );
     std::shared_ptr< TTransport > user_transport( new TBufferedTransport( user_socket ) );
     std::shared_ptr< TProtocol >  user_protocol( new TBinaryProtocol( user_transport ) );
     UserClient                    user_client( user_protocol );
@@ -65,7 +92,20 @@ std::string User_GetSocialInfo( const std::string& s ) {
     return Serialization( recvinfo );
 }
 std::string User_GetExInfo( const std::string& s ) {
-    std::shared_ptr< TTransport > user_socket( new TSocket( USER_IP, USER_PORT ) );
+    string ip;
+    int    post;
+
+    list< pair< string, string > > ret = down_server_info( USER_NAME );
+    if ( ret.size() == 0 ) {
+        cout << "没有发现服务" << endl;
+        return "";
+    } else {
+        cout << "发现服务" << endl;
+        ip   = ret.front().first;
+        post = stoi( ret.front().second );
+    }
+
+    std::shared_ptr< TTransport > user_socket( new TSocket( ip, post ) );
     std::shared_ptr< TTransport > user_transport( new TBufferedTransport( user_socket ) );
     std::shared_ptr< TProtocol >  user_protocol( new TBinaryProtocol( user_transport ) );
     UserClient                    user_client( user_protocol );
@@ -87,7 +127,20 @@ std::string User_GetExInfo( const std::string& s ) {
     return Serialization( recvinfo );
 }
 std::string User_login_num( const std::string& s ) {
-    std::shared_ptr< TTransport > user_socket( new TSocket( USER_IP, USER_PORT ) );
+    string ip;
+    int    post;
+
+    list< pair< string, string > > ret = down_server_info( USER_NAME );
+    if ( ret.size() == 0 ) {
+        cout << "没有发现服务" << endl;
+        return "";
+    } else {
+        cout << "发现服务" << endl;
+        ip   = ret.front().first;
+        post = stoi( ret.front().second );
+    }
+
+    std::shared_ptr< TTransport > user_socket( new TSocket( ip, post ) );
     std::shared_ptr< TTransport > user_transport( new TBufferedTransport( user_socket ) );
     std::shared_ptr< TProtocol >  user_protocol( new TBinaryProtocol( user_transport ) );
     UserClient                    user_client( user_protocol );
@@ -109,7 +162,20 @@ std::string User_login_num( const std::string& s ) {
     return Serialization( recvinfo );
 }
 std::string User_login_Tel( const std::string& s ) {
-    std::shared_ptr< TTransport > user_socket( new TSocket( USER_IP, USER_PORT ) );
+    string ip;
+    int    post;
+
+    list< pair< string, string > > ret = down_server_info( USER_NAME );
+    if ( ret.size() == 0 ) {
+        cout << "没有发现服务" << endl;
+        return "";
+    } else {
+        cout << "发现服务" << endl;
+        ip   = ret.front().first;
+        post = stoi( ret.front().second );
+    }
+
+    std::shared_ptr< TTransport > user_socket( new TSocket( ip, post ) );
     std::shared_ptr< TTransport > user_transport( new TBufferedTransport( user_socket ) );
     std::shared_ptr< TProtocol >  user_protocol( new TBinaryProtocol( user_transport ) );
     UserClient                    user_client( user_protocol );
@@ -131,7 +197,20 @@ std::string User_login_Tel( const std::string& s ) {
     return Serialization( recvinfo );
 }
 std::string User_reg( const std::string& s ) {
-    std::shared_ptr< TTransport > user_socket( new TSocket( USER_IP, USER_PORT ) );
+    string ip;
+    int    post;
+
+    list< pair< string, string > > ret = down_server_info( USER_NAME );
+    if ( ret.size() == 0 ) {
+        cout << "没有发现服务" << endl;
+        return "";
+    } else {
+        cout << "发现服务" << endl;
+        ip   = ret.front().first;
+        post = stoi( ret.front().second );
+    }
+
+    std::shared_ptr< TTransport > user_socket( new TSocket( ip, post ) );
     std::shared_ptr< TTransport > user_transport( new TBufferedTransport( user_socket ) );
     std::shared_ptr< TProtocol >  user_protocol( new TBinaryProtocol( user_transport ) );
     UserClient                    user_client( user_protocol );
@@ -153,7 +232,20 @@ std::string User_reg( const std::string& s ) {
     return Serialization( recvinfo );
 }
 std::string User_logoff( const std::string& s ) {
-    std::shared_ptr< TTransport > user_socket( new TSocket( USER_IP, USER_PORT ) );
+    string ip;
+    int    post;
+
+    list< pair< string, string > > ret = down_server_info( USER_NAME );
+    if ( ret.size() == 0 ) {
+        cout << "没有发现服务" << endl;
+        return "";
+    } else {
+        cout << "发现服务" << endl;
+        ip   = ret.front().first;
+        post = stoi( ret.front().second );
+    }
+
+    std::shared_ptr< TTransport > user_socket( new TSocket( ip, post ) );
     std::shared_ptr< TTransport > user_transport( new TBufferedTransport( user_socket ) );
     std::shared_ptr< TProtocol >  user_protocol( new TBinaryProtocol( user_transport ) );
     UserClient                    user_client( user_protocol );
@@ -175,7 +267,20 @@ std::string User_logoff( const std::string& s ) {
     return Serialization( recvinfo );
 }
 std::string User_refresh_jwt1( const std::string& s ) {
-    std::shared_ptr< TTransport > user_socket( new TSocket( USER_IP, USER_PORT ) );
+    string ip;
+    int    post;
+
+    list< pair< string, string > > ret = down_server_info( USER_NAME );
+    if ( ret.size() == 0 ) {
+        cout << "没有发现服务" << endl;
+        return "";
+    } else {
+        cout << "发现服务" << endl;
+        ip   = ret.front().first;
+        post = stoi( ret.front().second );
+    }
+
+    std::shared_ptr< TTransport > user_socket( new TSocket( ip, post ) );
     std::shared_ptr< TTransport > user_transport( new TBufferedTransport( user_socket ) );
     std::shared_ptr< TProtocol >  user_protocol( new TBinaryProtocol( user_transport ) );
     UserClient                    user_client( user_protocol );
@@ -197,7 +302,20 @@ std::string User_refresh_jwt1( const std::string& s ) {
     return Serialization( recvinfo );
 }
 std::string User_refresh_jwt2( const std::string& s ) {
-    std::shared_ptr< TTransport > user_socket( new TSocket( USER_IP, USER_PORT ) );
+    string ip;
+    int    post;
+
+    list< pair< string, string > > ret = down_server_info( USER_NAME );
+    if ( ret.size() == 0 ) {
+        cout << "没有发现服务" << endl;
+        return "";
+    } else {
+        cout << "发现服务" << endl;
+        ip   = ret.front().first;
+        post = stoi( ret.front().second );
+    }
+
+    std::shared_ptr< TTransport > user_socket( new TSocket( ip, post ) );
     std::shared_ptr< TTransport > user_transport( new TBufferedTransport( user_socket ) );
     std::shared_ptr< TProtocol >  user_protocol( new TBinaryProtocol( user_transport ) );
     UserClient                    user_client( user_protocol );
@@ -219,7 +337,20 @@ std::string User_refresh_jwt2( const std::string& s ) {
     return Serialization( recvinfo );
 }
 std::string User_ModifyBaseInfo( const std::string& s ) {
-    std::shared_ptr< TTransport > user_socket( new TSocket( USER_IP, USER_PORT ) );
+    string ip;
+    int    post;
+
+    list< pair< string, string > > ret = down_server_info( USER_NAME );
+    if ( ret.size() == 0 ) {
+        cout << "没有发现服务" << endl;
+        return "";
+    } else {
+        cout << "发现服务" << endl;
+        ip   = ret.front().first;
+        post = stoi( ret.front().second );
+    }
+
+    std::shared_ptr< TTransport > user_socket( new TSocket( ip, post ) );
     std::shared_ptr< TTransport > user_transport( new TBufferedTransport( user_socket ) );
     std::shared_ptr< TProtocol >  user_protocol( new TBinaryProtocol( user_transport ) );
     UserClient                    user_client( user_protocol );
@@ -241,7 +372,20 @@ std::string User_ModifyBaseInfo( const std::string& s ) {
     return Serialization( recvinfo );
 }
 std::string User_ModifySocialInfo( const std::string& s ) {
-    std::shared_ptr< TTransport > user_socket( new TSocket( USER_IP, USER_PORT ) );
+    string ip;
+    int    post;
+
+    list< pair< string, string > > ret = down_server_info( USER_NAME );
+    if ( ret.size() == 0 ) {
+        cout << "没有发现服务" << endl;
+        return "";
+    } else {
+        cout << "发现服务" << endl;
+        ip   = ret.front().first;
+        post = stoi( ret.front().second );
+    }
+
+    std::shared_ptr< TTransport > user_socket( new TSocket( ip, post ) );
     std::shared_ptr< TTransport > user_transport( new TBufferedTransport( user_socket ) );
     std::shared_ptr< TProtocol >  user_protocol( new TBinaryProtocol( user_transport ) );
     UserClient                    user_client( user_protocol );
@@ -263,7 +407,20 @@ std::string User_ModifySocialInfo( const std::string& s ) {
     return Serialization( recvinfo );
 }
 std::string User_ModifyExInfo( const std::string& s ) {
-    std::shared_ptr< TTransport > user_socket( new TSocket( USER_IP, USER_PORT ) );
+    string ip;
+    int    post;
+
+    list< pair< string, string > > ret = down_server_info( USER_NAME );
+    if ( ret.size() == 0 ) {
+        cout << "没有发现服务" << endl;
+        return "";
+    } else {
+        cout << "发现服务" << endl;
+        ip   = ret.front().first;
+        post = stoi( ret.front().second );
+    }
+
+    std::shared_ptr< TTransport > user_socket( new TSocket( ip, post ) );
     std::shared_ptr< TTransport > user_transport( new TBufferedTransport( user_socket ) );
     std::shared_ptr< TProtocol >  user_protocol( new TBinaryProtocol( user_transport ) );
     UserClient                    user_client( user_protocol );
@@ -285,7 +442,20 @@ std::string User_ModifyExInfo( const std::string& s ) {
     return Serialization( recvinfo );
 }
 std::string User_follow( const std::string& s ) {
-    std::shared_ptr< TTransport > user_socket( new TSocket( USER_IP, USER_PORT ) );
+    string ip;
+    int    post;
+
+    list< pair< string, string > > ret = down_server_info( USER_NAME );
+    if ( ret.size() == 0 ) {
+        cout << "没有发现服务" << endl;
+        return "";
+    } else {
+        cout << "发现服务" << endl;
+        ip   = ret.front().first;
+        post = stoi( ret.front().second );
+    }
+
+    std::shared_ptr< TTransport > user_socket( new TSocket( ip, post ) );
     std::shared_ptr< TTransport > user_transport( new TBufferedTransport( user_socket ) );
     std::shared_ptr< TProtocol >  user_protocol( new TBinaryProtocol( user_transport ) );
     UserClient                    user_client( user_protocol );
@@ -307,7 +477,20 @@ std::string User_follow( const std::string& s ) {
     return Serialization( recvinfo );
 }
 std::string User_followed( const std::string& s ) {
-    std::shared_ptr< TTransport > user_socket( new TSocket( USER_IP, USER_PORT ) );
+    string ip;
+    int    post;
+
+    list< pair< string, string > > ret = down_server_info( USER_NAME );
+    if ( ret.size() == 0 ) {
+        cout << "没有发现服务" << endl;
+        return "";
+    } else {
+        cout << "发现服务" << endl;
+        ip   = ret.front().first;
+        post = stoi( ret.front().second );
+    }
+
+    std::shared_ptr< TTransport > user_socket( new TSocket( ip, post ) );
     std::shared_ptr< TTransport > user_transport( new TBufferedTransport( user_socket ) );
     std::shared_ptr< TProtocol >  user_protocol( new TBinaryProtocol( user_transport ) );
     UserClient                    user_client( user_protocol );
@@ -329,7 +512,20 @@ std::string User_followed( const std::string& s ) {
     return Serialization( recvinfo );
 }
 std::string User_friend( const std::string& s ) {
-    std::shared_ptr< TTransport > user_socket( new TSocket( USER_IP, USER_PORT ) );
+    string ip;
+    int    post;
+
+    list< pair< string, string > > ret = down_server_info( USER_NAME );
+    if ( ret.size() == 0 ) {
+        cout << "没有发现服务" << endl;
+        return "";
+    } else {
+        cout << "发现服务" << endl;
+        ip   = ret.front().first;
+        post = stoi( ret.front().second );
+    }
+
+    std::shared_ptr< TTransport > user_socket( new TSocket( ip, post ) );
     std::shared_ptr< TTransport > user_transport( new TBufferedTransport( user_socket ) );
     std::shared_ptr< TProtocol >  user_protocol( new TBinaryProtocol( user_transport ) );
     UserClient                    user_client( user_protocol );

@@ -4,6 +4,7 @@
 #include "../../../pkg/JWT/jwt.h"
 #include "../../../pkg/JsonChange/jsonchange.h"
 #include "../../../pkg/Openssl/openssl.h"
+#include "../../../pkg/Sidecar/sidecar.h"
 #include "../../../pkg/time_wheel/time_wheel.h"
 #include "../../conf.hh"
 #include "../dal/dal_user.h"
@@ -1218,6 +1219,17 @@ int main( int argc, char** argv ) {
     ::std::shared_ptr< TProtocolFactory >  protocolFactory( new TBinaryProtocolFactory() );
 
     TSimpleServer server( processor, serverTransport, transportFactory, protocolFactory );
-    server.serve();
+
+    int pid = fork();
+    if ( pid == 0 ) {
+        server.serve();
+    } else {
+        //开启边车
+        sleep( 3 );
+        Sidecar sidecar( USER_NAME, "127.0.0.1", const_cast< char* >( to_string( USER_PORT + 1000 ).c_str() ), "127.0.0.1", const_cast< char* >( to_string( USER_PORT ).c_str() ) );
+        if ( sidecar.start() != 0 ) {
+            wait( NULL );
+        }
+    }
     return 0;
 }
